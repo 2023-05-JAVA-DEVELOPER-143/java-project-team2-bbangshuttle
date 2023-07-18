@@ -61,10 +61,12 @@ public class ProductDao {
 	 * 키워드로 검색
 	 */
 	
-	public List<Product> findByKeyword() throws Exception{
+	public List<Product> findByKeyword(String keyword) throws Exception{
 		List<Product> productList = new ArrayList<Product>();
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(ProductSQL.PRODUCT_SELECT_BY_KEYWORD);
+		pstmt.setString(1, keyword);
+		pstmt.setString(2, keyword);
 		ResultSet rs = pstmt.executeQuery();
 		while(rs.next()) {
 			productList.add(new Product(
