@@ -1,20 +1,139 @@
-insert into product(p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'ÃËÃËÇÑ­SÈ£Ä¨','³Ê¹«³ª ­S­SÇÑ°Í..',12000,'/images/chocchoc.jpg',123,1);
-insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'ÆÄ¸®µµÁÁ¾ÆÇÏ´Â ¹Ù°Ô¶ß','ÆÄ¸®°¡ ¾ó¸¶³ª ÁÁ¾ÆÇÏ°Ô¿ä~?',130000,'/images/paris.jpg',324,1);
-insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'¿ÀÄ«»ó Å©·Î¿Í»ó','¾î¸Ó´ÏÀÇ ¼Õ¸ÀÀÌ ´ã±ä ¿ÀÄ«»ó~ Å©·Î¿Í»ó~',140000,'/images/mom.jpg',524,1);
-insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'ÆÐ½ºÆ® ÆÐ½ºÆ®¸®','°¨Áú¸À ³ª´Â°ÍÀÌ ¿ªº´ ±×ÀâÃ¤',18000,'/images/pest.jpg',612,1);
-insert into product(p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'ÀÌ·•~¸®¾È ÇÇÀÚ»§','¾î´ÀÁý ÀÌÅ»¸®¾ÈÀÌ·¡À¯? °Ì³ª¸ÀÀÖÁê?',19000,'/images/pizza.jpg',587,1);
-insert into product(p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'ÅëÅë Åë¹Ð»§','ÅëÅëÇÑ°ÍÀÌ ³Ê¹«³ª º¹½º·´±¸³ª',8000,'/images/tongtong.jpg',879,1);
-insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'³ªÁ×¾î~~~»÷µåÀ§Ä¡','µÑÀÌ¸Ô´Ù µÑÀÌÁ×¾ú´Ù..',10000,'/images/die.jpg',1542,1);
-insert into product(p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'Æ®À§Ä¡ Ä¡Áî ÄÉÀÌÅ©','Çù°î¿¡¼­µµ Æ®À§Ä¡ ÀÌ°Å¶«¿¡ ¼­·»ÇÔ',99000,'/images/twich.jpg',2220,1);
+DROP TABLE order_item CASCADE CONSTRAINTS;
+DROP TABLE orders CASCADE CONSTRAINTS;
+DROP TABLE cart CASCADE CONSTRAINTS;
+DROP TABLE userinfo CASCADE CONSTRAINTS;
+DROP TABLE product CASCADE CONSTRAINTS;
+
+/**********************************/
+/* Table Name: product */
+/**********************************/
+CREATE TABLE product(
+		p_no                          		NUMBER(10)		 NULL ,
+		p_name                        		VARCHAR2(50)		 NOT NULL,
+		p_price                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		p_image                       		VARCHAR2(100)		 DEFAULT 'images/no_image.jpg'		 NOT NULL,
+		p_desc                        		VARCHAR2(200)		 NULL ,
+		p_view_count                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		p_category                    		NUMBER(10)		 NULL 
+);
+
+DROP SEQUENCE product_p_no_SEQ;
+
+CREATE SEQUENCE product_p_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
 
 
-insert into product(p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'µû¶æÇÑ ¾ÆÀÌ½º ¾Æ¸Þ¸®Ä«³ë','ÀÌ°ÍÀº µûµíÇÑ°¡ Â÷°¡¿î°¡ ',5000,'/images/americano.jpg',548,2);
-insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'Ä«Æä¶ó¶¼´Â ¸»ÀÌ¾ß','¶ó¶¼´Â ¸»ÀÌ¾ß ±×·¸°Ô ³îÁø ¾Ê¾Ò¾î',6000,'/images/latte.jpg',452,2);
-insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'·ÎÄ« ¸ðÄ«','·ÎÄ«Ã¿¸°Áö ÇãšË?',7000,'/images/moka.jpg',125,2);
-insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'Ä«¶ó¸á·¹¿Â¸¶³¢¾ÆÅä','¸¶Å°¾ÆÅä ÁÁ¾Æ~',7000,'/images/mak.jpg',847,2);
-insert into product(p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'È­ÀÌÆ® ÃÊÄÚ','Èò»öÀÏ±î¿ä °ËÁ¤»öÀÏ±î¿ä?',7000,'/images/white.jpg',214,2);
+COMMENT ON TABLE product is 'product';
+COMMENT ON COLUMN product.p_no is 'p_no';
+COMMENT ON COLUMN product.p_name is 'p_name';
+COMMENT ON COLUMN product.p_price is 'p_price';
+COMMENT ON COLUMN product.p_image is 'p_image';
+COMMENT ON COLUMN product.p_desc is 'p_desc';
+COMMENT ON COLUMN product.p_view_count is 'p_view_count';
+COMMENT ON COLUMN product.p_category is 'p_category';
 
-select * from product;
 
-commit;
+/**********************************/
+/* Table Name: userinfo */
+/**********************************/
+CREATE TABLE userinfo(
+		userId                        		VARCHAR2(100)		 NULL ,
+		password                      		VARCHAR2(100)		 NULL ,
+		name                          		VARCHAR2(100)		 NULL ,
+		email                         		VARCHAR2(100)		 NULL 
+);
+
+COMMENT ON TABLE userinfo is 'userinfo';
+COMMENT ON COLUMN userinfo.userId is 'userId';
+COMMENT ON COLUMN userinfo.password is 'password';
+COMMENT ON COLUMN userinfo.name is 'name';
+COMMENT ON COLUMN userinfo.email is 'email';
+
+
+/**********************************/
+/* Table Name: cart */
+/**********************************/
+CREATE TABLE cart(
+		cart_no                       		NUMBER(10)		 NULL ,
+		userId                        		VARCHAR2(100)		 NULL ,
+		p_no                          		NUMBER(10)		 NULL ,
+		cart_qty                      		NUMBER(10)		 DEFAULT 0		 NULL 
+);
+
+DROP SEQUENCE cart_cart_no_SEQ;
+
+CREATE SEQUENCE cart_cart_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
+
+
+
+COMMENT ON TABLE cart is 'cart';
+COMMENT ON COLUMN cart.cart_no is 'cart_no';
+COMMENT ON COLUMN cart.userId is 'userId';
+COMMENT ON COLUMN cart.p_no is 'p_no';
+COMMENT ON COLUMN cart.cart_qty is 'cart_qty';
+
+
+/**********************************/
+/* Table Name: orders */
+/**********************************/
+CREATE TABLE orders(
+		o_no                          		NUMBER(10)		 NULL ,
+		o_desc                        		VARCHAR2(100)		 NULL ,
+		o_date                        		DATE		 DEFAULT sysdate		 NULL ,
+		o_price                       		NUMBER(10)		 NULL ,
+		userId                        		VARCHAR2(100)		 NULL 
+);
+
+DROP SEQUENCE orders_o_no_SEQ;
+
+CREATE SEQUENCE orders_o_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
+
+
+
+COMMENT ON TABLE orders is 'orders';
+COMMENT ON COLUMN orders.o_no is 'o_no';
+COMMENT ON COLUMN orders.o_desc is 'o_desc';
+COMMENT ON COLUMN orders.o_date is 'o_date';
+COMMENT ON COLUMN orders.o_price is 'o_price';
+COMMENT ON COLUMN orders.userId is 'userId';
+
+
+/**********************************/
+/* Table Name: order_item */
+/**********************************/
+CREATE TABLE order_item(
+		oi_no                         		NUMBER(10)		 NULL ,
+		oi_qty                        		NUMBER(10)		 NULL ,
+		o_no                          		NUMBER(10)		 NULL ,
+		p_no                          		NUMBER(10)		 NULL 
+);
+
+DROP SEQUENCE order_item_oi_no_SEQ;
+
+CREATE SEQUENCE order_item_oi_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
+
+
+
+COMMENT ON TABLE order_item is 'order_item';
+COMMENT ON COLUMN order_item.oi_no is 'oi_no';
+COMMENT ON COLUMN order_item.oi_qty is 'oi_qty';
+COMMENT ON COLUMN order_item.o_no is 'o_no';
+COMMENT ON COLUMN order_item.p_no is 'p_no';
+
+
+
+ALTER TABLE product ADD CONSTRAINT IDX_product_PK PRIMARY KEY (p_no);
+
+ALTER TABLE userinfo ADD CONSTRAINT IDX_userinfo_PK PRIMARY KEY (userId);
+
+ALTER TABLE cart ADD CONSTRAINT IDX_cart_PK PRIMARY KEY (cart_no);
+ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK0 FOREIGN KEY (userId) REFERENCES userinfo (userId);
+ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK1 FOREIGN KEY (p_no) REFERENCES product (p_no);
+
+ALTER TABLE orders ADD CONSTRAINT IDX_orders_PK PRIMARY KEY (o_no);
+ALTER TABLE orders ADD CONSTRAINT IDX_orders_FK0 FOREIGN KEY (userId) REFERENCES userinfo (userId);
+
+ALTER TABLE order_item ADD CONSTRAINT IDX_order_item_PK PRIMARY KEY (oi_no);
+ALTER TABLE order_item ADD CONSTRAINT IDX_order_item_FK0 FOREIGN KEY (o_no) REFERENCES orders (o_no);
+ALTER TABLE order_item ADD CONSTRAINT IDX_order_item_FK1 FOREIGN KEY (p_no) REFERENCES product (p_no);
+
