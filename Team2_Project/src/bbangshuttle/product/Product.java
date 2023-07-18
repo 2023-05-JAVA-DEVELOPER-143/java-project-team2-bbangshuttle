@@ -25,5 +25,68 @@ public class Product {
 	private int p_category;
 	
 	
+	public Product() {
+		// TODO Auto-generated constructor stub
+	}
+	public Product(int p_no, String p_name, String p_desc, String p_image, int price, int p_view_count,
+			int p_category) {
+		
+		this.p_no = p_no;
+		this.p_name = p_name;
+		this.p_desc = p_desc;
+		this.p_image = p_image;
+		this.price = price;
+		this.p_view_count = p_view_count;
+		this.p_category = p_category;
+	}
+	public int getP_no() {
+		return p_no;
+	}
+	public void setP_no(int p_no) {
+		this.p_no = p_no;
+	}
+	public String getP_name() {
+		return p_name;
+	}
+	public void setP_name(String p_name) {
+		this.p_name = p_name;
+	}
+	public String getP_desc() {
+		return p_desc;
+	}
+	public void setP_desc(String p_desc) {
+		this.p_desc = p_desc;
+	}
+	public String getP_image() {
+		return p_image;
+	}
+	public void setP_image(String p_image) {
+		this.p_image = p_image;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public int getP_view_count() {
+		return p_view_count;
+	}
+	public void setP_view_count(int p_view_count) {
+		this.p_view_count = p_view_count;
+	}
+	public int getP_category() {
+		return p_category;
+	}
+	public void setP_category(int p_category) {
+		this.p_category = p_category;
+	}
+	@Override
+	public String toString() {
+		return "Product [p_no=" + p_no + ", p_name=" + p_name + ", p_desc=" + p_desc + ", p_image=" + p_image
+				+ ", price=" + price + ", p_view_count=" + p_view_count + ", p_category=" + p_category + "]";
+	}
+	
+	
 	
 }
