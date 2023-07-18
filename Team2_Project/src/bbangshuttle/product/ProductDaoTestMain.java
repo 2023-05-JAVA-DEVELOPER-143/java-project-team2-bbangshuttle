@@ -15,7 +15,7 @@ public class ProductDaoTestMain {
 		System.out.println(productDao.findAll());
 		System.out.println();
 		System.out.println("---------3.키워드로 검색-------");
-		System.out.println(productDao.findByKeyword());
+		System.out.println(productDao.findByKeyword("라떼"));
 		System.out.println("---------4.카운트증가-------");
 		System.out.println(productDao.updateViewCount(3));
 		
