@@ -7,7 +7,7 @@ public class User {
 	private String memberId;		// 아이디	
 	private String memberPassword;  // 비밀번호
 	private String memberName;		// 이름
-	private String email;			// 이메일
+	private String memberEmail;		// 이메일
 	private String memberAddress;	// 주소
 	private int memberBirth;		// 생년월일
 	private Date memberRegdate;		// 가입일
@@ -25,7 +25,7 @@ public class User {
 		this.memberId = memberId;
 		this.memberPassword = memberPassword;
 		this.memberName = memberName;
-		this.email = email;
+		this.memberEmail = email;
 		this.memberAddress = memberAddress;
 		this.memberBirth = memberBirth;
 		this.memberRegdate = memberRegdate;
@@ -67,12 +67,12 @@ public class User {
 
 
 	public String getEmail() {
-		return email;
+		return memberEmail;
 	}
 
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.memberEmail = email;
 	}
 
 
@@ -137,7 +137,7 @@ public class User {
 
 	public String toString() {	// alt + shift + s + s
 		return "UserInfo [memberId=" + memberId + ", memberPassword=" + memberPassword + ", memberName=" + memberName
-				+ ", email=" + email + ", memberAddress=" + memberAddress + ", memberBirth=" + memberBirth
+				+ ", email=" + memberEmail + ", memberAddress=" + memberAddress + ", memberBirth=" + memberBirth
 				+ ", memberRegdate=" + memberRegdate + ", memberPoint=" + memberPoint + ", orderDetails=" + orderDetails
 				+ ", customerService=" + customerService + "]";
 	}
