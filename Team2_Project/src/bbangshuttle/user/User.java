@@ -1,13 +1,13 @@
-package bbangshuttle.dto;
+package bbangshuttle.user;
 
 import java.sql.Date;
 
-public class UserInfo {
+public class User {
 	
 	private String memberId;		// 아이디	
 	private String memberPassword;  // 비밀번호
 	private String memberName;		// 이름
-	private String email;			// 이메일
+	private String memberEmail;		// 이메일
 	private String memberAddress;	// 주소
 	private int memberBirth;		// 생년월일
 	private Date memberRegdate;		// 가입일
@@ -15,17 +15,17 @@ public class UserInfo {
 	private String orderDetails;	// 주문내역
 	private String customerService;	// 고객센터
 	
-	public UserInfo() {
+	public User() {
 		
 	}
 	
-	public UserInfo(String memberId, String memberPassword, String memberName, String email, String memberAddress,
+	public User(String memberId, String memberPassword, String memberName, String email, String memberAddress,
 			int memberBirth, Date memberRegdate, int memberPoint, String orderDetails, String customerService) {
 		super();
 		this.memberId = memberId;
 		this.memberPassword = memberPassword;
 		this.memberName = memberName;
-		this.email = email;
+		this.memberEmail = email;
 		this.memberAddress = memberAddress;
 		this.memberBirth = memberBirth;
 		this.memberRegdate = memberRegdate;
@@ -67,12 +67,12 @@ public class UserInfo {
 
 
 	public String getEmail() {
-		return email;
+		return memberEmail;
 	}
 
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.memberEmail = email;
 	}
 
 
@@ -137,7 +137,7 @@ public class UserInfo {
 
 	public String toString() {	// alt + shift + s + s
 		return "UserInfo [memberId=" + memberId + ", memberPassword=" + memberPassword + ", memberName=" + memberName
-				+ ", email=" + email + ", memberAddress=" + memberAddress + ", memberBirth=" + memberBirth
+				+ ", email=" + memberEmail + ", memberAddress=" + memberAddress + ", memberBirth=" + memberBirth
 				+ ", memberRegdate=" + memberRegdate + ", memberPoint=" + memberPoint + ", orderDetails=" + orderDetails
 				+ ", customerService=" + customerService + "]";
 	}
