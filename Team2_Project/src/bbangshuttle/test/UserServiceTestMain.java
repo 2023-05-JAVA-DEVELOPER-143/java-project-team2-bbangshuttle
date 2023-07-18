@@ -9,6 +9,6 @@ public class UserServiceTestMain {
 		System.out.println("3.수정");
 		System.out.println("4.삭제");
 		
-	}// 연동테스트..
+	}//연동테스트중
 
 }
