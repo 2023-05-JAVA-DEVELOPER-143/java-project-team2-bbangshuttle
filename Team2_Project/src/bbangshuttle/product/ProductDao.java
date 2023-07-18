@@ -31,7 +31,7 @@ public class ProductDao {
 					rs.getString("p_image"), 
 					rs.getInt("p_price"),
 					rs.getInt("p_view_count"),
-					rs.getInt("p_view_count")
+					rs.getInt("p_category")
 					);
 		}
 		return product;
@@ -52,7 +52,7 @@ public class ProductDao {
 					rs.getString("p_image"), 
 					rs.getInt("p_price"),
 					rs.getInt("p_view_count"),
-					rs.getInt("p_view_count")));
+					rs.getInt("p_category")));
 		}
 		return productList;
 	}
@@ -74,7 +74,7 @@ public class ProductDao {
 					rs.getString("p_image"), 
 					rs.getInt("p_price"),
 					rs.getInt("p_view_count"),
-					rs.getInt("p_view_count")));
+					rs.getInt("p_category")));
 		}
 		return productList;
 	}
@@ -96,7 +96,7 @@ public class ProductDao {
 					rs.getString("p_image"), 
 					rs.getInt("p_price"),
 					rs.getInt("p_view_count"),
-					rs.getInt("p_view_count"));
+					rs.getInt("p_category"));
 		}
 		return product;
 	}

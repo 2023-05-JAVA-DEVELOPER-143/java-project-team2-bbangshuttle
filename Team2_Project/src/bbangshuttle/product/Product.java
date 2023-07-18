@@ -28,8 +28,7 @@ public class Product {
 	public Product() {
 		// TODO Auto-generated constructor stub
 	}
-	public Product(int p_no, String p_name, String p_desc, String p_image, int price, int p_view_count,
-			int p_category) {
+	public Product(int p_no, String p_name, String p_desc, String p_image, int price, int p_view_count,int p_category) {
 		
 		this.p_no = p_no;
 		this.p_name = p_name;
