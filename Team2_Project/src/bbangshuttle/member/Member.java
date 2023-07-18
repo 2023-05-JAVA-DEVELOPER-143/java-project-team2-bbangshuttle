@@ -1,8 +1,8 @@
-package bbangshuttle.user;
+package bbangshuttle.member;
 
 import java.sql.Date;
 
-public class User {
+public class Member {
 	
 	private String memberId;		// 아이디	
 	private String memberPassword;  // 비밀번호
@@ -16,11 +16,11 @@ public class User {
 	private String orderDetails;	// 주문내역
 	private String customerService;	// 고객센터
 	
-	public User() {
+	public Member() {
 		
 	}
 
-	public User(String memberId, String memberPassword, String memberName, String memberEmail, String memberAddress,
+	public Member(String memberId, String memberPassword, String memberName, String memberEmail, String memberAddress,
 			int memberBirth, String memberNumber, Date memberRegdate, int memberPoint, String orderDetails,
 			String customerService) {
 		super();
