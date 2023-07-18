@@ -12,10 +12,17 @@ P_NAME                 VARCHAR2(50)
 P_PRICE                NUMBER(10)    
 P_IMAGE                VARCHAR2(50)  
 P_DESC                 VARCHAR2(512) 
-P_VIEW_COUNT          NUMBER(10)    
+P_VIEW_COUNT          NUMBER(10) 
+P_CATEGORY				NUMBER(10)   
  */
 public class Product {
-	
+	private int p_no;
+	private String p_name;
+	private String p_desc;
+	private String p_image;
+	private int price;
+	private int p_view_count;
+	private int p_category;
 	
 	
 	
