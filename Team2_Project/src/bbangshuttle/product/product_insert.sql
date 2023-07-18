@@ -14,7 +14,15 @@ insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category)
 insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'로카 모카','로카첼린지 허싈?',7000,'/images/moka.jpg',125,2);
 insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'카라멜레온마끼아토','마키아토 좋아~',7000,'/images/mak.jpg',847,2);
 insert into product(p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'화이트 초코','흰색일까요 검정색일까요?',7000,'/images/white.jpg',214,2);
+--------------------------------------------------------
+
+
+
+
+
+
 
 select * from product;
 
 commit;
+
