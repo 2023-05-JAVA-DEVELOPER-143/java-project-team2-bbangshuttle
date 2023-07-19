@@ -27,7 +27,17 @@ public class ProductSevrice {
 	//카운트증가
 	public int productCountUpdate(int p_no) throws Exception{
 			
+<<<<<<< HEAD
 		return productDao.updateViewCount(p_no);
 	}
 		
+=======
+			return productDao.updateViewCount(p_no);
+		}
+		//카테고리 전체 검색
+		public List<Product> productCategoryAll (int p_category) throws Exception {
+			
+			return productDao.productCategoryList(p_category);
+		}
+>>>>>>> branch 'main' of https://github.com/2023-05-JAVA-DEVELOPER-143/java-project-team2-bbbb.git
 }
