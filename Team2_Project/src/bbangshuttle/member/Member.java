@@ -16,7 +16,7 @@ public class Member {
 	private Date memberRegdate;		// 가입일
 	private int memberPoint;		// 보유 포인트
 	private Order orderDetails;	// 주문내역
-	String customerService = "";	// 고객센터
+	String customerService = "070-1234-5678";	// 고객센터
 	
 	public Member() {
 		
