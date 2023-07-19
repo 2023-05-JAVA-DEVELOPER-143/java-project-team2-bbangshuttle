@@ -36,9 +36,9 @@ P_NO            NUMBER(30) 상품번호
 
 -- ORDERITEM_INSERT
 insert into order_item(oi_no, oi_qty, o_no, p_no) 
-VALUES(order_item_oi_no_SEQ.nextval, 1, orders_o_no_SEQ.currval, 1 ); 
+VALUES(order_item_oi_no_SEQ.nextval, 1, orders_o_no_SEQ.currval, 13);
 
 insert into order_item(oi_no, oi_qty, o_no, p_no) 
-VALUES(order_item_oi_no_SEQ.nextval, 1, orders_o_no_SEQ.currval, 1 ); 
+VALUES(order_item_oi_no_SEQ.nextval, 1, orders_o_no_SEQ.currval, 1);
 
 /****************************************************************/
