@@ -16,12 +16,6 @@ insert into product (p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category)
 insert into product(p_no,p_name,p_desc,p_price,p_image,p_view_count,p_category) values(product_p_no_seq.nextval,'화이트 초코','흰색일까요 검정색일까요?',7000,'/images/white.jpg',214,2);
 --------------------------------------------------------
 
-
-
-
-
-
-
 select * from product;
 
 commit;
