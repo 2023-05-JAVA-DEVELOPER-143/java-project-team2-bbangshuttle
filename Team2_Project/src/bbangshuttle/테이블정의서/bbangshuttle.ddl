@@ -21,14 +21,7 @@ DROP SEQUENCE product_p_no_SEQ;
 
 CREATE SEQUENCE product_p_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
-CREATE TRIGGER product_p_no_TRG
-BEFORE INSERT ON product
-FOR EACH ROW
-BEGIN
-IF :NEW.p_no IS NOT NULL THEN
-  SELECT product_p_no_SEQ.NEXTVAL INTO :NEW.p_no FROM DUAL;
-END IF;
-END;
+
 
 COMMENT ON TABLE product is 'product';
 COMMENT ON COLUMN product.p_no is 'p_no';
@@ -104,14 +97,7 @@ DROP SEQUENCE orders_o_no_SEQ;
 
 CREATE SEQUENCE orders_o_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
-CREATE TRIGGER orders_o_no_TRG
-BEFORE INSERT ON orders
-FOR EACH ROW
-BEGIN
-IF :NEW.o_no IS NOT NULL THEN
-  SELECT orders_o_no_SEQ.NEXTVAL INTO :NEW.o_no FROM DUAL;
-END IF;
-END;
+
 
 COMMENT ON TABLE orders is 'orders';
 COMMENT ON COLUMN orders.o_no is 'o_no';
@@ -136,14 +122,7 @@ DROP SEQUENCE order_item_oi_no_SEQ;
 
 CREATE SEQUENCE order_item_oi_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
-CREATE TRIGGER order_item_oi_no_TRG
-BEFORE INSERT ON order_item
-FOR EACH ROW
-BEGIN
-IF :NEW.oi_no IS NOT NULL THEN
-  SELECT order_item_oi_no_SEQ.NEXTVAL INTO :NEW.oi_no FROM DUAL;
-END IF;
-END;
+
 
 COMMENT ON TABLE order_item is 'order_item';
 COMMENT ON COLUMN order_item.oi_no is 'oi_no';
