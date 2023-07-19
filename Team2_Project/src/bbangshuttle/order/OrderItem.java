@@ -2,12 +2,21 @@ package bbangshuttle.order;
 
 import bbangshuttle.product.Product;
 
+/*
+ 이름     널?       유형         
+------ -------- ---------- 
+OI_NO  NOT NULL NUMBER(30)  번호
+OI_QTY          NUMBER(30)  수량
+O_NO            NUMBER(30)  주문번호
+P_NO            NUMBER(30)  상품번호
+ */
 public class OrderItem {
 	
 	private int oi_no;
 	private int oi_qty;
 	/********FK********/
 	private int o_no;
+	
 	/*******FK*******/
 	private Product product;
 	
