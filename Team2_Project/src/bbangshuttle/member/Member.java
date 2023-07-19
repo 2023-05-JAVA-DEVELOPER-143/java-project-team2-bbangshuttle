@@ -19,7 +19,7 @@ public class Member {
 	String customerService = "070-1234-5678";	// 고객센터
 	
 	public Member() {
-		
+ 		
 	}
 
 	public Member(String memberId, String memberPassword, String memberName, String memberEmail, String memberAddress,
