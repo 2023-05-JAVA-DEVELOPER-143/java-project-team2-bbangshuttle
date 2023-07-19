@@ -2,6 +2,8 @@ package bbangshuttle.member;
 
 import java.sql.Date;
 
+import bbangshuttle.order.Order;
+
 public class Member {
 	
 	private String memberId;		// 아이디	
@@ -9,19 +11,19 @@ public class Member {
 	private String memberName;		// 이름
 	private String memberEmail;		// 이메일
 	private String memberAddress;	// 주소
-	private int memberBirth;		// 생년월일
+	private String memberBirth;		// 생년월일
 	private String memberNumber;	// 연락처
 	private Date memberRegdate;		// 가입일
 	private int memberPoint;		// 보유 포인트
-	private String orderDetails;	// 주문내역
-	private String customerService;	// 고객센터
+	private Order orderDetails;	// 주문내역
+	String customerService = "070-1234-5678";	// 고객센터
 	
 	public Member() {
-		
+ 		
 	}
 
 	public Member(String memberId, String memberPassword, String memberName, String memberEmail, String memberAddress,
-			int memberBirth, String memberNumber, Date memberRegdate, int memberPoint, String orderDetails,
+			String memberBirth, String memberNumber, Date memberRegdate, int memberPoint, Order orderDetails,
 			String customerService) {
 		super();
 		this.memberId = memberId;
@@ -77,11 +79,11 @@ public class Member {
 		this.memberAddress = memberAddress;
 	}
 
-	public int getMemberBirth() {
+	public String getMemberBirth() {
 		return memberBirth;
 	}
 
-	public void setMemberBirth(int memberBirth) {
+	public void setMemberBirth(String memberBirth) {
 		this.memberBirth = memberBirth;
 	}
 
@@ -109,11 +111,11 @@ public class Member {
 		this.memberPoint = memberPoint;
 	}
 
-	public String getOrderDetails() {
+	public Order getOrderDetails() {
 		return orderDetails;
 	}
 
-	public void setOrderDetails(String orderDetails) {
+	public void setOrderDetails(Order orderDetails) {
 		this.orderDetails = orderDetails;
 	}
 

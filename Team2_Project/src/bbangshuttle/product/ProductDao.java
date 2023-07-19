@@ -84,22 +84,17 @@ public class ProductDao {
 	 * 카운트증가
 	 */
 	
-	public Product updateViewCount(int p_no) throws Exception {
-		Product product = null;
+	public int updateViewCount(int p_no) throws Exception {
+		
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(ProductSQL.PRODUCT_UPDATE_COUNT);
 		pstmt.setInt(1, p_no);
-		ResultSet rs=pstmt.executeQuery();
-		if(rs.next()) {
-			product= new Product(
-					rs.getInt("p_no"),
-					rs.getString("p_name"), 
-					rs.getString("p_desc"),
-					rs.getString("p_image"), 
-					rs.getInt("p_price"),
-					rs.getInt("p_view_count"),
-					rs.getInt("p_category"));
-		}
-		return product;
+		
+		int rowCount = 0;
+		rowCount =pstmt.executeUpdate();
+		
+		return rowCount;
+		
+		
 	}
 }
