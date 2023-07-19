@@ -8,9 +8,8 @@ public class ProductSevrice {
 	
 	public ProductSevrice() throws Exception {
 		this.productDao = new ProductDao();
-		//상품 번호로 검색
-		
-		}
+	}
+	//상품 번호로 검색
 	public Product ProductFindByNo(int p_no)throws Exception {
 		
 		return productDao.findByProductNo(p_no);
@@ -21,14 +20,14 @@ public class ProductSevrice {
 		return productDao.findAll();
 	}
 	//키워드로 검색
-		public List<Product> ProductFindByKetword(String keyword)throws Exception{
+	public List<Product> ProductFindByKetword(String keyword)throws Exception{
 			
-			return productDao.findByKeyword(keyword);
-		}
-		//카운트증가
-		public int productCountUpdate(int p_no) throws Exception{
+		return productDao.findByKeyword(keyword);
+	}
+	//카운트증가
+	public int productCountUpdate(int p_no) throws Exception{
 			
-			return productDao.updateViewCount(p_no);
-		}
+		return productDao.updateViewCount(p_no);
+	}
 		
 }
