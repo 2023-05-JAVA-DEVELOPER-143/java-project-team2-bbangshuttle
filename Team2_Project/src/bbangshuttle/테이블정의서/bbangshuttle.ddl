@@ -1,3 +1,4 @@
+
 DROP TABLE order_item CASCADE CONSTRAINTS;
 DROP TABLE orders CASCADE CONSTRAINTS;
 DROP TABLE cart CASCADE CONSTRAINTS;
@@ -20,7 +21,7 @@ CREATE SEQUENCE product_p_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
 
 CREATE TABLE userinfo(
-		member_Id                     		VARCHAR2(100)		 NULL ,
+		member_id                     		VARCHAR2(100)		 NULL ,
 		member_password               		VARCHAR2(100)		 NULL ,
 		member_name                   		VARCHAR2(100)		 NULL ,
 		member_email                  		VARCHAR2(100)		 NULL ,
@@ -35,8 +36,8 @@ CREATE TABLE userinfo(
 CREATE TABLE cart(
 		cart_no                       		NUMBER(30)		 NULL ,
 		cart_qty                      		NUMBER(30)		 DEFAULT 0		 NULL ,
-		member_Id                     		VARCHAR2(100)		 NULL ,
-		p_no                          		NUMBER(30)		 NULL 
+		p_no                          		NUMBER(30)		 NULL ,
+		member_id                     		VARCHAR2(100)		 NULL 
 );
 
 DROP SEQUENCE cart_cart_no_SEQ;
@@ -49,12 +50,14 @@ CREATE TABLE orders(
 		o_date                        		DATE		 DEFAULT sysdate		 NULL ,
 		o_price                       		NUMBER(30)		 NULL ,
 		o_desc                        		VARCHAR2(100)		 NULL ,
-		member_Id                     		VARCHAR2(100)		 NULL 
+		member_id                     		VARCHAR2(100)		 NULL 
 );
 
 DROP SEQUENCE orders_o_no_SEQ;
 
 CREATE SEQUENCE orders_o_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
+
+
 
 CREATE TABLE order_item(
 		oi_no                         		NUMBER(30)		 NULL ,
@@ -68,16 +71,17 @@ DROP SEQUENCE order_item_oi_no_SEQ;
 CREATE SEQUENCE order_item_oi_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
 
+
 ALTER TABLE product ADD CONSTRAINT IDX_product_PK PRIMARY KEY (p_no);
 
-ALTER TABLE userinfo ADD CONSTRAINT IDX_userinfo_PK PRIMARY KEY (member_Id);
+ALTER TABLE userinfo ADD CONSTRAINT IDX_userinfo_PK PRIMARY KEY (member_id);
 
 ALTER TABLE cart ADD CONSTRAINT IDX_cart_PK PRIMARY KEY (cart_no);
-ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK0 FOREIGN KEY (member_Id) REFERENCES userinfo (member_Id);
-ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK1 FOREIGN KEY (p_no) REFERENCES product (p_no);
+ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK0 FOREIGN KEY (p_no) REFERENCES product (p_no);
+ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK1 FOREIGN KEY (member_id) REFERENCES userinfo (member_id);
 
 ALTER TABLE orders ADD CONSTRAINT IDX_orders_PK PRIMARY KEY (o_no);
-ALTER TABLE orders ADD CONSTRAINT IDX_orders_FK0 FOREIGN KEY (member_Id) REFERENCES userinfo (member_Id);
+ALTER TABLE orders ADD CONSTRAINT IDX_orders_FK0 FOREIGN KEY (member_id) REFERENCES userinfo (member_id);
 
 ALTER TABLE order_item ADD CONSTRAINT IDX_order_item_PK PRIMARY KEY (oi_no);
 ALTER TABLE order_item ADD CONSTRAINT IDX_order_item_FK0 FOREIGN KEY (p_no) REFERENCES product (p_no);
