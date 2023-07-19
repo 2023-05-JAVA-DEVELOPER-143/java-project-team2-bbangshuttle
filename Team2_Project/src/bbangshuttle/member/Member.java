@@ -15,7 +15,6 @@ public class Member {
 	private String memberNumber;	// 연락처
 	private Date memberRegdate;		// 가입일
 	private int memberPoint;		// 보유 포인트
-	private Order orderDetails;	// 주문내역
 	String customerService = "070-1234-5678";	// 고객센터
 	
 	public Member() {
@@ -35,7 +34,6 @@ public class Member {
 		this.memberNumber = memberNumber;
 		this.memberRegdate = memberRegdate;
 		this.memberPoint = memberPoint;
-		this.orderDetails = orderDetails;
 		this.customerService = customerService;
 	}
 
@@ -111,14 +109,6 @@ public class Member {
 		this.memberPoint = memberPoint;
 	}
 
-	public Order getOrderDetails() {
-		return orderDetails;
-	}
-
-	public void setOrderDetails(Order orderDetails) {
-		this.orderDetails = orderDetails;
-	}
-
 	public String getCustomerService() {
 		return customerService;
 	}
@@ -132,7 +122,7 @@ public class Member {
 		return "User [memberId=" + memberId + ", memberPassword=" + memberPassword + ", memberName=" + memberName
 				+ ", memberEmail=" + memberEmail + ", memberAddress=" + memberAddress + ", memberBirth=" + memberBirth
 				+ ", memberNumber=" + memberNumber + ", memberRegdate=" + memberRegdate + ", memberPoint=" + memberPoint
-				+ ", orderDetails=" + orderDetails + ", customerService=" + customerService + "]";
+				+ ", customerService=" + customerService + "]";
 	}
 	
 	
