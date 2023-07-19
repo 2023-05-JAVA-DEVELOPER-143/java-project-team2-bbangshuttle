@@ -1,7 +1,9 @@
 package bbangshuttle.member;
 
 import java.sql.Date;
-
+/*
+ * 
+ */
 public class Member {
 	
 	private String memberId;		// 아이디	

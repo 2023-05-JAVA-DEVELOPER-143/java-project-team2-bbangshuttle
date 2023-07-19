@@ -357,8 +357,8 @@
                   <description></description>
                   <columns>
                     <net.java.amateras.db.visual.model.ColumnModel>
-                      <columnName>memberId</columnName>
-                      <logicalName>memberId</logicalName>
+                      <columnName>member_Id</columnName>
+                      <logicalName>member_Id</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType">
                         <name>VARCHAR2</name>
                         <logicalName>String</logicalName>
@@ -373,8 +373,8 @@
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
                     <net.java.amateras.db.visual.model.ColumnModel>
-                      <columnName>memberPassword</columnName>
-                      <logicalName>memberPassword</logicalName>
+                      <columnName>member_password</columnName>
+                      <logicalName>member_password</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                       <size>10</size>
                       <notNull>false</notNull>
@@ -384,8 +384,8 @@
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
                     <net.java.amateras.db.visual.model.ColumnModel>
-                      <columnName>memberName</columnName>
-                      <logicalName>memberName</logicalName>
+                      <columnName>member_name</columnName>
+                      <logicalName>member_name</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                       <size>10</size>
                       <notNull>false</notNull>
@@ -395,8 +395,8 @@
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
                     <net.java.amateras.db.visual.model.ColumnModel>
-                      <columnName>memberEmail</columnName>
-                      <logicalName>memberEmail</logicalName>
+                      <columnName>member_email</columnName>
+                      <logicalName>member_email</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                       <size>30</size>
                       <notNull>false</notNull>
@@ -406,8 +406,8 @@
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
                     <net.java.amateras.db.visual.model.ColumnModel>
-                      <columnName>memberAddress</columnName>
-                      <logicalName>memberAddress</logicalName>
+                      <columnName>member_address</columnName>
+                      <logicalName>member_address</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                       <size>50</size>
                       <notNull>false</notNull>
@@ -417,8 +417,8 @@
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
                     <net.java.amateras.db.visual.model.ColumnModel>
-                      <columnName>memberBirth</columnName>
-                      <logicalName>memberBirth</logicalName>
+                      <columnName>member_birth</columnName>
+                      <logicalName>member_birth</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                       <size>30</size>
                       <notNull>false</notNull>
@@ -428,8 +428,8 @@
                       <defaultValue></defaultValue>
                     </net.java.amateras.db.visual.model.ColumnModel>
                     <net.java.amateras.db.visual.model.ColumnModel>
-                      <columnName>memberNumber</columnName>
-                      <logicalName>memberNumber</logicalName>
+                      <columnName>member_number</columnName>
+                      <logicalName>member_number</logicalName>
                       <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../net.java.amateras.db.visual.model.ColumnModel/columnType"/>
                       <size>30</size>
                       <notNull>false</notNull>
