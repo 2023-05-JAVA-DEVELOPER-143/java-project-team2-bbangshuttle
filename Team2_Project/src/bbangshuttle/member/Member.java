@@ -1,15 +1,9 @@
 package bbangshuttle.member;
 
 import java.sql.Date;
-<<<<<<< HEAD
 
 import bbangshuttle.order.Order;
 
-=======
-/*
- * 
- */
->>>>>>> branch 'main' of https://github.com/2023-05-JAVA-DEVELOPER-143/java-project-team2-bbangshuttle.git
 public class Member {
 	
 	private String memberId;		// 아이디	
