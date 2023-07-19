@@ -18,6 +18,9 @@ DROP SEQUENCE product_p_no_SEQ;
 
 CREATE SEQUENCE product_p_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
+
+
+
 CREATE TABLE userinfo(
 		member_Id                     		VARCHAR2(10)		 NULL ,
 		member_password               		VARCHAR2(10)		 NULL ,
@@ -42,11 +45,14 @@ DROP SEQUENCE cart_cart_no_SEQ;
 
 CREATE SEQUENCE cart_cart_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
+
+
+
 CREATE TABLE orders(
 		o_no                          		NUMBER(10)		 NULL ,
 		o_date                        		DATE		 DEFAULT sysdate		 NULL ,
-		o_price                       		NUMBER(10)		 NULL ,
-		o_TotPrice                    		NUMBER(50)		 NULL ,
+		o_price                       		NUMBER(10)		 DEFAULT 0		 NULL ,
+		o_TotPrice                    		NUMBER(10)		 DEFAULT 0		 NULL ,
 		o_desc                        		VARCHAR2(100)		 NULL ,
 		member_Id                     		VARCHAR2(10)		 NULL 
 );
@@ -54,6 +60,9 @@ CREATE TABLE orders(
 DROP SEQUENCE orders_o_no_SEQ;
 
 CREATE SEQUENCE orders_o_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
+
+
+
 
 CREATE TABLE order_item(
 		oi_no                         		NUMBER(10)		 NULL ,
@@ -65,6 +74,10 @@ CREATE TABLE order_item(
 DROP SEQUENCE order_item_oi_no_SEQ;
 
 CREATE SEQUENCE order_item_oi_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
+
+
+
+
 
 ALTER TABLE product ADD CONSTRAINT IDX_product_PK PRIMARY KEY (p_no);
 
