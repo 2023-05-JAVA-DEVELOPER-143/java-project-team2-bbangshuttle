@@ -97,4 +97,23 @@ public class ProductDao {
 		
 		
 	}
+	// 카테고리 전체출력
+	public List<Product> productCategoryList(int p_catehorey) throws Exception{
+		List<Product> productList = new ArrayList<>(); 
+		Connection con = dataSource.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(ProductSQL.PRODUCT_SELECT_CATEGORY_ALL);
+		pstmt.setInt(1, p_catehorey);
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next()) {
+			productList.add(new Product(
+					rs.getInt("p_no"),
+					rs.getString("p_name"), 
+					rs.getString("p_desc"),
+					rs.getString("p_image"), 
+					rs.getInt("p_price"),
+					rs.getInt("p_view_count"),
+					rs.getInt("p_category")));
+		}
+		return productList;
+	}
 }
