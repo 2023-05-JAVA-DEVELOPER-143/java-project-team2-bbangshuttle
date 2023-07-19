@@ -30,7 +30,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import bbangshuttle.user.User;
+import bbangshuttle.member.Member;
 
 public class ShopMainFrame extends JFrame {
 	/************ 1.Service객체멤버변수선언 ************/
@@ -809,7 +809,7 @@ public class ShopMainFrame extends JFrame {
 	}
 
 	/*********** 로그인다이알로그에서 로그인성공시 호출하는 메쏘드 ****************/
-	public void loginProcess(User loginUser) throws Exception {
+	public void loginProcess(Member loginUser) throws Exception {
 		/*
 		 * 1. ShopMainFrame의멤버변수에 로그인한User객체를 저장 
 		 * 2. ShopMainFrame의 타이틀변경 
