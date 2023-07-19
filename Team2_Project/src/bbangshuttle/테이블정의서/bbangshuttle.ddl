@@ -18,16 +18,6 @@ DROP SEQUENCE product_p_no_SEQ;
 
 CREATE SEQUENCE product_p_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
-CREATE TRIGGER product_p_no_TRG
-BEFORE INSERT ON product
-FOR EACH ROW
-BEGIN
-IF :NEW.p_no IS NOT NULL THEN
-  SELECT product_p_no_SEQ.NEXTVAL INTO :NEW.p_no FROM DUAL;
-END IF;
-END;
-
-
 CREATE TABLE userinfo(
 		member_Id                     		VARCHAR2(10)		 NULL ,
 		member_password               		VARCHAR2(10)		 NULL ,
@@ -52,16 +42,6 @@ DROP SEQUENCE cart_cart_no_SEQ;
 
 CREATE SEQUENCE cart_cart_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
-CREATE TRIGGER cart_cart_no_TRG
-BEFORE INSERT ON cart
-FOR EACH ROW
-BEGIN
-IF :NEW.cart_no IS NOT NULL THEN
-  SELECT cart_cart_no_SEQ.NEXTVAL INTO :NEW.cart_no FROM DUAL;
-END IF;
-END;
-
-
 CREATE TABLE orders(
 		o_no                          		NUMBER(10)		 NULL ,
 		o_date                        		DATE		 DEFAULT sysdate		 NULL ,
@@ -75,16 +55,6 @@ DROP SEQUENCE orders_o_no_SEQ;
 
 CREATE SEQUENCE orders_o_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
 
-CREATE TRIGGER orders_o_no_TRG
-BEFORE INSERT ON orders
-FOR EACH ROW
-BEGIN
-IF :NEW.o_no IS NOT NULL THEN
-  SELECT orders_o_no_SEQ.NEXTVAL INTO :NEW.o_no FROM DUAL;
-END IF;
-END;
-
-
 CREATE TABLE order_item(
 		oi_no                         		NUMBER(10)		 NULL ,
 		oi_qty                        		NUMBER(10)		 NULL ,
@@ -95,17 +65,6 @@ CREATE TABLE order_item(
 DROP SEQUENCE order_item_oi_no_SEQ;
 
 CREATE SEQUENCE order_item_oi_no_SEQ NOMAXVALUE NOCACHE NOORDER NOCYCLE;
-
-CREATE TRIGGER order_item_oi_no_TRG
-BEFORE INSERT ON order_item
-FOR EACH ROW
-BEGIN
-IF :NEW.oi_no IS NOT NULL THEN
-  SELECT order_item_oi_no_SEQ.NEXTVAL INTO :NEW.oi_no FROM DUAL;
-END IF;
-END;
-
-
 
 ALTER TABLE product ADD CONSTRAINT IDX_product_PK PRIMARY KEY (p_no);
 
