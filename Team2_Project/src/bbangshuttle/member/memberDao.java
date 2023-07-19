@@ -42,7 +42,7 @@ public class memberDao {
 	// 회원삭제
 	public int delete(String memberId) throws Exception {
 	    Connection con = dataSource.getConnection();
-	    PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_REMOVE);
+	    PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_DELETE);
 	    pstmt.setString(1, memberId);
 	    int rowCount = pstmt.executeUpdate();
 	    pstmt.close();
