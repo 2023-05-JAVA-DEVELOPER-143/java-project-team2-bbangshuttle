@@ -1,12 +1,10 @@
-<<<<<<< HEAD
+
 --leeshuttle22 멤버한사람의 카트아이템리스트
 select * from 
 cart c join userinfo u on c.member_id = u.member_id 
 	   join product p on p.p_no = c.p_no where u.member_id = 'leeshuttle22';
        
 
-=======
-/**********cart insert**********/
 /********cart select *********/
 -- 회원의 전체 주문목록 
 select * from cart c join product p on c.p_no=p.p_no where c.member_id ='kimshuttle11';
@@ -30,3 +28,5 @@ delete from cart where member_id='kimshuttle11';
 
 --�회원 삭제할 품목 선택삭제
 delete from cart where member_id='kimshuttle11' and p_no=1;
+
+commit;
