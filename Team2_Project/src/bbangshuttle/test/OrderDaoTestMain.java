@@ -9,6 +9,11 @@ public class OrderDaoTestMain {
 		OrderDao orderDao = new OrderDao();
 		System.out.println(orderDao.findOrderByMemberId("leeshuttle22"));
 		
+		// System.out.println(orderDao.deleteByMemberId("kimshuttle11"));
+		
+		
+		
+		//System.out.println(orderDao.findOrderWithOrderItemMemberId("kimshuttle11"));
 		
 		
 		

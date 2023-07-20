@@ -32,7 +32,7 @@ public class OrderDao {
 	public int deleteByMemberId(String member_Id) throws Exception {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		int rowCount = 0;
+		int rowCount;
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
@@ -48,8 +48,7 @@ public class OrderDao {
 		} finally {
 			if (con != null)
 				con.close();
-		}
-		
+		}	
 		return rowCount;
 	}
 	
@@ -217,42 +216,23 @@ public class OrderDao {
 						orderWithOrderItem.getOrderItemList()
 						.add(new OrderItem(	rs2.getInt("OI_NO"), 
 											rs2.getInt("OI_QTY"), 
-											rs2.getInt("O_NO_1"),
-								new Product(rs2.getInt("P_NO"), 
-											rs2.getInt("P_NO_1"), 
-											rs2.getString("P_NAME"), 
-											rs2.getInt("P_PRICE"), 
-											rs2.getString("P_IMAGE"), 
-											rs2.getString("P_DESC"), 
-											rs2.getInt("P_VIEW_COUNT"), 
-											rs2.getInt("P_CATEGORY"))));
-						
-						
-					} while (rs2.next());
-					
-					
-					
+											rs2.getInt("O_NO"),
+								new Product(rs2.getInt("p_no"), 
+											rs2.getString("p_name"), 
+											rs2.getString("p_price"), 
+											rs2.getString("p_image"), 
+											rs2.getInt("desc"), 
+											rs2.getInt("p_view_count"), 
+											rs2.getInt("p_category"))));
+						} while (rs2.next());	
 				}
-				
-				
-				
+				orderList.set(i, orderWithOrderItem);
 			}
-			
-			
-		} catch (Exception e) {
-			
-			
-			
+		} finally {
+			if (con != null) {
+				con.close();
+			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		return orderList;
 	}
 	
