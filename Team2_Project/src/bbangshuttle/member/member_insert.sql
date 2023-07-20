@@ -1,3 +1,4 @@
+
 -- insert
 insert into userinfo(member_id,member_password,member_name,member_email,member_address,member_birth,member_number,member_regdate,member_point) 
        values('kimshuttle11','1111','김셔틀','kimshuttle11@gmail.com','서울시 방배동','1995/01/01','010-1111-1111',sysdate,0);
@@ -11,3 +12,4 @@ insert into userinfo(member_id,member_password,member_name,member_email,member_a
        values('hanshuttle155','5555','한셔틀','hanshuttle155@gmail.com','서울시 혜화동','1992/01/01','010-5555-5555',sysdate,0);
 
 commit;
+
