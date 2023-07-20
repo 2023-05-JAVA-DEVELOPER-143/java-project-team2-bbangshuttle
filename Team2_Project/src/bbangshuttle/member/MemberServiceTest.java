@@ -15,7 +15,7 @@ public class MemberServiceTest {
 		rowCount=0;
 		rowCount = memberService.login("sdfsadf", "asdfasdf");
 		System.out.println(">>>>"+rowCount);
-		System.out.println();
+
 		//3.회원아이디중복체크
 		//4.회원상세보기
 		//5.회원수정
