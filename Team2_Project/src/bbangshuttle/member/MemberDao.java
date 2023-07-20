@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+
 import bbangshuttle.common.DataSource;
 
 public class MemberDao {
@@ -107,11 +108,28 @@ public class MemberDao {
 	}
 	
 	
-	/*
-	public ArrayList<Member> selectMyInfo() throws Exception {
-		return 0;
+	// 회원 목록 전체 출력
+	public ArrayList<Member> findAll() throws Exception {
+		Connection con = dataSource.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_SELECT_BY_ALL);
+		ResultSet rs=pstmt.executeQuery();
+		ArrayList<Member> memberList=new ArrayList<Member>();
+		while(rs.next()) {
+			memberList.add(new Member(
+					rs.getString("member_id"),
+					rs.getString("member_password"),
+					rs.getString("member_name"),
+					rs.getString("member_email"),
+					rs.getString("member_address"),
+					rs.getString("member_birth"),
+					rs.getString("member_number"),
+					rs.getDate("member_regdate"),
+					rs.getInt("memner_point"))
+					);
+		}
+		return memberList;
 	}
-	*/
+	
 	
 	// 회원가입 시, 아이디 중복 체크
 	public int CountUserId(String memberId) throws Exception {
