@@ -9,6 +9,7 @@ import java.util.List;
 
 
 import bbangshuttle.common.DataSource;
+import bbangshuttle.product.Product;
 /*	
  	Dao 클래스 기본 메소드 
  	insert
@@ -161,6 +162,118 @@ public class OrderDao {
 	
 	
 	/*
+	 * 주문 + 주문아이템들 전체 (특정사용자)
+	 */
+	
+	public List<Order> findOrderWithOrderItemMemberId(String memberId) throws Exception {
+		
+		List<Order> orderList = new ArrayList<Order>();
+		Connection con = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs1 = null;
+		ResultSet rs2 = null;
+		
+		try {
+			con = dataSource.getConnection();
+			/*
+			 *  "select * from orders where member_id=?"
+			 */
+			pstmt1 = con.prepareStatement(OrderSQL.ORDER_SELECT_BY_MEMBER_ID);
+			pstmt1.setString(1, memberId);
+			rs1 = pstmt1.executeQuery();
+			while (rs1.next()) {
+				orderList.add(new Order(rs1.getInt("o_no"), rs1.getDate("o_date"), 
+						rs1.getInt("o_price"), rs1.getString("o_desc"), 
+						rs1.getString("member_id"), null));
+			}
+			
+			pstmt2 = con.prepareStatement(OrderSQL.ORDER_SELECT_WITH_PRODUCT_BY_MEMBER_ID);
+			
+			for (int i = 0; i < orderList.size(); i++) {
+				Order tempOrder = orderList.get(i);		
+				/*
+				 ORDER_SELECT_WITH_PRODUCT_BY_MEMBER_ID = 
+				 "select * from orders o join order_item oi on o.o_no = oi.o_no  
+				 join  product p on oi.p_no = p.p_no where o.member_id = ? and o.o_no = ?";
+				 */
+				pstmt2.setInt(1, tempOrder.getO_no());
+				rs2 = pstmt2.executeQuery();
+				/*
+				O_NO, O_DATE,  O_PRICE, O_DESC, 			MEMBER_ID,   OI_NO, OI_QTY, O_NO_1, P_NO, P_NO_1, 			P_NAME, P_PRICE, 	P_IMAGE,				 P_DESC, 								P_VIEW_COUNT, P_CATEGORY
+				 11	2023/07/19	44000	촉촉한쵹호칩 외 2종	kimshuttle11	19		1		11		1		1	촉촉한쵹호칩	12000		/images/chocchoc.jpg	너무나 쵹쵹한것..						123				1
+				 11	2023/07/19	44000	촉촉한쵹호칩 외 2종	kimshuttle11	20		1		11		3		3	오카상 크로와상	140000		/images/mom.jpg			어머니의 손맛이 담긴 오카상~ 크로와상~	527				1
+				 11	2023/07/19	44000	촉촉한쵹호칩 외 2종	kimshuttle11	21		1		11		4		4	패스트 패스트리	18000		/images/pest.jpg		감질맛 나는것이 역병 그잡채				612				1
+				 *
+				 */
+				Order orderWithOrderItem = null;
+				if (rs2.next()) {
+					orderWithOrderItem = new Order(	rs2.getInt("O_NO"), 
+													rs2.getDate("O_DATE"), 
+													rs2.getInt("O_PRICE"), 
+													rs2.getString("O_DESC"), 
+													rs2.getString("MEMBER_ID"), null);
+					do {
+						orderWithOrderItem.getOrderItemList()
+						.add(new OrderItem(	rs2.getInt("OI_NO"), 
+											rs2.getInt("OI_QTY"), 
+											rs2.getInt("O_NO_1"),
+								new Product(rs2.getInt("P_NO"), 
+											rs2.getInt("P_NO_1"), 
+											rs2.getString("P_NAME"), 
+											rs2.getInt("P_PRICE"), 
+											rs2.getString("P_IMAGE"), 
+											rs2.getString("P_DESC"), 
+											rs2.getInt("P_VIEW_COUNT"), 
+											rs2.getInt("P_CATEGORY"))));
+						
+						
+					} while (rs2.next());
+					
+					
+					
+				}
+				
+				
+				
+			}
+			
+			
+		} catch (Exception e) {
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return orderList;
+	}
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
 	 * 주문 1개 보기 (주문 상세 리스트)
 	 */
 	public Order findByOrderNo(int o_no) throws Exception {
@@ -169,7 +282,14 @@ public class OrderDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		
+		/*
+		 ORDER_SELECT_WITH_PRODUCT_BY_MEMBER_ID = 
+		 "select * from orders o join order_item oi on o.o_no = oi.o_no  
+		 join  product p on oi.p_no = p.p_no 
+		 where o.member_id = ? and o.o_no = ?"
+		 
+		 35	2023/07/20	112000	파리도좋아하는 바게뜨 외1종	 leeshuttle22
+		 */
 		
 		
 		return order;
