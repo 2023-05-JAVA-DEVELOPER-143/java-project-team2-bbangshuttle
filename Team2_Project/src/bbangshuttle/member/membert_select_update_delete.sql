@@ -40,3 +40,4 @@ from userinfo;
 
 commit;
 desc userinfo;
+;

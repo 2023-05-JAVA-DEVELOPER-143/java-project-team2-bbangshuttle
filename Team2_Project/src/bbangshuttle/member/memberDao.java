@@ -70,4 +70,4 @@ public class memberDao {
 		return id;
 	}
 	
-}
+};
