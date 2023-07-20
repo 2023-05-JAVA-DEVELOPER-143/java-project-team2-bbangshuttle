@@ -13,12 +13,19 @@ public class OrderServiceTestMain {
 		CartService cartService = new CartService();
 		ProductSevrice productSevrice = new ProductSevrice();
 		
-
-		System.out.println("------------------");
+		System.out.println("주문 목록");
+		System.out.println(orderService.orderList("choishuttle44"));
+		
+		
+		System.out.println("--------주문 + 주문 아이템 목록-------");
+		System.out.println(orderService.orderWithOrderItemList("leeshuttle22"));
+		
+		
+		System.out.println("--------주문 + 주문 아이템 상세보기-------");
+		System.out.println(orderService.orderWithOrderItem(3));
 		
 		
 		
-
 	}
 
 }
