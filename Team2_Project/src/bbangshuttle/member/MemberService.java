@@ -1,6 +1,6 @@
 package bbangshuttle.member;
 
-public class memberService {
+public class MemberService {
 
 	
 	// 회원가입
