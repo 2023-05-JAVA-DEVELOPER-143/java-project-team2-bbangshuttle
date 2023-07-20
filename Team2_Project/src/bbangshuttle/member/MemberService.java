@@ -1,47 +1,73 @@
 package bbangshuttle.member;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 public class MemberService {
 	private MemberDao memberDao;
+	
 	public MemberService() throws Exception{
 		memberDao=new MemberDao();
 	}
 	/*
 	 * 회원가입
 	 */
-	public boolean addMember(Member newMember) throws Exception{
-		boolean isSuccess=false;
-		/*
-		 * 아이디존재여부
-		 */
-	    String findMember= memberDao.findByID(newMember.getMemberId());
-	    if(findMember==null) {
-	    	//아이디중복안됨
-	    	int rowCount=memberDao.insert(newMember);
-	    	isSuccess = true;
-	    }else {
-	    	//아이디중복
-	    	isSuccess=false;
-	    }
-	    return isSuccess;
-	}
+	public int addMember(Member member) throws Exception{
+		//1.아이디중복체크
+		if(memberDao.CountUserId(member.getMemberId())>=1) {
+			//중복
+			return -1;
+		}else {
+			//가입
+			int rowCount=memberDao.insert(member);
+			return rowCount;
+		}
+	} 
 	
 	/*
 	 * 회원로그인
 	 */
+	public int login(String memberId,String password)throws Exception{
+		// 0:실패 1:성공
+		int result=0;
+		if(memberDao.CountUserId(memberId)==1) {
+			//아이디존재하는경우
+			Member loginMember = memberDao.showMyInfo(password);
+			if(loginMember.getMemberPassword().equals(password)) {
+				//패스워드일치
+				result=1;
+			}else {
+				//패스워드불일치
+				result=0;
+			}
+		}else {
+			//회원이 아닌경우
+			result=0;
+		}
+		return result;
+	}
 	
 	
 	
 	/*
 	 * 회원아이디중복체크
 	 */
+	public boolean isDuplicatedId(String memberId) throws Exception{
+		if(memberDao.CountUserId(memberId)>=1) {
+			return true;
+		}else {
+			return false;
+		}
+			
+	}
 	
 	/*
 	 * 회원상세보기
 	 */
-	public String memberDetail(String memberId) throws Exception{
-		return memberDao.findByID(memberId);
+	public Member memberDetail(String memberPassword) throws Exception{
+		return memberDao.showMyInfo(memberPassword);
 	}
 	/*
 	 * 회원수정
@@ -55,7 +81,5 @@ public class MemberService {
 	public int memberDelete(String memberId) throws Exception{
 		return memberDao.delete(memberId);
 	}
-	
-	
 	
 }

@@ -15,15 +15,14 @@ public class Member {
 	private String memberNumber;	// 연락처
 	private Date memberRegdate;		// 가입일
 	private int memberPoint;		// 보유 포인트
-	String customerService = "070-1234-5678";	// 고객센터
+	public static final String customerService = "070-1234-5678";	// 고객센터
 	
 	public Member() {
  		
 	}
 
 	public Member(String memberId, String memberPassword, String memberName, String memberEmail, String memberAddress,
-			String memberBirth, String memberNumber, Date memberRegdate, int memberPoint, Order orderDetails,
-			String customerService) {
+			String memberBirth, String memberNumber, Date memberRegdate, int memberPoint) {
 		super();
 		this.memberId = memberId;
 		this.memberPassword = memberPassword;
@@ -34,7 +33,7 @@ public class Member {
 		this.memberNumber = memberNumber;
 		this.memberRegdate = memberRegdate;
 		this.memberPoint = memberPoint;
-		this.customerService = customerService;
+		
 	}
 
 	public String getMemberId() {
@@ -109,20 +108,14 @@ public class Member {
 		this.memberPoint = memberPoint;
 	}
 
-	public String getCustomerService() {
-		return customerService;
-	}
-
-	public void setCustomerService(String customerService) {
-		this.customerService = customerService;
-	}
+	
 
 	@Override
 	public String toString() {
 		return "User [memberId=" + memberId + ", memberPassword=" + memberPassword + ", memberName=" + memberName
 				+ ", memberEmail=" + memberEmail + ", memberAddress=" + memberAddress + ", memberBirth=" + memberBirth
 				+ ", memberNumber=" + memberNumber + ", memberRegdate=" + memberRegdate + ", memberPoint=" + memberPoint
-				+ ", customerService=" + customerService + "]";
+				+ "]";
 	}
 	
 	

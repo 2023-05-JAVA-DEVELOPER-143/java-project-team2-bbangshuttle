@@ -1,6 +1,6 @@
 package bbangshuttle.test;
 
-public class UserServiceTestMain {
+public class MemberServiceTestMain {
 
 	public static void main(String[] args) throws Exception{
 		

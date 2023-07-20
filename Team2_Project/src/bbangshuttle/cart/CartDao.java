@@ -34,8 +34,8 @@ public class CartDao {
 					new Product(rs.getInt("p_no"), rs.getString("p_name"), rs.getString("p_desc"),
 							rs.getString("p_image"), rs.getInt("p_price"), rs.getInt("p_view_count"),
 							rs.getInt("p_category")));
-		}
 
+		}
 		return cart;
 	}
 	// " "회원 장바구니 상품 전체 읽기
