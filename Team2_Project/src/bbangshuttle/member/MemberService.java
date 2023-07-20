@@ -1,6 +1,12 @@
 package bbangshuttle.member;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
+
+import com.itwill.shop.user.UserSQL;
+
 
 public class MemberService {
 	private MemberDao memberDao;
@@ -10,32 +16,35 @@ public class MemberService {
 	/*
 	 * 회원가입
 	 */
-	public boolean addMember(Member newMember) throws Exception{
-		boolean isSuccess=false;
-		/*
-		 * 아이디존재여부
-		 */
-	    String findMember= memberDao.findByID(newMember.getMemberId());
-	    if(findMember==null) {
-	    	//아이디중복안됨
-	    	int rowCount=memberDao.insert(newMember);
-	    	isSuccess = true;
-	    }else {
-	    	//아이디중복
-	    	isSuccess=false;
-	    }
-	    return isSuccess;
-	}
+	/*public int addMember(Member member) throws Exception{
+		//1.아이디중복체크
+		int userCount = rs.getInt(1);
+		return userCount;
+	} */
+	
+	
+	
+	
+	
 	
 	/*
 	 * 회원로그인
 	 */
+	/*public int login(String memberID,String password)throws Exception{
+		// 0:실패 1:성공
+		int result=0;
+		if(memberDao.)
+	}*/
 	
 	
 	
 	/*
 	 * 회원아이디중복체크
 	 */
+	/*public boolean isDuplicatedId(String memberId) throws Exception{
+		if(memberDao.)
+	}*/
+	
 	
 	/*
 	 * 회원상세보기
@@ -55,7 +64,9 @@ public class MemberService {
 	public int memberDelete(String memberId) throws Exception{
 		return memberDao.delete(memberId);
 	}
-	
-	
+	/*
+	 * 회원로그아웃
+	 */
+	public void logout() {}
 	
 }
