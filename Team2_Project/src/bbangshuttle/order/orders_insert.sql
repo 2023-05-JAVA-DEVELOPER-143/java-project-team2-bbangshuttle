@@ -19,13 +19,6 @@ insert into order_item(oi_no, oi_qty, o_no, p_no) VALUES(order_item_oi_no_SEQ.ne
 
 insert into orders(o_no,o_date,o_price,o_desc,member_id) VALUES (orders_o_no_SEQ.nextval, sysdate, 7000, '카라멜레온마끼아토', 'hanshuttle155');
 
-<<<<<<< HEAD
-=======
-insert into orders(o_no,o_date,o_price,o_desc,member_id) VALUES (orders_o_no_SEQ.nextval, sysdate, 8000, '카라멜레온마끼아토', 'hanshuttle155');
->>>>>>> branch 'main' of https://github.com/2023-05-JAVA-DEVELOPER-143/java-project-team2-bbangshuttle.git
-
-
-
 select * from orders;
 
 commit;

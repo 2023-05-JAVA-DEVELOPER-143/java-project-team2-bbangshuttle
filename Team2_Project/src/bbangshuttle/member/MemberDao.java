@@ -8,10 +8,10 @@ import java.sql.ResultSet;
 
 import bbangshuttle.common.DataSource;
 
-public class memberDao {
+public class MemberDao {
 	private DataSource dataSource;
 
-	public memberDao() throws Exception {
+	public MemberDao() throws Exception {
 		dataSource = new DataSource();
 	}
 
