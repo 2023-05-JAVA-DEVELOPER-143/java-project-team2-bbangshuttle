@@ -790,7 +790,10 @@ public class ShopMainFrame extends JFrame {
 		northMenuPanel.add(searchImageLabel);
 
 		/************ Service객체멤버변수초기화 ************/
-		
+		ms = new MemberService();
+		ps = new ProductSevrice();
+		os = new OrderService();
+		cs = new CartService();
 		/*************************************************/
 		try {
 			/************ 인기견리스트보여주기 ************/
