@@ -170,7 +170,7 @@ public class OrderDao {
 			/*
 			 *  "select * from orders where member_id=?"
 			 */
-			pstmt1 = con.prepareStatement(OrderSQL.ORDER_SELECT_BY_MEMBER_ID);
+			pstmt1 = con.prepareStatement(OrderSQL.ORDER_SELECT_WITH_ORDERITEM_BY_MEMBER_ID);
 			pstmt1.setString(1, member_Id);
 			rs1 = pstmt1.executeQuery();
 			while (rs1.next()) {

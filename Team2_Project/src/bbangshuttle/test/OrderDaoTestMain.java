@@ -13,16 +13,13 @@ public class OrderDaoTestMain {
 		
 		//System.out.println(orderDao.findByOrderNo(1));
 		
-		System.out.println(orderDao.findOrderWithOrderItemMemberId("leeshuttle22"));
+		//System.out.println(orderDao.findOrderByMemberId("choishuttle44"));
+		
+		System.out.println(orderDao.findOrderWithOrderItemMemberId("kimshuttle11"));
 		
 		
 		
-		/*
-		 * 1.상품에서직접주문
-		 */
-		/*
-		 * 2.cart에서 주문
-		 */
+		
 	}
 
 }
