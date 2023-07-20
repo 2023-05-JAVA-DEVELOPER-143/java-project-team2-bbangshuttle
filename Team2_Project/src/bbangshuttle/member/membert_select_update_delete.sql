@@ -6,7 +6,7 @@ update userinfo set
     member_password='1234',
      member_email='xxxx@naver.com',
     member_address='LA',
-    member_number='010-xxxx-xxxx',
+    member_number='010-xxxx-xxxx'
 where member_id='kimshuttle11';
 
 
