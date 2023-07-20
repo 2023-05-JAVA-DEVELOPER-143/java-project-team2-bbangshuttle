@@ -23,7 +23,21 @@ public class MemberDaoTestMain {
 		System.out.println("3. 회원탈퇴 : " + memberDao.delete("Yoonshuttle166"));
 		*/
 		
-		System.out.println("4. 아이디 찾기 : " + memberDao.findByEmail(""));
+		/*
+		System.out.println("4. 아이디 찾기 : " + memberDao.findByEmail("Yoonshuttle166@gmail.com"));
+		*/
+		
+		/*
+		System.out.println("5. 비밀번호 찾기 : " + memberDao.findById("sdfsadf"));
+		*/
+		
+		/*
+		System.out.println("6. 내 정보 출력 : " + memberDao.showMyInfo("6666"));
+		*/
+		
+		/*
+		System.out.println("7. 회원 목록 전체 출력 : " + memberDao.findAll());
+		*/
 	}
 
 }
