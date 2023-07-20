@@ -238,24 +238,42 @@ public class OrderDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		/*
-		 ORDER_SELECT_WITH_PRODUCT_BY_MEMBER_ID = 
-		 "select * from orders o join order_item oi on o.o_no = oi.o_no  
-		 join  product p on oi.p_no = p.p_no 
-		 where o.member_id = ? and o.o_no = ?"
-		 
-		 35	2023/07/20	112000	파리도좋아하는 바게뜨 외1종	 leeshuttle22
-		 */
+		try {
+			con = dataSource.getConnection();
+			/*
+		 	"select * from orders o join order_item oi on o.o_no = oi.o_no 
+		 	join product p on oi.p_no = p.p_no where o.o_no = ?"
+			*/
+			pstmt = con.prepareStatement(OrderSQL.ORDER_SELECT_WITH_ORDERITEM_BY_O_NO);
+			pstmt.setInt(1, o_no);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				order = new Order(	rs.getInt("o_no"), 
+												rs.getDate("o_date"), 
+												rs.getInt("o_price"), 
+												rs.getString("o_desc"), 
+												rs.getString("member_id"), null);
+				do {
+					order.getOrderItemList()
+					.add(new OrderItem(	rs.getInt("oi_no"), 
+										rs.getInt("oi_qty"), 
+										rs.getInt("o_no"),
+							new Product(rs.getInt("p_no"), 
+										rs.getString("p_name"), 
+										rs.getString("p_desc"), 
+										rs.getString("p_image"), 
+										rs.getInt("price"), 
+										rs.getInt("p_view_count"), 
+										rs.getInt("p_category"))));
+					} while (rs.next());	
+			}
+		} finally {
+			if (con != null) {
+				con.close();		
 		
-		
+			}
+		}
 		return order;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }
