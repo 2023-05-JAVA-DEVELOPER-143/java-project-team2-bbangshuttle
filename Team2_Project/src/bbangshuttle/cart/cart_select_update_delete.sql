@@ -1,11 +1,9 @@
-<<<<<<< HEAD
+
 --leeshuttle22 멤버한사람의 카트아이템리스트
-select * from 
-cart c join userinfo u on c.member_id = u.member_id 
-	   join product p on p.p_no = c.p_no where u.member_id = 'leeshuttle22';
+select * from cart c join userinfo u on c.member_id = u.member_id join product p on p.p_no = c.p_no where u.member_id = 'leeshuttle22';
        
 
-=======
+
 /**********cart insert**********/
 /********cart select *********/
 -- 회원의 전체 주문목록 
@@ -19,7 +17,7 @@ select * from cart c join product p on c.p_no=p.p_no where c.member_id ='kimshut
 
 update cart set cart_qty = cart_qty+10 where member_id ='kimshuttle11'  and p_no = 1 ;
 
-update cart set cart_qty = cart_qty-7 where member_id ='kimshuttle11'  and p_no = 1 ;
+update cart set cart_qty = cart_qty 15 where member_id ='kimshuttle11'  and p_no = 1 ;
 -- 회원의 전체주문 업데이트
 
 update cart set cart_qty = cart_qty+7 where member_id ='kimshuttle11' ;
