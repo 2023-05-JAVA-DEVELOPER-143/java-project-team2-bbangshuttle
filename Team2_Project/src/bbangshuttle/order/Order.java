@@ -37,7 +37,12 @@ public class Order {
 		this.o_price = o_price;
 		this.o_desc = o_desc;
 		this.member_id = member_id;
-		this.orderItemList = orderItemList;
+		if(orderItemList != null) {
+			this.orderItemList = orderItemList;
+		} else {
+			this.orderItemList = new ArrayList<OrderItem>();
+		}
+		
 	}
 
 	public int getO_no() {
