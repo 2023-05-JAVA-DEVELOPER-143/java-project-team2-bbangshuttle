@@ -30,11 +30,18 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
+import bbangshuttle.member.MemberService;
+import bbangshuttle.order.OrderService;
+import bbangshuttle.product.ProductSevrice;
 
 public class ShopMainFrame extends JFrame {
 	/************ 1.Service객체멤버변수선언 ************/
-	
+	MemberService ms;
+	OrderService os;
+	ProductSevrice ps;
+	CartService cs;
 	/**************************************************/
 
 	/***** 2.로그인한User객체저장할 User객체선언 *******/
@@ -783,7 +790,10 @@ public class ShopMainFrame extends JFrame {
 		northMenuPanel.add(searchImageLabel);
 
 		/************ Service객체멤버변수초기화 ************/
-		
+		ms = new MemberService();
+		ps = new ProductSevrice();
+		os = new OrderService();
+		cs = new CartService();
 		/*************************************************/
 		try {
 			/************ 인기견리스트보여주기 ************/

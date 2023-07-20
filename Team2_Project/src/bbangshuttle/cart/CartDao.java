@@ -63,9 +63,11 @@ public class CartDao {
 		pstmt.setInt(1, cart_qty);
 		pstmt.setString(2, member_id);
 		pstmt.setInt(3, p_no);
-		int update = pstmt.executeUpdate();
-		
+
+		int update= pstmt.executeUpdate();
+
 		return update;
+
 
 	}
 
