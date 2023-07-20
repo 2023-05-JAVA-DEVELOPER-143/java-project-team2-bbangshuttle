@@ -15,7 +15,7 @@ select * from cart c join product p on c.p_no=p.p_no where c.member_id ='kimshut
 -- 회원 한개주문 업데이트
 update cart set cart_qty = cart_qty+10 where member_id ='kimshuttle11'  and p_no = 1 ;
 -- 회원 한개주문 업데이트 2
-update cart set cart_qty =15 where member_id ='kimshuttle11'  and p_no = 1 ;
+update cart set cart_qty =15 where member_id ='leeshuttle22'  and p_no = 1 ;
 -- 회원의 전체주문 업데이트
 update cart set cart_qty = cart_qty+7 where member_id ='kimshuttle11' ;
 
