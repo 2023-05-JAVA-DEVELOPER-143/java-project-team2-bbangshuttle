@@ -23,7 +23,12 @@ public class MemberSQL {
 	
 	public static final String MEMBER_FIND_PW=
 			"select member_password from userinfo where member_id=?";
+<<<<<<< HEAD
+	public static final String MEMBER_LOGIN=
+			"select member_Id,member_password from userinfo where member_Id=?,member_password=?";
+=======
 			// 비밀번호 찾기 (멤버 아이디 입력 후, 비밀번호 출력) 
+>>>>>>> branch 'main' of https://github.com/2023-05-JAVA-DEVELOPER-143/java-project-team2-bbangshuttle.git
 	
 	public static final String MEMBER_FIND_MYINFO = 
 			"select member_id, member_email, member_address, member_birth, member_number, member_regdate, member_point from userinfo where member_password=?";

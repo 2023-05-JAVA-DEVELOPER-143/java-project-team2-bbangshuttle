@@ -19,16 +19,17 @@ public class CartDao {
 	// 회원 장바구니 한개 주문목록
 	public Cart cartSelectNo(int p_no , String member_id)throws Exception {
 		Cart cart=null;
+		Product product =null;
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(CartSQL.CART_MEMVERID_SELECT_BY_NO);
-		pstmt.setString(p_no, member_id);
-		pstmt.setInt(p_no, p_no);
+		pstmt.setString(1, member_id);
+		pstmt.setInt(2, p_no);
+		
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()) {
-			cart=new Cart(rs.getInt("c_no"),rs.getInt("p_qty"),rs.getString("member_id"),
+			cart= new Cart(rs.getInt("cart_no"),rs.getInt("cart_qty"), rs.getString("member_id"),
 					new Product(rs.getInt("p_no"),rs.getString("p_name"),rs.getString("p_desc"),
-							rs.getString("p_image"),rs.getInt("price"),rs.getInt("p_view_count"),
-							rs.getInt("p_category")));
+					rs.getString("p_image"),rs.getInt("p_price"),rs.getInt("p_view_count"),rs.getInt("p_category")));
 		}
 		
 		return cart;
