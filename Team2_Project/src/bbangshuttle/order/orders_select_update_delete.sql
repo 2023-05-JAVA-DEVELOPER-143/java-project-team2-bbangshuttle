@@ -21,5 +21,3 @@ delete from orders where o_no = 7;
 --2. 멤버 한사람의(leeshuttle22) 주문내역 전체삭제
 delete from order_item where o_no in(select o_no from orders where member_id='leeshuttle22');
 delete from orders where member_id = 'leeshuttle22';
-
-
