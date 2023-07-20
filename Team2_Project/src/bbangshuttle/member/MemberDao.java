@@ -15,7 +15,7 @@ public class MemberDao {
 		dataSource = new DataSource();
 	}
 
-	// 회원추가
+	// 회원가입
 	public int insert(Member member) throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_INSERT);
@@ -32,7 +32,7 @@ public class MemberDao {
 		return rowCount;
 	}
 
-	// 회원정보갱신
+	// 회원정보수정
 	public int update(Member member) throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_UPDATE);
@@ -46,7 +46,7 @@ public class MemberDao {
 		return rowCount;
 	}
 
-	// 회원삭제
+	// 회원탈퇴
 	public int delete(String memberId) throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_DELETE);
@@ -57,29 +57,34 @@ public class MemberDao {
 		return rowCount;
 	}
 	
-	 // 아이디찾기
-	public String findByID(String memberName) throws Exception{
+	 // 이메일 입력 후, 아이디 찾기
+	public String findByID(String memberEmail) throws Exception{
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_FIND_ID);
-		pstmt.setString(1, memberName);
+		pstmt.setString(1, memberEmail);
 		ResultSet rs = pstmt.executeQuery();
-		String id = null;
-		if (rs.next()) {
-				id = rs.getString("member_id");
-			
+		String memberId = null;
+		if(rs.next()) {
+			memberId = rs.getString("member_id");
 		}
-		return id;
+		return memberId;
 	}
-	public int insert() throws Exception {
+	
+	// 회원가입 시, 아이디 중복 체크
+	public int overlapCheckById(String memberId) throws Exception {
 		Connection con = dataSource.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(null);
-		
-		
-		int rowCount = pstmt.executeUpdate();
-		pstmt.close();
-		dataSource.close(con);
-		return rowCount;
+		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_SELETE_BY_ID_COUNT);
+		pstmt.setString(1, memberId);
+		ResultSet rs = pstmt.executeQuery();
+		rs.next();
+		int userCount = rs.getInt(1);
+		return userCount;
 	}
-
 	
 }
+	
+	
+	
+
+	
+
