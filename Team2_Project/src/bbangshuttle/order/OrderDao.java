@@ -7,11 +7,21 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import bbangshuttle.common.DataSource;
 
+import bbangshuttle.common.DataSource;
+/*	
+ 	Dao 클래스 기본 메소드 
+ 	insert
+	selectByNo or selectById
+	selectAll
+	updateById or updateByNo
+	deleteById or updateByNo
+ 
+ */
 public class OrderDao {
 	
 	private DataSource dataSource;
+	// 카트, 상품도 추가
 	
 	public OrderDao() throws Exception {
 		dataSource = new DataSource();
@@ -149,7 +159,27 @@ public class OrderDao {
 		return orderList;
 	}
 	
-
+	
+	/*
+	 * 주문 1개 보기 (주문 상세 리스트)
+	 */
+	public Order findByOrderNo(int o_no) throws Exception {
+		Order order = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		
+		
+		
+		return order;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 }
