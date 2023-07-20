@@ -31,7 +31,7 @@ public class MemberDao {
 		con.close();
 		return rowCount;
 	}
-
+	
 	// 회원정보수정
 	public int update(Member member) throws Exception {
 		Connection con = dataSource.getConnection();
@@ -100,8 +100,8 @@ public class MemberDao {
 					rs.getString("member_address"),
 					rs.getString("member_birth"),
 					rs.getString("member_number"),
-					rs.getDate("member_regdate"),
-					rs.getInt("memner_point"));
+					rs.getDate("member_regdate"), 
+					rs.getInt("memner_point")); 
 		}
 		return member;
 	}
