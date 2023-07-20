@@ -26,6 +26,7 @@ update cart set cart_qty = cart_qty+7 where member_id ='kimshuttle11' ;
 
 delete from cart where member_id='kimshuttle11';
 
+
 --�회원 삭제할 품목 선택삭제
 delete from cart where member_id='kimshuttle11' and p_no=1;
 
