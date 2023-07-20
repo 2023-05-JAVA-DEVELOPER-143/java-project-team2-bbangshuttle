@@ -10,7 +10,7 @@ public class MemberSQL {
 			// 회원탈퇴 (멤버 삭제하기)
 	
 	public static final String MEMBER_UPDATE=
-			"update userinfo set member_password=?, member_email=?, member_address=?, member_number=?";
+			"update userinfo set member_password=?, member_email=?, member_address=?, member_number=? where member_id=?";
 			// 회원정보수정 (멤버 정보 업데이트)
 	
 	public static final String MEMBER_SELECT_BY_ALL=
