@@ -8,7 +8,7 @@ public class MemberSQL {
 	public static final String MEMBER_SELECT_BY_ID=
 			"select * from userinfo where member_id=?";
 	public static final String MEMBER_UPDATE=
-			"update userinfo set member_password=?,member_name=?,member_email=?,member_address=?,member_birth=?,member_number=?,member_regdate=sysdate,member_point=0 where member_id=?";
+			"update userinfo set member_password=?, member_email=?, member_address=?, member_number=?";
 	public static final String MEMBER_SELECT_BY_ALL=
 			"select * from userinfo";
 	public static final String MEMBER_FIND_ID=
