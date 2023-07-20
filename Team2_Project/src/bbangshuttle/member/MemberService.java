@@ -34,8 +34,8 @@ public class MemberService {
 		int result=0;
 		if(memberDao.CountUserId(memberId)==1) {
 			//아이디존재하는경우
-			Member loginMember = memberDao.showMyInfo(password);
-			if(loginMember.getMemberPassword().equals(password)) {
+			String memberid = memberDao.findById(memberId);
+			if(memberid.equals(password)) {
 				//패스워드일치
 				result=1;
 			}else {
