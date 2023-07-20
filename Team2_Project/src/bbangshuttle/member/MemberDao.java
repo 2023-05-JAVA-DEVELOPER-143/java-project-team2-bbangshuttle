@@ -85,7 +85,7 @@ public class MemberDao {
 	}
 	
 	// 내 정보 출력 (비밀번호 입력 후 출력)
-	public String showMyInfo(String memberPassword) throws Exception {
+	public Member showMyInfo(String memberPassword) throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_FIND_MYINFO);
 		pstmt.setString(1, memberPassword);
@@ -94,13 +94,16 @@ public class MemberDao {
 		if(rs.next()) {
 			member = new Member(
 					rs.getString("member_id"),
+					rs.getString("member_password"),
+					rs.getString("member_name"),
 					rs.getString("member_email"),
 					rs.getString("member_address"),
 					rs.getString("member_birth"),
 					rs.getString("member_number"),
 					rs.getDate("member_regdate"),
-					rs.getInt("memner_point")	)
-		return 0;
+					rs.getInt("memner_point"));
+		}
+		return member;
 	}
 	
 	
