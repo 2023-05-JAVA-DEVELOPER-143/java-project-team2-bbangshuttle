@@ -30,11 +30,18 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
+import bbangshuttle.member.MemberService;
+import bbangshuttle.order.OrderService;
+import bbangshuttle.product.ProductSevrice;
 
 public class ShopMainFrame extends JFrame {
 	/************ 1.Service객체멤버변수선언 ************/
-	
+	MemberService ms;
+	OrderService os;
+	ProductSevrice ps;
+	CartService cs;
 	/**************************************************/
 
 	/***** 2.로그인한User객체저장할 User객체선언 *******/
