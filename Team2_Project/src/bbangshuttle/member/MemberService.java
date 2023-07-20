@@ -7,6 +7,7 @@ import java.util.List;
 
 public class MemberService {
 	private MemberDao memberDao;
+	
 	public MemberService() throws Exception{
 		memberDao=new MemberDao();
 	}
@@ -15,7 +16,7 @@ public class MemberService {
 	 */
 	public int addMember(Member member) throws Exception{
 		//1.아이디중복체크
-		if(memberDao.overlapCheckById(member.getMemberId())>=1) {
+		if(memberDao.CountUserId(member.getMemberId())>=1) {
 			//중복
 			return -1;
 		}else {
@@ -31,7 +32,7 @@ public class MemberService {
 	public int login(String memberId,String password)throws Exception{
 		// 0:실패 1:성공
 		int result=0;
-		if(memberDao.overlapCheckById(memberId)==1) {
+		if(memberDao.CountUserId(memberId)==1) {
 			//아이디존재하는경우
 			Member loginMember = memberDao(memberId);
 			if(loginMember.getMemberPassword().equals(password)) {
@@ -49,11 +50,12 @@ public class MemberService {
 	}
 	
 	
+	
 	/*
 	 * 회원아이디중복체크
 	 */
 	public boolean isDuplicatedId(String memberId) throws Exception{
-		if(memberDao.overlapCheckById(memberId)>=1) {
+		if(memberDao.CountUserId(memberId)>=1) {
 			return true;
 		}else {
 			return false;
@@ -65,7 +67,7 @@ public class MemberService {
 	 * 회원상세보기
 	 */
 	public String memberDetail(String memberId) throws Exception{
-		return memberDao.findByID(memberId);
+		return memberDao(memberId);
 	}
 	/*
 	 * 회원수정
