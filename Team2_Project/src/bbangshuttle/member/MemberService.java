@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-
-
 public class MemberService {
 	private MemberDao memberDao;
 	public MemberService() throws Exception{
@@ -15,36 +13,53 @@ public class MemberService {
 	/*
 	 * 회원가입
 	 */
-	/*public int addMember(Member member) throws Exception{
+	public int addMember(Member member) throws Exception{
 		//1.아이디중복체크
-		int userCount = rs.getInt(1);
-		return userCount;
-	} */
-	
-	
-	
-	
-	
+		if(memberDao.overlapCheckById(member.getMemberId())>=1) {
+			//중복
+			return -1;
+		}else {
+			//가입
+			int rowCount=memberDao.insert(member);
+			return rowCount;
+		}
+	} 
 	
 	/*
 	 * 회원로그인
 	 */
-	/*public int login(String memberID,String password)throws Exception{
+	public int login(String memberId,String password)throws Exception{
 		// 0:실패 1:성공
 		int result=0;
-		if(memberDao.)
-	}*/
-	
-
+		if(memberDao.overlapCheckById(memberId)==1) {
+			//아이디존재하는경우
+			Member loginMember = memberDao.findByID(memberId);
+			if(loginMember.getMemberPassword().equals(password)) {
+				//패스워드일치
+				result=1;
+			}else {
+				//패스워드불일치
+				result=0;
+			}
+		}else {
+			//회원이 아닌경우
+			result=0;
+		}
+		return result;
+	}
 	
 	
 	/*
 	 * 회원아이디중복체크
 	 */
-	/*public boolean isDuplicatedId(String memberId) throws Exception{
-		if(memberDao.)
-	}*/
-	
+	public boolean isDuplicatedId(String memberId) throws Exception{
+		if(memberDao.overlapCheckById(memberId)>=1) {
+			return true;
+		}else {
+			return false;
+		}
+			
+	}
 	
 	/*
 	 * 회원상세보기
