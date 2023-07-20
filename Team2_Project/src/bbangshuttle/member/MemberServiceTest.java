@@ -18,14 +18,28 @@ public class MemberServiceTest {
 
 		//3.회원아이디중복체크
 		System.out.println("3.회원아이디중복체크");
-        String testId = "sdfsadf";
-        boolean isDuplicated = memberService.isDuplicatedId(testId);
-        System.out.println(">>>> ID '" + testId + "' is " + (isDuplicated ? "duplicated" : "unique"));
+        String testId1 = "sdfsadf";
+       // String testId2 = "iwantgohome";
+        boolean isDuplicated = memberService.isDuplicatedId(testId1);
+       // boolean isDuplicated = memberService.isDuplicatedId(testId2);
+        System.out.println(">>>> ID '" + testId1 + "' is " + (isDuplicated ? "중복" : "가입가능"));
+       // System.out.println(">>>> ID '" + testId2 + "' is " + (isDuplicated ? "중복" : "가입가능"));
 		//4.회원상세보기
+		System.out.println("4.회원상세보기");
+		String memberPassword = "asdfasdf";
+		Member member = memberService.memberDetail(memberPassword);
+		System.out.println(">>>회원정보:" + member.toString());
 		
 		//5.회원수정
+		System.out.println("5. 회원수정");
+		Member updateMember = memberService.memberDetail("6666");
+	      updateMember.setMemberAddress("아이티윌 학원");
+	        System.out.println("회원수정 : " + memberService.memberUpdate(updateMember));
+        
 		//6.회원탈퇴
+		System.out.println("6. 회원탈퇴");
+		String memberId = "sdfsadf";
+		int deleteCount = memberService.memberDelete(memberId);
+        System.out.println(">>>> 삭제된 회원 수: " + deleteCount);
 	}
-	
-	
-}
+}	
