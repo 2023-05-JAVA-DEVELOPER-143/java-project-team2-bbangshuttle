@@ -34,7 +34,7 @@ public class MemberService {
 		int result=0;
 		if(memberDao.CountUserId(memberId)==1) {
 			//아이디존재하는경우
-			Member loginMember = memberDao(memberId);
+			Member loginMember = memberDao.showMyInfo(password);
 			if(loginMember.getMemberPassword().equals(password)) {
 				//패스워드일치
 				result=1;
@@ -66,8 +66,8 @@ public class MemberService {
 	/*
 	 * 회원상세보기
 	 */
-	public String memberDetail(String memberId) throws Exception{
-		return memberDao(memberId);
+	public Member memberDetail(String memberPassword) throws Exception{
+		return memberDao.showMyInfo(memberPassword);
 	}
 	/*
 	 * 회원수정
@@ -81,9 +81,5 @@ public class MemberService {
 	public int memberDelete(String memberId) throws Exception{
 		return memberDao.delete(memberId);
 	}
-	/*
-	 * 회원로그아웃
-	 */
-	public void logout() {}
 	
 }

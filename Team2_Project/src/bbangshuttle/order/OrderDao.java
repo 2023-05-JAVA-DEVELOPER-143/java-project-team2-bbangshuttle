@@ -170,7 +170,7 @@ public class OrderDao {
 			/*
 			 *  "select * from orders where member_id=?"
 			 */
-			pstmt1 = con.prepareStatement(OrderSQL.ORDER_SELECT_BY_MEMBER_ID);
+			pstmt1 = con.prepareStatement(OrderSQL.ORDER_SELECT_WITH_ORDERITEM_BY_MEMBER_ID);
 			pstmt1.setString(1, member_Id);
 			rs1 = pstmt1.executeQuery();
 			while (rs1.next()) {
@@ -213,7 +213,7 @@ public class OrderDao {
 											rs2.getString("p_name"), 
 											rs2.getString("p_desc"), 
 											rs2.getString("p_image"), 
-											rs2.getInt("price"), 
+											rs2.getInt("p_price"), 
 											rs2.getInt("p_view_count"), 
 											rs2.getInt("p_category"))));
 						} while (rs2.next());	
@@ -262,7 +262,7 @@ public class OrderDao {
 										rs.getString("p_name"), 
 										rs.getString("p_desc"), 
 										rs.getString("p_image"), 
-										rs.getInt("price"), 
+										rs.getInt("p_price"), 
 										rs.getInt("p_view_count"), 
 										rs.getInt("p_category"))));
 					} while (rs.next());	
