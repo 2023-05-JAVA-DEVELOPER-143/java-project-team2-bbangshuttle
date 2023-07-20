@@ -24,7 +24,8 @@ public class MemberDao {
 		pstmt.setString(3, member.getMemberName());
 		pstmt.setString(4, member.getMemberEmail());
 		pstmt.setString(5, member.getMemberAddress());
-		pstmt.setString(6, member.getMemberNumber());
+		pstmt.setString(6, member.getMemberBirth());
+		pstmt.setString(7, member.getMemberNumber());
 		int rowCount = pstmt.executeUpdate();
 		pstmt.close();
 		con.close();
@@ -35,11 +36,10 @@ public class MemberDao {
 	public int update(Member member) throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_UPDATE);
-		pstmt.setString(1, member.getMemberName());
-		pstmt.setString(2, member.getMemberAddress());
-		pstmt.setString(3, member.getMemberEmail());
+		pstmt.setString(1, member.getMemberPassword());
+		pstmt.setString(2, member.getMemberEmail());
+		pstmt.setString(3, member.getMemberAddress());
 		pstmt.setString(4, member.getMemberNumber());
-
 		int rowCount = pstmt.executeUpdate();
 		pstmt.close();
 		con.close();
@@ -83,4 +83,3 @@ public class MemberDao {
 
 	
 }
-

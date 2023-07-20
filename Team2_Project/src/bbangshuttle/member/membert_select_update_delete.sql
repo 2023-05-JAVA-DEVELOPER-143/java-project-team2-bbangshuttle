@@ -4,13 +4,9 @@ delete from userinfo where member_id='kimshuttle11';
 -- update
 update userinfo set 
     member_password='1234',
-    member_name='김변경',
-    member_email='kimbyun11',
+     member_email='xxxx@naver.com',
     member_address='LA',
-    member_birth='1940/02/01',
-    member_number='010-xxxx-xxxx',
-    member_regdate=sysdate,
-    member_point=0
+    member_number='010-xxxx-xxxx'
 where member_id='kimshuttle11';
 
 
@@ -41,4 +37,3 @@ from userinfo;
 commit;
 
 desc userinfo;
-
