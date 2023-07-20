@@ -7,3 +7,5 @@ public class MemberSQL {
 	public static final String MEMBER_UPDATE="update userinfo set password=?,name=?,email=? where userid=?";
 	public static final String MEMBER_SELECT_BY_ID_COUNT="select count(*) as cnt  from userinfo where userid=?";
 }
+
+
