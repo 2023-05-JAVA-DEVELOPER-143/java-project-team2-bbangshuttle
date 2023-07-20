@@ -35,7 +35,9 @@ public class MemberDaoTestMain {
 		System.out.println("6. 내 정보 출력 : " + memberDao.showMyInfo("6666"));
 		*/
 		
+		/*
 		System.out.println("7. 회원 목록 전체 출력 : " + memberDao.findAll());
+		*/
 	}
 
 }
