@@ -17,3 +17,5 @@ public class MemberSQL {
 			"select member_password from userinfo where member_id=?";
 	
 }
+
+
