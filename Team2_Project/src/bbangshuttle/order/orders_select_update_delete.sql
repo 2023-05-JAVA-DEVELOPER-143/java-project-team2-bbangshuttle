@@ -22,5 +22,4 @@ delete from orders where o_no = 7;
 delete from order_item where o_no in(select o_no from orders where member_id='leeshuttle22');
 delete from orders where member_id = 'leeshuttle22';
 
-
-
+-- 제발 올라가주라
