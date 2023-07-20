@@ -15,7 +15,7 @@ public class OrderDaoTestMain {
 		
 		System.out.println(orderDao.findOrderByMemberId("choishuttle44"));
 		
-		System.out.println(orderDao.findOrderWithOrderItemMemberId("kimshuttle11"));
+		//System.out.println(orderDao.findOrderWithOrderItemMemberId("kimshuttle11"));
 		
 		
 		
