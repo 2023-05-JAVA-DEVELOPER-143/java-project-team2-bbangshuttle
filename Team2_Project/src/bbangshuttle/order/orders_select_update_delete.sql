@@ -23,4 +23,7 @@ delete from order_item where o_no in(select o_no from orders where member_id='le
 delete from orders where member_id = 'leeshuttle22';
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'main' of https://github.com/2023-05-JAVA-DEVELOPER-143/java-project-team2-bbangshuttle.git

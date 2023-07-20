@@ -56,9 +56,8 @@ public class memberDao {
 		con.close();
 		return rowCount;
 	}
-	/*
-	 아이디찾기
-	 */
+	
+	 // 아이디찾기
 	public String findByID(String memberName) throws Exception{
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(MemberSQL.MEMBER_FIND_ID);
@@ -71,7 +70,6 @@ public class memberDao {
 		}
 		return id;
 	}
-	
 	public int insert() throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(null);
@@ -82,7 +80,7 @@ public class memberDao {
 		dataSource.close(con);
 		return rowCount;
 	}
-	
 
 	
-};
+}
+

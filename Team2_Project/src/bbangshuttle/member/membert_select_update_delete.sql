@@ -39,5 +39,6 @@ select member_id,
 from userinfo;
 
 commit;
+
 desc userinfo;
-;
+
