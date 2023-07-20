@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-import com.itwill.shop.user.UserSQL;
 
 
 public class MemberService {
@@ -36,6 +35,7 @@ public class MemberService {
 		if(memberDao.)
 	}*/
 	
+
 	
 	
 	/*
