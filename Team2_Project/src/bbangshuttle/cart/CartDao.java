@@ -64,13 +64,8 @@ public class CartDao {
 		pstmt.setInt(1, cart_qty);
 		pstmt.setString(2, member_id);
 		pstmt.setInt(3, p_no);
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next()) {
-			cart = new Cart(rs.getInt("cart_no"), rs.getInt("cart_qty"), rs.getString("member_id"),
-					new Product(rs.getInt("p_no"), rs.getString("p_name"), rs.getString("p_desc"),
-							rs.getString("p_image"), rs.getInt("p_price"), rs.getInt("p_view_count"),
-							rs.getInt("p_category")));
-		}
+		int update= pstmt.executeUpdate();
+		
 
 		return cart;
 	}//" "회원 장바구니 품목 전체 변경
