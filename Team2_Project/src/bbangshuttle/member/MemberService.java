@@ -15,16 +15,17 @@ public class MemberService {
 	 * 회원가입
 	 */
 	public int addMember(Member member) throws Exception{
-		//1.아이디중복체크
-		if(memberDao.CountUserId(member.getMemberId())>=1) {
-			//중복
-			return -1;
-		}else {
-			//가입
-			int rowCount=memberDao.insert(member);
-			return rowCount;
-		}
-	} 
+			//1.아이디중복체크
+			if(memberDao.CountUserId(member.getMemberId())>=1) {
+				//중복
+				return -1;
+			}else {
+				//가입
+				int rowCount=memberDao.insert(member);
+				return rowCount;
+			}
+		} 
+
 	
 	/*
 	 * 회원로그인

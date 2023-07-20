@@ -1,6 +1,7 @@
 package bbangshuttle.member;
 
 public class MemberSQL {
+	
 	public static final String  MEMBER_INSERT=
 			"insert into userinfo(member_id,member_password,member_name,member_email,member_address,member_birth,member_number,member_regdate,member_point) values(?,?,?,?,?,?,?,sysdate,0)";
 			// 회원가입 (멤버 집어넣기)
@@ -37,6 +38,7 @@ public class MemberSQL {
 			"select count(*) as cnt  from userinfo where member_id=?";
 			// 아이디 중복 체크 (멤버 아이디 입력 후, 사용자 존재여부 확인)
 	
+
 }
 
 

@@ -123,7 +123,7 @@ public class MemberDao {
 					rs.getString("member_birth"),
 					rs.getString("member_number"),
 					rs.getDate("member_regdate"),
-					rs.getInt("memner_point"))
+					rs.getInt("member_point"))
 					);
 		}
 		return memberList;
