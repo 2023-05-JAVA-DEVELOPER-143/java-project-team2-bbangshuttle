@@ -17,7 +17,12 @@ public class MemberServiceTest {
 		System.out.println(">>>>"+rowCount);
 		System.out.println();
 		//3.회원아이디중복체크
+		System.out.println("3.회원아이디중복체크");
+        String testId = "sdfsadf";
+        boolean isDuplicated = memberService.isDuplicatedId(testId);
+        System.out.println(">>>> ID '" + testId + "' is " + (isDuplicated ? "duplicated" : "unique"));
 		//4.회원상세보기
+		
 		//5.회원수정
 		//6.회원탈퇴
 	}
