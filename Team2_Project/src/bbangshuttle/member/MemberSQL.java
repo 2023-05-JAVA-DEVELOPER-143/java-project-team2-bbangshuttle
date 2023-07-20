@@ -30,7 +30,7 @@ public class MemberSQL {
 			// 로그인 (멤버 아이디, 비밀번호 입력 후 로그인 성공)
 	
 	public static final String MEMBER_FIND_MYINFO = 
-			"select member_id, member_email, member_address, member_birth, member_number, member_regdate, member_point from userinfo where member_password=?";
+			"select member_id, member_password, member_name,member_email, member_address, member_birth, member_number, member_regdate, member_point from userinfo where member_password=?";
 			// 내정보 (멤버 비밀번호 입력 후, 내 정보 출력)
 	
 	public static final String MEMBER_SELETE_BY_ID_COUNT =
