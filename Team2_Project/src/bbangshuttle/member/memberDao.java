@@ -83,21 +83,7 @@ public class memberDao {
 		return rowCount;
 	}
 	
-	public int delete() throws Exception {
-		return 0;
-	}
 	
-	public int update() throws Exception {
-		return 0;
-	}
-	
-	public int select() throws Exception {
-		return 0;
-	}
-	
-	public int findAll() throws Exception {
-		return 0;
-	}
 	
 
 };
