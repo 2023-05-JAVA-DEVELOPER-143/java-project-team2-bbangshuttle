@@ -34,7 +34,7 @@ public class MemberService {
 		int result=0;
 		if(memberDao.CountUserId(memberId)==1) {
 			//아이디존재하는경우
-			Member loginMember = memberDao(memberId);
+			Member loginMember = memberDao.CountUserId(memberId);
 			if(loginMember.getMemberPassword().equals(password)) {
 				//패스워드일치
 				result=1;
