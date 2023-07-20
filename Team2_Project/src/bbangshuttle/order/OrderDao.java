@@ -262,7 +262,7 @@ public class OrderDao {
 										rs.getString("p_name"), 
 										rs.getString("p_desc"), 
 										rs.getString("p_image"), 
-										rs.getInt("price"), 
+										rs.getInt("p_price"), 
 										rs.getInt("p_view_count"), 
 										rs.getInt("p_category"))));
 					} while (rs.next());	
