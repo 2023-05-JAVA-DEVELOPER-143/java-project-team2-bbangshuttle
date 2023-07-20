@@ -63,14 +63,11 @@ public class CartDao {
 		pstmt.setInt(1, cart_qty);
 		pstmt.setString(2, member_id);
 		pstmt.setInt(3, p_no);
-<<<<<<< HEAD
+
 		int update= pstmt.executeUpdate();
-		
-=======
-		int update = pstmt.executeUpdate();
-		
+
 		return update;
->>>>>>> branch 'main' of https://github.com/2023-05-JAVA-DEVELOPER-143/java-project-team2-bbbb.git
+
 
 	}
 
