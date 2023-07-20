@@ -22,7 +22,7 @@ public class Member {
 	}
 
 	public Member(String memberId, String memberPassword, String memberName, String memberEmail, String memberAddress,
-			String memberBirth, String memberNumber, Date memberRegdate, int memberPoint, Order orderDetails,
+			String memberBirth, String memberNumber, Date memberRegdate, int memberPoint, 
 			String customerService) {
 		super();
 		this.memberId = memberId;

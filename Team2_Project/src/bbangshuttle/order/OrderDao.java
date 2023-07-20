@@ -10,15 +10,7 @@ import java.util.List;
 
 import bbangshuttle.common.DataSource;
 import bbangshuttle.product.Product;
-/*	
- 	Dao 클래스 기본 메소드 
- 	insert
-	selectByNo or selectById
-	selectAll
-	updateById or updateByNo
-	deleteById or updateByNo
- 
- */
+
 public class OrderDao {
 	
 	private DataSource dataSource;
@@ -164,7 +156,7 @@ public class OrderDao {
 	 * 주문 + 주문아이템들 전체 (특정사용자)
 	 */
 	
-	public List<Order> findOrderWithOrderItemMemberId(String memberId) throws Exception {
+	public List<Order> findOrderWithOrderItemMemberId(String member_Id) throws Exception {
 		
 		List<Order> orderList = new ArrayList<Order>();
 		Connection con = null;
@@ -179,7 +171,7 @@ public class OrderDao {
 			 *  "select * from orders where member_id=?"
 			 */
 			pstmt1 = con.prepareStatement(OrderSQL.ORDER_SELECT_BY_MEMBER_ID);
-			pstmt1.setString(1, memberId);
+			pstmt1.setString(1, member_Id);
 			rs1 = pstmt1.executeQuery();
 			while (rs1.next()) {
 				orderList.add(new Order(rs1.getInt("o_no"), rs1.getDate("o_date"), 
@@ -187,7 +179,7 @@ public class OrderDao {
 						rs1.getString("member_id"), null));
 			}
 			
-			pstmt2 = con.prepareStatement(OrderSQL.ORDER_SELECT_WITH_PRODUCT_BY_MEMBER_ID);
+			pstmt2 = con.prepareStatement(OrderSQL.ORDER_SELECT_WITH_ORDERITEM_BY_O_NO);
 			
 			for (int i = 0; i < orderList.size(); i++) {
 				Order tempOrder = orderList.get(i);		
@@ -207,21 +199,21 @@ public class OrderDao {
 				 */
 				Order orderWithOrderItem = null;
 				if (rs2.next()) {
-					orderWithOrderItem = new Order(	rs2.getInt("O_NO"), 
-													rs2.getDate("O_DATE"), 
-													rs2.getInt("O_PRICE"), 
-													rs2.getString("O_DESC"), 
-													rs2.getString("MEMBER_ID"), null);
+					orderWithOrderItem = new Order(	rs2.getInt("o_no"), 
+													rs2.getDate("o_date"), 
+													rs2.getInt("o_price"), 
+													rs2.getString("o_desc"), 
+													rs2.getString("member_id"), null);
 					do {
 						orderWithOrderItem.getOrderItemList()
-						.add(new OrderItem(	rs2.getInt("OI_NO"), 
-											rs2.getInt("OI_QTY"), 
-											rs2.getInt("O_NO"),
+						.add(new OrderItem(	rs2.getInt("oi_no"), 
+											rs2.getInt("oi_qty"), 
+											rs2.getInt("o_no"),
 								new Product(rs2.getInt("p_no"), 
 											rs2.getString("p_name"), 
-											rs2.getString("p_price"), 
+											rs2.getString("p_desc"), 
 											rs2.getString("p_image"), 
-											rs2.getInt("desc"), 
+											rs2.getInt("price"), 
 											rs2.getInt("p_view_count"), 
 											rs2.getInt("p_category"))));
 						} while (rs2.next());	
@@ -234,23 +226,7 @@ public class OrderDao {
 			}
 		}
 		return orderList;
-	}
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 	
 	
 	/*
