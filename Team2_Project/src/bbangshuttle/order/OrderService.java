@@ -16,7 +16,6 @@ public class OrderService {
 	}
 	
 	//주문 전체 삭제
-	
 	public int deleteAll(String member_Id)throws Exception {
 		return orderDao.deleteByMemberId(member_Id);
 	}
@@ -27,9 +26,25 @@ public class OrderService {
 	}
 	
 	// 주문 목록
-	public List<Order> orderList(String member_Id) throws Exception{
+	public List<Order> orderList(String member_Id) throws Exception {
 		return orderDao.findOrderByMemberId(member_Id);
 	}
+	
+	/*
+	//주문+주문아이템 목록
+	public List<Order> orderWithOrderItemList(String member_Id) throws Exception {
+		return orderDao.findOrderWithOrderItemByMember_Id(member_Id);
+	}
+	*/
+	
+	/*
+	//주문+주문아이템 상세보기
+	public Order orderWithOrderItem(int o_no)throws Exception {
+		return orderDao.findByOrderNo(o_no);
+	}
+	*/
+	
+	
 	
 	
 	

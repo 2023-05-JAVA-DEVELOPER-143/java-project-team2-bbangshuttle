@@ -33,7 +33,7 @@ public class MemberService {
 		int result=0;
 		if(memberDao.overlapCheckById(memberId)==1) {
 			//아이디존재하는경우
-			Member loginMember = memberDao.findByID(memberId);
+			Member loginMember = memberDao(memberId);
 			if(loginMember.getMemberPassword().equals(password)) {
 				//패스워드일치
 				result=1;
