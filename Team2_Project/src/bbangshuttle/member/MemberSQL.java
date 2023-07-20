@@ -1,13 +1,7 @@
 package bbangshuttle.member;
 
 public class MemberSQL {
-
-	public static final String MEMBER_INSERT="insert into userinfo(userid,password,name,email) values(?,?,?,?)";
-	public static final String MEMBER_SELECT_BY_ID="select userid,password,name,email from userinfo where userid=?";
-	public static final String MEMBER_REMOVE="delete from userinfo where userid=?";
-	public static final String MEMBER_UPDATE="update userinfo set password=?,name=?,email=? where userid=?";
-	public static final String MEMBER_SELECT_BY_ID_COUNT="select count(*) as cnt  from userinfo where userid=?";
-
+	
 	public static final String  MEMBER_INSERT=
 			"insert into userinfo(member_id,member_password,member_name,member_email,member_address,member_birth,member_number,member_regdate,member_point) values(?,?,?,?,?,?,?,sysdate,0)";
 			// 회원가입 (멤버 집어넣기)
