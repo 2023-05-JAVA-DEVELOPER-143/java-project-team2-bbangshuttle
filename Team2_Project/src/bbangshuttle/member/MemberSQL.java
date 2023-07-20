@@ -13,6 +13,8 @@ public class MemberSQL {
 			"select member_id from userinfo where member_name=?";
 	public static final String MEMBER_FIND_PW=
 			"select member_password from userinfo where member_id=?";
+	public static final String MEMBER_LOGIN=
+			"select member_Id,member_password from userinfo where member_Id=?,member_password=?";
 	
 }
 
