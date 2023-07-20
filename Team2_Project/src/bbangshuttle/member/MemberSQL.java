@@ -11,5 +11,8 @@ public class MemberSQL {
 			"update userinfo set member_password=?,member_name=?,member_email=?,member_address=?,member_birth=?,member_number=?,member_regdate=sysdate,member_point=0 where member_id=?";
 	public static final String MEMBER_SELECT_BY_ALL=
 			"select * from userinfo";
-
+	public static final String MEMBER_FIND_ID=
+			"select member_id from userinfo where member_name=?";
+	public static final String MEMBER_FIND_PW=
+			"select member_password from userinfo where member_id=?";
 }
