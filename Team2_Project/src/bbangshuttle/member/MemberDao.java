@@ -40,6 +40,7 @@ public class MemberDao {
 		pstmt.setString(2, member.getMemberEmail());
 		pstmt.setString(3, member.getMemberAddress());
 		pstmt.setString(4, member.getMemberNumber());
+		pstmt.setString(5, member.getMemberId());
 		int rowCount = pstmt.executeUpdate();
 		pstmt.close();
 		con.close();
