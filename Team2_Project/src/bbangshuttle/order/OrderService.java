@@ -30,38 +30,22 @@ public class OrderService {
 		return orderDao.findOrderByMemberId(member_Id);
 	}
 	
-	/*
+	
 	//주문+주문아이템 목록
 	public List<Order> orderWithOrderItemList(String member_Id) throws Exception {
-		return orderDao.findOrderWithOrderItemByMember_Id(member_Id);
+		return orderDao.findOrderWithOrderItemMemberId(member_Id);
 	}
-	*/
 	
-	/*
 	//주문+주문아이템 상세보기
 	public Order orderWithOrderItem(int o_no)throws Exception {
 		return orderDao.findByOrderNo(o_no);
 	}
-	*/
 	
 	
 	
 	
 	
 	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}
+	
+}
 
