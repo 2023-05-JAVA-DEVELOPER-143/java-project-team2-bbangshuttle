@@ -1,7 +1,7 @@
 
 /**********************orders select************************/
 --1. 멤버 한사람의(kimshuttle11) 주문전체목록
-select * from orders where member_id = 'kimshuttle11';
+select o_no, o_date, o_price, o_desc, member_Id from orders where member_id = 'kimshuttle11';
 
 --2. 주문한개(멤버 한사람의) 
 select * from orders where o_no = 6;
@@ -23,3 +23,5 @@ delete from orders where o_no = 6;
 --2. 멤버 한사람의(leeshuttle22) 주문내역 전체삭제
 delete from order_item where o_no in(select o_no from orders where member_id='kimshuttle11');
 delete from orders where member_id = 'kimshuttle11';
+
+
