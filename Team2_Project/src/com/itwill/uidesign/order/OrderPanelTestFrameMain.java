@@ -31,11 +31,15 @@ public class OrderPanelTestFrameMain extends JFrame {
 	 */
 	public OrderPanelTestFrameMain() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 493, 617);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		OrderPanel orderPanel = new OrderPanel();
+		orderPanel.setBounds(12, 10, 453, 475);
+		contentPane.add(orderPanel);
 	}
-
 }

@@ -56,6 +56,16 @@ public class ProductPanel extends JPanel {
 				{null, null, null},
 				{null, null, null},
 				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
 			},
 			new String[] {
 				"\uC870\uD68C\uC218", "\uC0C1\uD488\uBA85", "\uAC00\uACA9"
@@ -84,12 +94,22 @@ public class ProductPanel extends JPanel {
 		bakeryPanel.setLayout(null); 
 		
 		JScrollPane bakeryscrollPane = new JScrollPane();
-		bakeryscrollPane.setBounds(12, 103, 394, 231);
+		bakeryscrollPane.setBounds(12, 103, 394, 265);
 		bakeryPanel.add(bakeryscrollPane);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
 				{null, null, null},
 				{null, null, null},
 				{null, null, null},
