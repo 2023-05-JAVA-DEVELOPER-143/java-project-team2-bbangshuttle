@@ -1,13 +1,12 @@
-package com.itwill.uidesign.member2;
+package com.itwill.uidesign.cart;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
 
-public class MemberPanelTestFrameMain extends JFrame {
+public class CartPanelTestFrameMain extends JFrame {
 
 	private JPanel contentPane;
 
@@ -18,7 +17,7 @@ public class MemberPanelTestFrameMain extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MemberPanelTestFrameMain frame = new MemberPanelTestFrameMain();
+					CartPanelTestFrameMain frame = new CartPanelTestFrameMain();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -30,17 +29,13 @@ public class MemberPanelTestFrameMain extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MemberPanelTestFrameMain() {
+	public CartPanelTestFrameMain() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 496, 421);
+		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		MemberPanel memberPanel = new MemberPanel();
-		contentPane.add(memberPanel, BorderLayout.CENTER);
 	}
 
 }
