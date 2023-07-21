@@ -26,7 +26,7 @@ public class MemberPanel extends JPanel {
 	private JTextField idListField;
 	private JPasswordField passwordListField;
 	private JTextField idUpdateField;
-	private JTextField passwordUpdateField;
+	private JTextField passwordUpdateField; 
 	private JTextField nameUpdateField;
 	private JTextField emailUpdateField;
 	private JTextField addressUpdateField;
@@ -256,6 +256,6 @@ public class MemberPanel extends JPanel {
 		JButton checkButton = new JButton("중복확인");
 		checkButton.setBounds(309, 34, 97, 23);
 		memberJoinPanel.add(checkButton);
-
+ 
 	}
 }

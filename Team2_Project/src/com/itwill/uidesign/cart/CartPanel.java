@@ -14,6 +14,9 @@ public class CartPanel extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.EAST);
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.CENTER);
 
 	}
 }

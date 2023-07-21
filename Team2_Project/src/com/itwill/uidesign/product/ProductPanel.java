@@ -30,7 +30,7 @@ public class ProductPanel extends JPanel {
 		JPanel bakeryPanel = new JPanel();
 		bakeryPanel.setBackground(new Color(255, 255, 255));
 		tabbedPane.addTab("베이커리", null, bakeryPanel, null);
-		bakeryPanel.setLayout(null);
+		bakeryPanel.setLayout(null); 
 		
 		JScrollPane bakeryscrollPane = new JScrollPane();
 		bakeryscrollPane.setBounds(12, 103, 394, 231);
