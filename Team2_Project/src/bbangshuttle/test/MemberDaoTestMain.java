@@ -10,8 +10,8 @@ public class MemberDaoTestMain {
 		MemberDao memberDao = new MemberDao();
 		
 		
-		System.out.println("1. 회원가입 : " 
-				+ memberDao.insert(new Member("Yoonshuttle166","6666", "윤셔틀", "Yoonshuttle166@gmail.com", "제주시", "1992/05/06", "010-6666-6666", null, 0)));
+		//System.out.println("1. 회원가입 : " 
+				//+ memberDao.insert(new Member("Yoonshuttle166","6666", "윤셔틀", "Yoonshuttle166@gmail.com", "제주시", "1992/05/06", "010-6666-6666", null, 0)));
 		
 		
 		
@@ -21,19 +21,19 @@ public class MemberDaoTestMain {
 		
 
 		
-		System.out.println("3. 회원탈퇴 : " + memberDao.delete("kimshuttle11"));
+		//System.out.println("3. 회원탈퇴 : " + memberDao.delete("kimshuttle11"));
 		
 		
 		
-		System.out.println("4. 아이디 찾기 : " + memberDao.findByEmail("Yoonshuttle166@gmail.com"));
+		//System.out.println("4. 아이디 찾기 : " + memberDao.findByEmail("Yoonshuttle166@gmail.com"));
 		
 		
 		
-		System.out.println("5. 비밀번호 찾기 : " + memberDao.findById("sdfsadf"));
+		System.out.println("5. 비밀번호 찾기 : " + memberDao.findById("kimshuttle11"));
 		
 		
 		
-		System.out.println("6. 내 정보 출력 : " + memberDao.showMyInfo("6666"));
+		System.out.println("6. 내 정보 출력 : " + memberDao.showMyInfo("1111"));
 		
 		
 		

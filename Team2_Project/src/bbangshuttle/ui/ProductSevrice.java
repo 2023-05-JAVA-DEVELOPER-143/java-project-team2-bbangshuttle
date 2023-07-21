@@ -1,4 +1,4 @@
-package bbangshuttle.product;
+package bbangshuttle.ui;
 
 public class ProductSevrice {
 

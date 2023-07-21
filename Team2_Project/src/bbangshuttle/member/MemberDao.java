@@ -69,6 +69,8 @@ public class MemberDao {
 			memberId = rs.getString("member_id");
 		}
 		return memberId;
+		
+		
 	}
 	
 	// 아이디 입력 후, 비밀번호 찾기
