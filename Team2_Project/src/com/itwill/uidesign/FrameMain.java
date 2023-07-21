@@ -1,7 +1,14 @@
 package com.itwill.uidesign;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,15 +16,21 @@ import javax.swing.border.EmptyBorder;
 import com.itwill.uidesign.member.MemberPanel;
 import com.itwill.uidesign.product.ProductPanel;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import javax.swing.JButton;
-import java.awt.CardLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import bbangshuttle.cart.CartService;
+import bbangshuttle.member.Member;
+import bbangshuttle.member.MemberService;
+import bbangshuttle.order.OrderService;
+import bbangshuttle.product.ProductService;
 
 public class FrameMain extends JFrame {
 
+	private MemberService ms;
+	private CartService cs;
+	private ProductService ps;
+	private OrderService os;
+
+	private Member loginMember;
+	
 	private JPanel contentPane;
 	private JPanel parentPanel;
 
@@ -39,8 +52,9 @@ public class FrameMain extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	public FrameMain() {
+	public FrameMain() throws Exception {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 464, 550);
 		contentPane = new JPanel();
@@ -95,5 +109,16 @@ public class FrameMain extends JFrame {
 		
 		ProductPanel productPanel = new ProductPanel();
 		parentPanel.add(productPanel, "product");
+		
+		
+		ms = new MemberService();
+		ps = new ProductService();
+		os = new OrderService();
+		cs = new CartService();
 	}
+	
+	public void loginProcess(Member loginMember) {
+    	this.loginMember = loginMember;
+    }
+	
 }

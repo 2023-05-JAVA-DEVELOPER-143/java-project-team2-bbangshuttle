@@ -34,8 +34,9 @@ public class ProductPanelTestFarmeMain extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	public ProductPanelTestFarmeMain() {
+	public ProductPanelTestFarmeMain() throws Exception {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 559, 525);
 		contentPane = new JPanel();

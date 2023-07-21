@@ -831,7 +831,7 @@ public class ShopMainFrame extends JFrame {
 			}
 		});
 		MemberButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		MemberButton.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")));
+		MemberButton.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/cart20.png")));
 		MemberButton.setOpaque(false);
 		MemberButton.setBorderPainted(false);
 		MemberButton.setBackground(Color.WHITE);
@@ -884,7 +884,7 @@ public class ShopMainFrame extends JFrame {
 		cartButton.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")));
 		cartButton.setBorderPainted(false);
 		cartButton.setBackground(Color.WHITE);
-		cartButton.setBounds(312, 1, 45, 35);
+		cartButton.setBounds(300, -4, 45, 35);
 		northMenuPanel.add(cartButton);
 
 		cartCountLabel = new JLabel("");
