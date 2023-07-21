@@ -21,11 +21,62 @@ public class ProductPanel extends JPanel {
 	private JTable table_1;
 	private JTextField bakreySearchField;
 	private JTextField drinkSearchField;
+	private JTable table_2;
+	private JTextField textField;
 	public ProductPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		tabbedPane.addTab("전체", null, panel, null);
+		panel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(33, 85, 358, 264);
+		panel.add(scrollPane);
+		
+		table_2 = new JTable();
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"\uC870\uD68C\uC218", "\uC0C1\uD488\uBA85", "\uAC00\uACA9"
+			}
+		));
+		scrollPane.setViewportView(table_2);
+		
+		textField = new JTextField();
+		textField.setText("검색창입니다");
+		textField.setColumns(10);
+		textField.setBounds(124, 32, 160, 21);
+		panel.add(textField);
+		
+		JButton bakerySearchButton_1 = new JButton("");
+		bakerySearchButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		bakerySearchButton_1.setIcon(new ImageIcon(ProductPanel.class.getResource("/images/search_image20.png")));
+		bakerySearchButton_1.setOpaque(false);
+		bakerySearchButton_1.setBorder(null);
+		bakerySearchButton_1.setBackground(Color.WHITE);
+		bakerySearchButton_1.setBounds(296, 31, 53, 32);
+		panel.add(bakerySearchButton_1);
 		
 		JPanel bakeryPanel = new JPanel();
 		bakeryPanel.setBackground(new Color(255, 255, 255));
@@ -113,6 +164,7 @@ public class ProductPanel extends JPanel {
 		drinkPanel.add(drinkSearchField);
 		
 		JButton drinkSearchButton = new JButton("");
+		drinkSearchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		drinkSearchButton.setIcon(new ImageIcon(ProductPanel.class.getResource("/images/search_image20.png")));
 		drinkSearchButton.setOpaque(false);
 		drinkSearchButton.setBorder(null);
