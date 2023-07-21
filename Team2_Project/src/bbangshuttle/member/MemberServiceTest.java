@@ -9,7 +9,6 @@ public class MemberServiceTest {
 		
 		//1.회원가입
 		System.out.println("1.회원가입");
-		//String memberId, String memberPassword, String memberName, String memberEmail, String memberAddress, String memberBirth, String memberNumber, Date memberRegdate, int memberPoint
 		int rowCount = memberService.addMember(new Member("sdfsadf", "asdfasdf", "ahffk", "adsfsf@nasdfas", "adsfasf", "1999/09/09", "010-0101-0101", null, 0));
 		System.out.println(">>>>"+rowCount);
 		
