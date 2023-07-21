@@ -10,91 +10,252 @@ import bbangshuttle.common.DataSource;
 import bbangshuttle.product.Product;
 
 public class CartDao {
-
 	private DataSource dataSource;
-
-	public CartDao() throws Exception {
-
-		dataSource = new DataSource();
-
+	
+	
+	public CartDao() throws Exception{
+		dataSource=new DataSource();
 	}
-
-	// 회원 장바구니 한개 주문목록
-	public Cart cartSelectNo(int p_no, String member_id) throws Exception {
-		Cart cart = null;
-		Product product = null;
-		Connection con = dataSource.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(CartSQL.CART_MEMVERID_SELECT_BY_NO);
-		pstmt.setString(1, member_id);
-		pstmt.setInt(2, p_no);
-
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next()) {
-			cart = new Cart(rs.getInt("cart_no"), rs.getInt("cart_qty"), rs.getString("member_id"),
-					new Product(rs.getInt("p_no"), rs.getString("p_name"), rs.getString("p_desc"),
-							rs.getString("p_image"), rs.getInt("p_price"), rs.getInt("p_view_count"),
-							rs.getInt("p_category")));
-
+	
+	/*
+	 * cart제품 존재여부
+	 */
+	public int  countByProductNo(String smember_id,int p_no) throws Exception{
+		int count=0;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_COUNT_BY_USERID_PRODUCT_NO);
+			pstmt.setString(1, smember_id);
+			pstmt.setInt(2, p_no);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+			
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
 		}
-		return cart;
+		return count;
 	}
-	// " "회원 장바구니 상품 전체 읽기
-
-	public List<Cart> cartSelectByMemeberNo(String member_id) throws Exception {
-		List<Cart> cartList = new ArrayList<>();
-		Connection con = dataSource.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(CartSQL.CART_MEMBERID_SELECT_BY_ALL);
-		pstmt.setString(1, member_id);
-		ResultSet rs = pstmt.executeQuery();
-		while (rs.next()) {
-			cartList.add(new Cart(rs.getInt("cart_no"), rs.getInt("cart_qty"), rs.getString("member_id"),
-					new Product(rs.getInt("p_no"), rs.getString("p_name"), rs.getString("p_desc"),
-							rs.getString("p_image"), rs.getInt("p_price"), rs.getInt("p_view_count"),
-							rs.getInt("p_category"))));
+	
+	
+	/*
+	 * cart insert(cart)
+	 */
+	public int insert(Cart cart) throws Exception {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int insertRowCount=0;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_INSERT);
+			pstmt.setString(1, cart.getUserid());
+			pstmt.setInt(2, cart.getProduct().getP_no());
+			pstmt.setInt(3, cart.getCart_qty());
+			insertRowCount = pstmt.executeUpdate();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
 		}
-
+		return insertRowCount;
+		
+	}
+	
+	public int insert(String smember_id,int p_no,int cart_qty) throws Exception {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int insertRowCount=0;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_INSERT);
+			pstmt.setInt(1, cart_qty);
+			pstmt.setInt(2, p_no);
+			pstmt.setString(3, smember_id);
+			insertRowCount = pstmt.executeUpdate();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return insertRowCount;
+		
+	}
+	/*
+	 * cart add update(상품에서카트추가시update)
+	 */
+	public int updateByProductNo(String smember_id,int p_no,int cart_qty) throws Exception{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int rowCount=0;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_UPDATE_BY_PRODUCT_NO_MEMBER_ID);
+			pstmt.setInt(1, cart_qty);
+			pstmt.setString(2, smember_id);
+			pstmt.setInt(3, p_no);
+			rowCount = pstmt.executeUpdate();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return rowCount;
+	}
+	public int updateByProductNo(Cart cart) throws Exception{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int rowCount=0;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_UPDATE_BY_PRODUCT_NO_MEMBER_ID);
+			pstmt.setInt(1, cart.getCart_qty());
+			pstmt.setString(2, cart.getUserid());
+			pstmt.setInt(3, cart.getProduct().getP_no());
+			rowCount = pstmt.executeUpdate();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return rowCount;
+	}
+	/*
+	 * cart update(카트리스트에서 수정)
+	 */
+	public int updateByCartNo(int cart_no,int cart_qty) throws Exception{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int rowCount=0;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_UPDATE_BY_CART_NO);
+			pstmt.setInt(1, cart_qty);
+			pstmt.setInt(2, cart_no);
+			rowCount = pstmt.executeUpdate();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return rowCount;
+	}
+	public int updateByCartNo(Cart cart) throws Exception{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int rowCount=0;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_UPDATE_BY_CART_NO);
+			pstmt.setInt(1, cart.getCart_qty());
+			pstmt.setInt(2, cart.getCart_no());
+			rowCount = pstmt.executeUpdate();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return rowCount;
+	}
+	/*
+	 * cart list
+	 */
+	public List<Cart> findByMember_id(String member_id) throws Exception{
+		List<Cart> cartList=new ArrayList<Cart>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			con=dataSource.getConnection();
+			
+			  
+			pstmt=con.prepareStatement(CartSQL.CART_SELECT_BY_MEMBER_ID);
+			pstmt.setString(1, member_id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				cartList.add(new Cart( rs.getInt("cart_no"),
+								       rs.getInt("cart_qty"),
+								       rs.getString("member_id"),
+								       new Product(rs.getInt("p_no"), rs.getString("p_name"), rs.getString("p_desc"), rs.getString("p_image"), rs.getInt("p_price"), rs.getInt("p_view_count"), rs.getInt("p_category"))
+									 )
+						);
+			}
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		
 		return cartList;
 	}
+	
 
-	// " "회원 장바구니 " "품목 하나 업데이트
-	public int cartMemberUpdateNo(int cart_qty, String member_id, int p_no) throws Exception {
-		Connection con = dataSource.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(CartSQL.CART_MEMBERID_UPDATE);
-		pstmt.setInt(1, cart_qty);
-		pstmt.setString(2, member_id);
-		pstmt.setInt(3, p_no);
-
-		int update= pstmt.executeUpdate();
-
-		return update;
-
-
+	public int deleteByCartNo(int cart_no) throws Exception{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int deleteRowCount=0;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_DELETE_BY_CART_NO);
+			pstmt.setInt(1, cart_no);
+			deleteRowCount = pstmt.executeUpdate();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return deleteRowCount;
 	}
-
-	// " "회원 장바구니 품목 전체 변경
-
-	public int cartMemberUpdateAll(int cart_qty, String member_id) throws Exception {
-		Connection con = dataSource.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(CartSQL.CART_MEMBERID_UPDATE_ALL);
-		pstmt.setInt(1, cart_qty);
-		pstmt.setString(2, member_id);
-		int update = pstmt.executeUpdate();
+	/*
+	 * cart  delete
+	 */
+	public int deleteByMember_id(String smember_id) throws Exception{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		int deleteRowCount=0;
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_DELETE_BY_MEMBER_ID);
+			pstmt.setString(1, smember_id);
+			deleteRowCount = pstmt.executeUpdate();
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return deleteRowCount;
+	}
+	public Cart findByCartNo(int cart_no)throws Exception {
+		Cart cart=null;
 		
-		return update;
-	}
-	public int cartMemberDeleteNo(String member_id ,int p_no ) throws Exception {
-		Connection con = dataSource.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(CartSQL.CART_MEMBERID_DELETE_BY_P_NO);
-		pstmt.setString(1, member_id);
-		pstmt.setInt(2, p_no);
-		int delete = pstmt.executeUpdate();
-		return delete;
-	}
-	public int cartMemberDeleteByAll(String member_id) throws Exception{
-		Connection con = dataSource.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(CartSQL.CART_MEMBERID_SELECT_BY_ALL);
-		pstmt.setString(1, member_id);
-		int delete = pstmt.executeUpdate();
-		return delete;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+			con=dataSource.getConnection();
+			pstmt=con.prepareStatement(CartSQL.CART_SELECT_BY_CART_NO);
+			pstmt.setInt(1,cart_no);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				cart=new Cart(rs.getInt("cart_no"),
+							rs.getInt("cart_qty"),
+							 rs.getString("member_id"),
+							 new Product(rs.getInt("p_no"), rs.getString("p_name"), rs.getString("p_desc"), rs.getString("p_image"), rs.getInt("p_price"), rs.getInt("p_view_count"), rs.getInt("p_category"))
+						
+						 );
+			}
+		}finally {
+			if(con!=null) {
+				con.close();
+			}
+		}
+		return cart;
 	}
 }
