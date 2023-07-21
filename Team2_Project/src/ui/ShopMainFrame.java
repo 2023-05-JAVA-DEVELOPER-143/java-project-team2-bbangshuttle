@@ -207,8 +207,8 @@ public class ShopMainFrame extends JFrame {
 		productImageLabel.setBounds(3, 1, 162, 116);
 		productPanel.add(productImageLabel);
 
-		JLabel productDescLabel = new JLabel("<html>\r\n\t<font size='3'>\r\n\t\t\r\n\t\t\t" + "견종: 비글<br>\r\n\t\t\t"
-				+ "가격: 34,000<br>\r\n\t\t\t" + "설명: 귀여워요\r\n\t\t\r\n </font></html>");
+		JLabel productDescLabel = new JLabel("<html>\r\n\t<font size='3'>\r\n\t\t\r\n\t\t\t" + "상품명: 라뗴<br>\r\n\t\t\t"
+				+ "가격: 4,000<br>\r\n\t\t\t" + "설명: 라뗴는말이야~\r\n\t\t\r\n </font></html>");
 		productDescLabel.setVerticalAlignment(SwingConstants.TOP);
 		productDescLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		productDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -787,6 +787,7 @@ public class ShopMainFrame extends JFrame {
 		
 
 		JButton homeButton = new JButton("홈");
+		homeButton.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/big_dog20.png")));
 		homeButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		homeButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 		homeButton.addActionListener(new ActionListener() {
@@ -831,7 +832,7 @@ public class ShopMainFrame extends JFrame {
 			}
 		});
 		MemberButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		MemberButton.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")));
+		MemberButton.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/cart20.png")));
 		MemberButton.setOpaque(false);
 		MemberButton.setBorderPainted(false);
 		MemberButton.setBackground(Color.WHITE);
@@ -900,7 +901,7 @@ public class ShopMainFrame extends JFrame {
 		JLabel mainLogoLabel = new JLabel("");
 		mainLogoLabel.setBackground(Color.WHITE);
 		mainLogoLabel.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")));
-		mainLogoLabel.setBounds(0, 0, 76, 35);
+		mainLogoLabel.setBounds(0, 0, 75, 35);
 		northMenuPanel.add(mainLogoLabel);
 		
 		JButton searchButton = new JButton("검색");
