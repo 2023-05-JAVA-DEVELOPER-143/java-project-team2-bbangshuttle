@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.itwill.uidesign.member1.ProductPanel;
-import com.itwill.uidesign.member2.MemberPanel;
+import com.itwill.uidesign.member.MemberPanel;
+import com.itwill.uidesign.product.ProductPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -42,7 +42,7 @@ public class FrameMain extends JFrame {
 	 */
 	public FrameMain() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 453, 443);
+		setBounds(100, 100, 464, 550);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
