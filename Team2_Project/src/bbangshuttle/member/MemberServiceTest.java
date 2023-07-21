@@ -44,8 +44,6 @@ public class MemberServiceTest {
         
 		System.out.println("6. 회원탈퇴");
 		String memberId = "choishuttle44";
-        System.out.println("6. 회원탈퇴");
-		String memberId = "sdfsadf";
 		int deleteCount = memberService.memberDelete(memberId);
         System.out.println(">>>> 삭제된 회원 수: " + deleteCount);
 	}
