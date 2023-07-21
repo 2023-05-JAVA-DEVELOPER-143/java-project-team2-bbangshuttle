@@ -78,7 +78,7 @@ ALTER TABLE userinfo ADD CONSTRAINT IDX_userinfo_PK PRIMARY KEY (member_id);
 
 ALTER TABLE cart ADD CONSTRAINT IDX_cart_PK PRIMARY KEY (cart_no);
 ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK0 FOREIGN KEY (p_no) REFERENCES product (p_no);
-ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK1 FOREIGN KEY (member_id) REFERENCES userinfo (member_id);
+ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK1 FOREIGN KEY (member_id) REFERENCES userinfo (member_id) on delete cascade;
 
 ALTER TABLE orders ADD CONSTRAINT IDX_orders_PK PRIMARY KEY (o_no);
 ALTER TABLE orders ADD CONSTRAINT IDX_orders_FK0 FOREIGN KEY (member_id) REFERENCES userinfo (member_id) on delete cascade;
