@@ -13,7 +13,12 @@ public class OrderServiceTestMain {
 		CartService cartService = new CartService();
 		ProductSevrice productSevrice = new ProductSevrice();
 		
-		System.out.println("주문 목록");
+		
+		System.out.println("-------- 주문전체삭제 --------");
+		System.out.println(orderService.deleteAll("parkshuttle33"));
+		
+		
+		System.out.println("--------주문 목록--------");
 		System.out.println(orderService.orderList("choishuttle44"));
 		
 		

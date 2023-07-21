@@ -742,7 +742,7 @@ public class ShopMainFrame extends JFrame {
 
 		searchTextField = new JTextField();
 		searchTextField.setPreferredSize(new Dimension(10, 21));
-		searchTextField.setBounds(79, 2, 185, 29);
+		searchTextField.setBounds(77, 1, 185, 29);
 		northMenuPanel.add(searchTextField);
 		searchTextField.setColumns(10);
 
