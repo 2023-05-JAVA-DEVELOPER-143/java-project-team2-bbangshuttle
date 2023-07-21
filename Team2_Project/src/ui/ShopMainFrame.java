@@ -220,6 +220,7 @@ public class ShopMainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(">>카트담기...");
 			}
+			
 		});
 		cartAddButton.setBorder(null);
 		cartAddButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
