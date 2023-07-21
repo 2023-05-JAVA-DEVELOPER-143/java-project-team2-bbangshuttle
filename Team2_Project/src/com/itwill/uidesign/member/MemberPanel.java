@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
@@ -16,10 +17,11 @@ import javax.swing.JTextField;
 
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
+import java.awt.Font;
 
 public class MemberPanel extends JPanel {
+	
     private JTextField IdField;
-    private JPasswordField PasswordField;
     private JTextField NameField;
     private JTextField EmailField;
     private JTextField AddressField;
@@ -153,15 +155,17 @@ public class MemberPanel extends JPanel {
         memberJoinPanel.add(IdField);
         IdField.setColumns(10);
 
-        PasswordField = new JPasswordField();
-        PasswordField.setBounds(181, 66, 116, 21);
-        memberJoinPanel.add(PasswordField);
-
         // Other UI components...
 
         JButton checkButton = new JButton("중복확인");
         checkButton.setBounds(309, 34, 97, 23);
         memberJoinPanel.add(checkButton);
+        
+        JLabel notiLabel = new JLabel("");
+        notiLabel.setFont(new Font("굴림", Font.BOLD, 12));
+        notiLabel.setForeground(new Color(255, 0, 0));
+        notiLabel.setBounds(181, 66, 116, 15);
+        memberJoinPanel.add(notiLabel);
         checkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String memberId = IdField.getText();
@@ -169,8 +173,14 @@ public class MemberPanel extends JPanel {
                     boolean isDuplicated = memberService.isDuplicatedId(memberId);
                     if (isDuplicated) {
                         // 아이디 중복이면 처리
+                    	JOptionPane.showMessageDialog(null, "이미 있는 아이디 입니다! 다시 입력해주세요.");
+                    	IdField.setSelectionStart(0);
+                    	IdField.setSelectionEnd(memberId.length());
+                    	IdField.requestFocus();
+                    	
                     } else {
-                        // 아이디 중복이 아니면 처리
+                    	notiLabel.setText("사용가능한 아이디입니다.");
+                    	
                     }
                 } catch (Exception ex) {
                     // Handle exceptions if necessary
@@ -179,6 +189,8 @@ public class MemberPanel extends JPanel {
             }
         });
 
+        
+        
         // Other UI components...
     }
 }

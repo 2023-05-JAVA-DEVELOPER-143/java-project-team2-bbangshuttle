@@ -28,6 +28,8 @@ public class FrameMain extends JFrame {
 	private CartService cs;
 	private ProductService ps;
 	private OrderService os;
+
+	private Member loginMember;
 	
 	private JPanel contentPane;
 	private JPanel parentPanel;
@@ -115,6 +117,8 @@ public class FrameMain extends JFrame {
 		cs = new CartService();
 	}
 	
-	
+	public void loginProcess(Member loginMember) {
+    	this.loginMember = loginMember;
+    }
 	
 }
