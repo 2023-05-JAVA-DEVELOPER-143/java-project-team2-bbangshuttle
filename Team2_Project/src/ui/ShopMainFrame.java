@@ -163,6 +163,7 @@ public class ShopMainFrame extends JFrame {
 		shopTabbedPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		contentPane.add(shopTabbedPane, BorderLayout.CENTER);
 
+		
 		JPanel productPupularDogPanel = new JPanel();
 		productPupularDogPanel.setBackground(Color.WHITE);
 //		shopTabbedPane.addTab("인기견", new ImageIcon(ShopMainFrame.class.getResource("/images/title_logo20.png")),
