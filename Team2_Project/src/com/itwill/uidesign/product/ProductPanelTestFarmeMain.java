@@ -21,7 +21,7 @@ public class ProductPanelTestFarmeMain extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+			public void run() { 
 				try {
 					ProductPanelTestFarmeMain frame = new ProductPanelTestFarmeMain();
 					frame.setVisible(true);
