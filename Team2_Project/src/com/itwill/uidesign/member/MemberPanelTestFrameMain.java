@@ -29,8 +29,9 @@ public class MemberPanelTestFrameMain extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	public MemberPanelTestFrameMain() {
+	public MemberPanelTestFrameMain() throws Exception {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 496, 421);
 		contentPane = new JPanel();
