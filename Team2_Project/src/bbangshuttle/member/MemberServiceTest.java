@@ -6,7 +6,7 @@ public class MemberServiceTest {
 	
 	public static void main(String[] args) throws Exception {
 		MemberService memberService = new MemberService();
-		
+		/*
 		//1.회원가입
 		
 		System.out.println("1.회원가입");
@@ -38,11 +38,12 @@ public class MemberServiceTest {
 		Member updateMember = memberService.memberDetail("6666");
 		updateMember.setMemberAddress("아이티윌 학원");
         System.out.println("회원수정 : " + memberService.memberUpdate(updateMember));
+		*/
 		
 		//6.회원탈퇴
         
 		System.out.println("6. 회원탈퇴");
-		String memberId = "sdfsadf";
+		String memberId = "choishuttle44";
 		int deleteCount = memberService.memberDelete(memberId);
         System.out.println(">>>> 삭제된 회원 수: " + deleteCount);
 	}
