@@ -4,7 +4,7 @@ public class ProductSevriceTestMain {
 	
 	public static void main(String[] args)throws Exception{
 		
-		ProductSevrice productSevrice = new ProductSevrice();
+		ProductService productSevrice = new ProductService();
 		System.out.println("------------- 검색 -----------");
 		
 		System.out.println(productSevrice.ProductFindByNo(10));

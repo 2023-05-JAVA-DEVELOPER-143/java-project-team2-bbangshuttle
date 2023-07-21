@@ -3,7 +3,7 @@ package bbangshuttle.order;
 import java.util.List;
 
 import bbangshuttle.cart.CartService;
-import bbangshuttle.product.ProductSevrice;
+import bbangshuttle.product.ProductService;
 
 public class OrderServiceTestMain {
 
@@ -11,7 +11,7 @@ public class OrderServiceTestMain {
 		
 		OrderService orderService = new OrderService();
 		CartService cartService = new CartService();
-		ProductSevrice productSevrice = new ProductSevrice();
+		ProductService productSevrice = new ProductService();
 		
 		System.out.println("주문 목록");
 		System.out.println(orderService.orderList("choishuttle44"));

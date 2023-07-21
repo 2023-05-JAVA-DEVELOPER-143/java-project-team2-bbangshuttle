@@ -3,10 +3,10 @@ package bbangshuttle.product;
 import java.util.List;
 
 
-public class ProductSevrice {
+public class ProductService {
 	private ProductDao productDao;
 	
-	public ProductSevrice() throws Exception {
+	public ProductService() throws Exception {
 		this.productDao = new ProductDao();
 	}
 	//상품 번호로 검색

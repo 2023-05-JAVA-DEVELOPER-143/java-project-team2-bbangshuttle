@@ -34,8 +34,8 @@ public class MemberServiceTest {
 		System.out.println(">>>회원정보:" + member.toString());
 		
 		//5.회원수정
-		Member updateMember = memberService.memberDetail("6666");
-		updateMember.setMemberAddress("아이티윌 학원");
+		Member updateMember = memberService.memberDetail("5555");
+		updateMember.setMemberAddress("아이");
         System.out.println("회원수정 : " + memberService.memberUpdate(updateMember));
 		
 		
