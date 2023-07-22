@@ -1,12 +1,10 @@
 package bbangshuttle.uitest;
 
-// MemberFrame.java
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,341 +15,188 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
 
 public class MemberFrame extends JFrame {
-    private CardLayout cardLayout;
-    private JPanel mainPanel;
-    private JPanel loginPanel;
-    private JPanel profilePanel;
-    private JPanel updatePanel;
-    private JPanel deletePanel;
-
-    // 로그인 화면 요소
-    private JTextField loginIdField;
-    private JPasswordField loginPasswordField;
-    private JButton loginButton;
-
-    // 회원 정보 보기 화면 요소
-    private JLabel profileIdLabel;
-    private JLabel profileNameLabel;
-    private JLabel profileEmailLabel;
-    private JLabel profileAddressLabel;
-    private JLabel profilePhoneLabel;
-    private JLabel profileBirthLabel;
-    private JLabel profilePointLabel;
-    private JButton viewProfileButton;
-    private JButton updateProfileButton;
-
-    // 회원 정보 수정 화면 요소
-    private JTextField updateNameField;
-    private JTextField updateEmailField;
-    private JTextField updateAddressField;
-    private JTextField updatePhoneField;
-    private JTextField updateBirthField;
-    private JButton updateButton;
-
-    // 로그인한 회원 정보를 저장할 변수
+    private MemberService memberService;
     private Member loggedInMember;
 
-    public MemberFrame(Member loggedInMember) {
+    // 회원 정보 표시 구성 요소
+    private JLabel idLabel;
+    private JLabel nameLabel;
+    private JLabel emailLabel;
+    private JLabel addressLabel;
+    private JLabel phoneLabel;
+    private JLabel birthLabel;
+    private JLabel joinDateLabel;
+    private JLabel pointLabel;
+    private JButton updateButton;
+    private JButton deleteButton;
+
+    // 회원 정보 수정 구성 요소
+    private JPanel cardPanel;
+    private CardLayout cardLayout;
+    private JPanel viewPanel;
+    private JPanel updatePanel;
+    private JTextField emailField;
+    private JTextField addressField;
+    private JTextField phoneField;
+    private JPasswordField passwordField;
+    private JPasswordField confirmPasswordField;
+    private JButton saveButton;
+    private JButton cancelButton;
+
+    public MemberFrame(MemberService memberService, Member loggedInMember) {
+        this.memberService = memberService;
         this.loggedInMember = loggedInMember;
 
-        setTitle("회원 정보 관리");
-        setSize(600, 400);
+        setTitle("Member Frame");
+        setSize(300, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        cardLayout = new CardLayout();
-        mainPanel = new JPanel(cardLayout);
+        // 회원 정보 표시 패널 구성
+        idLabel = new JLabel("아이디: " + loggedInMember.getMemberId());
+        nameLabel = new JLabel("이름: " + loggedInMember.getMemberName());
+        emailLabel = new JLabel("이메일: " + loggedInMember.getMemberEmail());
+        addressLabel = new JLabel("주소: " + loggedInMember.getMemberAddress());
+        phoneLabel = new JLabel("연락처: " + loggedInMember.getMemberNumber());
+        birthLabel = new JLabel("생년월일: " + loggedInMember.getMemberBirth());
+        joinDateLabel = new JLabel("가입일자: " + formatDate(loggedInMember.getMemberRegdate()));
+        pointLabel = new JLabel("포인트: " + loggedInMember.getMemberPoint());
 
-        // 로그인, 회원 정보, 회원 정보 수정, 회원 탈퇴 화면 생성
-        loginPanel = createLoginPanel();
-        profilePanel = createProfilePanel();
-        updatePanel = createUpdatePanel();
-        deletePanel = createDeletePanel();
-
-        mainPanel.add(loginPanel, "login");
-        mainPanel.add(profilePanel, "profile");
-        mainPanel.add(updatePanel, "update");
-        mainPanel.add(deletePanel, "delete");
-
-        // 처음에는 프로필 화면을 보여줌
-        cardLayout.show(mainPanel, "profile");
-        add(mainPanel);
-
-        setVisible(true);
-    }
-
-    // 로그인 화면 생성
-    private JPanel createLoginPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        JLabel titleLabel = new JLabel("로그인");
-        JLabel idLabel = new JLabel("아이디:");
-        JLabel passwordLabel = new JLabel("비밀번호:");
-
-        loginIdField = new JTextField(20);
-        loginPasswordField = new JPasswordField(20);
-
-        loginButton = new JButton("로그인");
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-					login();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-            }
-        });
-
-        JPanel formPanel = new JPanel();
-        formPanel.add(idLabel);
-        formPanel.add(loginIdField);
-        formPanel.add(passwordLabel);
-        formPanel.add(loginPasswordField);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(loginButton);
-
-        panel.add(titleLabel, BorderLayout.NORTH);
-        panel.add(formPanel, BorderLayout.CENTER);
-        panel.add(buttonPanel, BorderLayout.SOUTH);
-
-        return panel;
-    }
-
-    // 회원 정보 보기 화면 생성
-    private JPanel createProfilePanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        JLabel titleLabel = new JLabel("회원 정보");
-        profileIdLabel = new JLabel();
-        profileNameLabel = new JLabel();
-        profileEmailLabel = new JLabel();
-        profileAddressLabel = new JLabel();
-        profilePhoneLabel = new JLabel();
-        profileBirthLabel = new JLabel();
-        profilePointLabel = new JLabel();
-
-        viewProfileButton = new JButton("회원 정보 보기");
-        viewProfileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showProfileInfo(loggedInMember);
-            }
-        });
-
-        updateProfileButton = new JButton("회원 정보 수정");
-        updateProfileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "update");
-            }
-        });
-
-        JPanel profilePanel = new JPanel();
-        profilePanel.add(profileIdLabel);
-        profilePanel.add(profileNameLabel);
-        profilePanel.add(profileEmailLabel);
-        profilePanel.add(profileAddressLabel);
-        profilePanel.add(profilePhoneLabel);
-        profilePanel.add(profileBirthLabel);
-        profilePanel.add(profilePointLabel);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(viewProfileButton);
-        buttonPanel.add(updateProfileButton);
-
-        panel.add(titleLabel, BorderLayout.NORTH);
-        panel.add(profilePanel, BorderLayout.CENTER);
-        panel.add(buttonPanel, BorderLayout.SOUTH);
-
-        return panel;
-    }
-
-    // 회원 정보 수정 화면 생성
-    private JPanel createUpdatePanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        JLabel titleLabel = new JLabel("회원 정보 수정");
-
-        // 정보 수정을 위한 텍스트 필드 생성
-        updateNameField = new JTextField(20);
-        updateEmailField = new JTextField(20);
-        updateAddressField = new JTextField(20);
-        updatePhoneField = new JTextField(20);
-        updateBirthField = new JTextField(20);
-
-        updateNameField.setText(loggedInMember.getMemberName());
-        updateEmailField.setText(loggedInMember.getMemberEmail());
-        updateAddressField.setText(loggedInMember.getMemberAddress());
-        updatePhoneField.setText(loggedInMember.getMemberNumber());
-        updateBirthField.setText(loggedInMember.getMemberBirth());
-
-        updateButton = new JButton("수정 완료");
+        updateButton = new JButton("정보 수정");
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 회원 정보 수정 처리
-                updateMemberInfo();
+                // 정보 수정 페이지로 전환
+                cardLayout.show(cardPanel, "Update");
+            }
+        });
+
+        deleteButton = new JButton("회원 탈퇴");
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(MemberFrame.this, "정말로 회원 탈퇴하시겠습니까?", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    try {
+                        memberService.memberDelete(loggedInMember.getMemberId());
+                        JOptionPane.showMessageDialog(MemberFrame.this, "회원 탈퇴가 완료되었습니다.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        // 로그인 프레임으로 돌아가기
+                        cardLayout.show(cardPanel, "Login");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(MemberFrame.this, "회원 탈퇴 과정에서 오류가 발생했습니다.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new GridLayout(8, 1));
+        infoPanel.add(idLabel);
+        infoPanel.add(nameLabel);
+        infoPanel.add(emailLabel);
+        infoPanel.add(addressLabel);
+        infoPanel.add(phoneLabel);
+        infoPanel.add(birthLabel);
+        infoPanel.add(joinDateLabel);
+        infoPanel.add(pointLabel);
+        infoPanel.add(updateButton);
+        infoPanel.add(deleteButton);
+
+        // 회원 정보 수정 패널 구성
+        emailField = new JTextField(loggedInMember.getMemberEmail(), 10);
+        addressField = new JTextField(loggedInMember.getMemberAddress(), 10);
+        phoneField = new JTextField(loggedInMember.getMemberNumber(), 10);
+        passwordField = new JPasswordField(10);
+        confirmPasswordField = new JPasswordField(10);
+
+        saveButton = new JButton("저장");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 정보 수정 기능 구현
+                String email = emailField.getText();
+                String address = addressField.getText();
+                String phone = phoneField.getText();
+                String password = new String(passwordField.getPassword());
+                String confirmPassword = new String(confirmPasswordField.getPassword());
+
+                if (password.equals(confirmPassword)) {
+                    // 비밀번호가 일치하는 경우에만 업데이트
+                    loggedInMember.setMemberEmail(email);
+                    loggedInMember.setMemberAddress(address);
+                    loggedInMember.setMemberNumber(phone);
+
+                    try {
+                        memberService.memberUpdate(loggedInMember);
+                        JOptionPane.showMessageDialog(MemberFrame.this, "회원 정보가 수정되었습니다.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        showMemberInfo();
+                        cardLayout.show(cardPanel, "Info");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(MemberFrame.this, "회원 정보 수정에 실패했습니다.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(MemberFrame.this, "비밀번호와 비밀번호 확인이 일치하지 않습니다.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        cancelButton = new JButton("취소");
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 수정 취소 후 회원 정보 보기 페이지로 전환
+                showMemberInfo();
+                cardLayout.show(cardPanel, "Info");
             }
         });
 
         JPanel formPanel = new JPanel();
-        formPanel.add(new JLabel("이름:"));
-        formPanel.add(updateNameField);
+        formPanel.setLayout(new GridLayout(6, 2));
+        formPanel.add(new JLabel("비밀번호:"));
+        formPanel.add(passwordField);
+        formPanel.add(new JLabel("비밀번호 확인:"));
+        formPanel.add(confirmPasswordField);
         formPanel.add(new JLabel("이메일:"));
-        formPanel.add(updateEmailField);
+        formPanel.add(emailField);
         formPanel.add(new JLabel("주소:"));
-        formPanel.add(updateAddressField);
+        formPanel.add(addressField);
         formPanel.add(new JLabel("연락처:"));
-        formPanel.add(updatePhoneField);
-        formPanel.add(new JLabel("생년월일(YYYY/MM/DD):"));
-        formPanel.add(updateBirthField);
+        formPanel.add(phoneField);
+        formPanel.add(saveButton);
+        formPanel.add(cancelButton);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(updateButton);
+        // 카드 레이아웃 설정
+        cardPanel = new JPanel();
+        cardLayout = new CardLayout();
+        cardPanel.setLayout(cardLayout);
+        cardPanel.add(infoPanel, "Info");
+        cardPanel.add(formPanel, "Update");
 
-        panel.add(titleLabel, BorderLayout.NORTH);
-        panel.add(formPanel, BorderLayout.CENTER);
-        panel.add(buttonPanel, BorderLayout.SOUTH);
-
-        return panel;
+        add(cardPanel, BorderLayout.CENTER);
+        cardLayout.show(cardPanel, "Info");
     }
 
-    // 회원 정보 보기 기능을 처리하는 메소드
-    private void showProfileInfo(Member member) {
-        if (member != null) {
-            profileIdLabel.setText("아이디: " + member.getMemberId());
-            profileNameLabel.setText("이름: " + member.getMemberName());
-            profileEmailLabel.setText("이메일: " + member.getMemberEmail());
-            profileAddressLabel.setText("주소: " + member.getMemberAddress());
-            profilePhoneLabel.setText("연락처: " + member.getMemberNumber());
-            profileBirthLabel.setText("생년월일: " + member.getMemberBirth());
-            profilePointLabel.setText("회원 포인트: " + member.getMemberPoint());
-        }
+    private void showMemberInfo() {
+        // 회원 정보 표시
+        idLabel.setText("아이디: " + loggedInMember.getMemberId());
+        nameLabel.setText("이름: " + loggedInMember.getMemberName());
+        emailLabel.setText("이메일: " + loggedInMember.getMemberEmail());
+        addressLabel.setText("주소: " + loggedInMember.getMemberAddress());
+        phoneLabel.setText("연락처: " + loggedInMember.getMemberNumber());
+        birthLabel.setText("생년월일: " + loggedInMember.getMemberBirth());
+        joinDateLabel.setText("가입일자: " + formatDate(loggedInMember.getMemberRegdate()));
+        pointLabel.setText("포인트: " + loggedInMember.getMemberPoint());
     }
 
-    // 회원 정보 수정 기능을 처리하는 메소드
-    private void updateMemberInfo() {
-        String name = updateNameField.getText();
-        String email = updateEmailField.getText();
-        String address = updateAddressField.getText();
-        String phoneNumber = updatePhoneField.getText();
-        String birthDateStr = updateBirthField.getText();
-
-        // 생년월일을 Date 타입으로 변환
-        Date birthDate = parseBirthDate(birthDateStr);
-        if (birthDate == null) {
-            showMessageDialog("올바른 생년월일 형식을 입력해주세요. (YYYY/MM/DD)");
-            return;
-        }
-
-        // 회원 정보를 업데이트하는 코드가 와야합니다.
-        // 업데이트 후 DB에 회원 정보를 저장하거나 다른 처리를 해야합니다.
-
-        // 임시로 업데이트한 회원 정보를 출력
-        showMessageDialog("회원 정보가 업데이트되었습니다.");
-
-        loggedInMember.setMemberName(name);
-        loggedInMember.setMemberEmail(email);
-        loggedInMember.setMemberAddress(address);
-        loggedInMember.setMemberNumber(phoneNumber);
-        loggedInMember.setMemberBirth(formatDate(birthDate));
-
-        cardLayout.show(mainPanel, "profile");
-        showProfileInfo(loggedInMember);
-    }
-
-    // 회원 탈퇴 기능을 처리하는 메소드
-    private void deleteMember() {
-        // 회원 탈퇴 처리를 수행하는 코드가 와야합니다.
-        // 탈퇴 후 DB에서 회원 정보를 삭제하거나 다른 처리를 해야합니다.
-
-        showMessageDialog("회원 탈퇴가 완료되었습니다.");
-
-        // 탈퇴 후 MainFrame으로 돌아갑니다.
-        cardLayout.show(mainPanel, "login");
-    }
-
-    // Helper 메소드: 문자열(YYYY/MM/DD)을 Date로 변환
-    private Date parseBirthDate(String birthDateStr) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        try {
-            return sdf.parse(birthDateStr);
-        } catch (ParseException e) {
-            return null;
-        }
-    }
-
-    // Helper 메소드: Date를 포맷된 문자열(YYYY/MM/DD)로 변환
     private String formatDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         return sdf.format(date);
-    }
-
-    // Helper 메소드: 메시지 다이얼로그를 표시
-    private void showMessageDialog(String message) {
-        JOptionPane.showMessageDialog(this, message);
-    }
-
-    // 로그인 기능을 처리하는 메소드
-    private void login() throws Exception {
-        String memberId = loginIdField.getText();
-        String password = new String(loginPasswordField.getPassword());
-
-        // 실제로 회원 정보를 DB 등에서 조회하고, 회원 정보를 반환하는 로직을 구현합니다.
-        // 만약 회원 정보가 맞다면 해당 회원의 Member 객체를 반환하고, 틀리다면 null을 반환합니다.
-        // 예시로, 임시로 아래와 같이 회원 정보를 생성합니다.
-        try {
-            MemberService memberService = new MemberService();
-            loggedInMember = memberService.loginMember(memberId, password);
-
-            if (loggedInMember != null) {
-                showMessageDialog("로그인 성공!");
-                cardLayout.show(mainPanel, "profile");
-                showProfileInfo(loggedInMember);
-            } else {
-                showMessageDialog("아이디 또는 비밀번호가 일치하지 않습니다.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showMessageDialog("로그인에 실패하였습니다. 관리자에게 문의하세요.");
-        }
-    }
-    private JPanel createDeletePanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        JLabel titleLabel = new JLabel("회원 탈퇴");
-        JButton deleteProfileButton = new JButton("회원 탈퇴");
-        deleteProfileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteMember();
-            }
-        });
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(deleteProfileButton);
-
-        panel.add(titleLabel, BorderLayout.NORTH);
-        panel.add(buttonPanel, BorderLayout.CENTER);
-
-        return panel;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new MemberFrame(null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 }

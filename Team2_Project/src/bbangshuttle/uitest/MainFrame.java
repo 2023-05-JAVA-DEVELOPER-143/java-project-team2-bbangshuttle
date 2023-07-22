@@ -1,82 +1,65 @@
 package bbangshuttle.uitest;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 public class MainFrame extends JFrame {
-    private Member loggedInMember; // 로그인한 회원 정보
-    private ProductFrame productFrame;
-    private CartFrame cartFrame;
-    private OrderFrame orderFrame;
-
     private MemberService memberService;
+    private Member loggedInMember;
 
-    public MainFrame() throws Exception {
-        setTitle("빵셔틀");
-        setSize(800, 600);
+    public MainFrame(Member loggedInMember) throws Exception {
+        this.loggedInMember = loggedInMember;
+        this.memberService = new MemberService();
+
+        setTitle("Main Frame");
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        memberService = new MemberService();
+        // 회원 정보 표시 페이지
+        MemberFrame memberFrame = new MemberFrame(memberService, loggedInMember);
+        add(memberFrame, BorderLayout.CENTER);
 
-        // 로그인 프로세스 호출
-        loginProcess();
-
-        // ProductFrame
-        productFrame = new ProductFrame(loggedInMember);
-
-        // CartFrame
-        cartFrame = new CartFrame(loggedInMember);
-
-        // OrderFrame
-        orderFrame = new OrderFrame(loggedInMember);
-
-        setVisible(true);
-    }
-
-    // 로그인 프로세스 메서드
-    private void loginProcess() {
-        boolean loggedIn = false;
-        while (!loggedIn) {
-            try {
+        // 로그아웃 버튼
+        JButton logoutButton = new JButton("로그아웃");
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 로그인 프레임으로 돌아가기
                 LoginFrame loginFrame = new LoginFrame(memberService);
-                loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 loginFrame.setVisible(true);
-
-                // 로그인 창이 닫힐 때까지 대기
-                while (loginFrame.isVisible()) {
-                    Thread.sleep(100);
-                }
-
-                Member loginMember = loginFrame.getLoggedInMember();
-                if (loginMember != null) {
-                    loggedIn = true;
-                    loggedInMember = loginMember;
-                } else {
-                    int option = JOptionPane.showConfirmDialog(this,
-                            "로그인을 취소하시겠습니까?", "로그인 취소", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.YES_OPTION) {
-                        System.exit(0);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "로그인 중 오류가 발생하였습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+                dispose(); // 메인 프레임 닫기
             }
-        }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(logoutButton);
+
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-				new MainFrame();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    MemberService memberService = new MemberService();
+                    // 여기서 로그인 프레임을 띄우도록 합니다.
+                    LoginFrame loginFrame = new LoginFrame(memberService);
+                    loginFrame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         });
     }
 }

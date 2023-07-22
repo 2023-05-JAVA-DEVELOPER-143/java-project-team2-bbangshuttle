@@ -1,261 +1,167 @@
 package bbangshuttle.uitest;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractListModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import bbangshuttle.cart.Cart;
-import bbangshuttle.cart.CartDao;
 import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
-import bbangshuttle.product.Product;
-import bbangshuttle.product.ProductDao;
 import bbangshuttle.product.ProductService;
 
 public class CartFrame extends JFrame {
-    private CardLayout cardLayout;
-    private JPanel mainPanel;
-    private AllProductPanel allProductPanel;
-    private CategoryProductPanel bakeryProductPanel;
-    private CategoryProductPanel beverageProductPanel;
+    private JList<Cart> cartList;
+    private JComboBox<Integer> quantityComboBox;
+    private JLabel totalLabel;
+    private int totalPrice = 0;
 
     private ProductService productService;
-    private ProductDao productDao;
-    private List<Product> allProducts;
-    private Cart cart;
-    private CartDao cartDao;
     private CartService cartService;
-    private Member loggedInMember; // 현재 로그인한 회원 정보
+    private Member currentUser;
 
-    public CartFrame(Member loggedInMember) throws Exception {
-        this.loggedInMember = loggedInMember;
-
-        setTitle("장바구니");
-        setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        productDao = new ProductDao();
+    public CartFrame(Member currentUser) throws Exception {
+        this.currentUser = currentUser;
         productService = new ProductService();
-        allProducts = productDao.findAll();
-        cart = new Cart();
-        cartDao = new CartDao();
         cartService = new CartService();
 
-        cardLayout = new CardLayout();
-        mainPanel = new JPanel(cardLayout);
+        setTitle("Cart Frame");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        allProductPanel = new AllProductPanel(allProducts);
-        bakeryProductPanel = new CategoryProductPanel("베이커리", productService.productCategoryAll(1));
-        beverageProductPanel = new CategoryProductPanel("음료", productService.productCategoryAll(2));
+        // 장바구니 목록을 보여줄 JList 생성
+        cartList = new JList<>();
+        cartList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        cartList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                updateTotalPrice();
+            }
+        });
 
-        mainPanel.add(allProductPanel, "전체");
-        mainPanel.add(bakeryProductPanel, "베이커리");
-        mainPanel.add(beverageProductPanel, "음료");
-
-        cardLayout.show(mainPanel, "전체");
-        add(mainPanel);
-
-        allProductPanel.setCategoryButtonActionListener(new ActionListener() {
+        // 수량 조절 콤보박스
+        Integer[] quantities = {1, 2, 3, 4, 5};
+        quantityComboBox = new JComboBox<>(quantities);
+        quantityComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedCategory = allProductPanel.getSelectedCategory();
-                if (selectedCategory.equals("전체")) {
-                    cardLayout.show(mainPanel, "전체");
-                } else if (selectedCategory.equals("베이커리")) {
-                    cardLayout.show(mainPanel, "베이커리");
-                } else if (selectedCategory.equals("음료")) {
-                    cardLayout.show(mainPanel, "음료");
+                updateTotalPrice();
+            }
+        });
+
+        // 총 가격 표시 라벨
+        totalLabel = new JLabel("총 가격: 0원");
+
+        // 상품 수량 변경 버튼
+        JButton updateQuantityButton = new JButton("수량 변경");
+        updateQuantityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cart selectedCart = cartList.getSelectedValue();
+                if (selectedCart != null) {
+                    int quantity = Integer.parseInt(quantityComboBox.getSelectedItem().toString());
+                    try {
+                        selectedCart.setCart_qty(quantity);
+                        cartService.updateCart(selectedCart);
+                        updateTotalPrice();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
 
-        setVisible(true);
+        // 상품 삭제 버튼
+        JButton removeButton = new JButton("삭제");
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cart selectedCart = cartList.getSelectedValue();
+                if (selectedCart != null) {
+                    try {
+                        cartService.deleteCartItemByCartNo(selectedCart.getCart_no());
+                        updateCartList();
+                        updateTotalPrice();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        // 주문하기 버튼
+        JButton orderButton = new JButton("주문하기");
+        orderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 주문 프레임과 연동
+                try {
+                    new OrderFrame(currentUser).setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        // 하단 영역에 버튼들 추가
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel.add(updateQuantityButton);
+        bottomPanel.add(removeButton);
+        bottomPanel.add(new JLabel("수량:"));
+        bottomPanel.add(quantityComboBox);
+        bottomPanel.add(totalLabel);
+        bottomPanel.add(orderButton);
+
+        // 프레임에 추가
+        add(new JScrollPane(cartList), BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        // 장바구니 목록 초기화
+        updateCartList();
     }
 
-    // 장바구니 목록을 업데이트하는 메서드
+    private void updateTotalPrice() {
+        Cart selectedCart = cartList.getSelectedValue();
+        if (selectedCart != null) {
+            int quantity = Integer.parseInt(quantityComboBox.getSelectedItem().toString());
+            totalPrice = selectedCart.getProduct().getPrice() * quantity;
+            totalLabel.setText("총 가격: " + totalPrice + "원");
+        }
+    }
+
     private void updateCartList() {
         try {
-            List<Cart> cartItems = cartService.getCartItemByUserId(loggedInMember.getMemberId());
-            allProductPanel.updateCartItems(cartItems);
-            bakeryProductPanel.updateCartItems(cartItems);
-            beverageProductPanel.updateCartItems(cartItems);
+            // 장바구니 목록 가져오기
+            List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
+            Cart[] cartArray = carts.toArray(new Cart[0]);
+            cartList.setListData(cartArray);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(CartFrame.this, "장바구니 목록을 가져오는 중 오류가 발생하였습니다.", "오류", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private class AllProductPanel extends JPanel {
-        private JButton categoryButton;
-        private JComboBox<String> categoryComboBox;
-        private DefaultComboBoxModel<String> comboBoxModel;
-        private JTable cartTable;
-        private CartTableModel cartTableModel;
-
-        public AllProductPanel(List<Product> products) {
-            setLayout(new BorderLayout());
-
-            categoryButton = new JButton("카테고리별 보기");
-            comboBoxModel = new DefaultComboBoxModel<>();
-            categoryComboBox = new JComboBox<>(comboBoxModel);
-
-            comboBoxModel.addElement("전체");
-            comboBoxModel.addElement("베이커리");
-            comboBoxModel.addElement("음료");
-
-            JPanel topPanel = new JPanel();
-            topPanel.add(categoryButton);
-            topPanel.add(categoryComboBox);
-
-            add(topPanel, BorderLayout.NORTH);
-
-            cartTableModel = new CartTableModel(new ArrayList<>());
-            cartTable = new JTable(cartTableModel);
-            cartTable.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
-
-            add(new JScrollPane(cartTable), BorderLayout.CENTER);
-        }
-
-        public void setCategoryButtonActionListener(ActionListener actionListener) {
-            categoryButton.addActionListener(actionListener);
-        }
-
-        public String getSelectedCategory() {
-            return categoryComboBox.getSelectedItem().toString();
-        }
-
-        public void updateCartItems(List<Cart> cartItems) {
-            cartTableModel.setCartItems(cartItems);
-            cartTableModel.fireTableDataChanged();
-        }
-    }
-
-    private class CategoryProductPanel extends JPanel {
-        private JButton backButton;
-        private JTable cartTable;
-        private CartTableModel cartTableModel;
-
-        public CategoryProductPanel(String category, List<Product> products) {
-            setLayout(new BorderLayout());
-
-            backButton = new JButton("뒤로 가기");
-
-            cartTableModel = new CartTableModel(new ArrayList<>());
-            cartTable = new JTable(cartTableModel);
-            cartTable.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
-
-            JPanel topPanel = new JPanel();
-            topPanel.add(backButton);
-
-            add(topPanel, BorderLayout.NORTH);
-            add(new JScrollPane(cartTable), BorderLayout.CENTER);
-        }
-
-        public void setBackButtonActionListener(ActionListener actionListener) {
-            backButton.addActionListener(actionListener);
-        }
-
-        public void updateCartItems(List<Cart> cartItems) {
-            cartTableModel.setCartItems(cartItems);
-            cartTableModel.fireTableDataChanged();
-        }
-    }
-
-    private static class CartTableModel extends DefaultTableModel {
-        private List<Cart> cartItems;
-
-        public CartTableModel(List<Cart> cartItems) {
-            this.cartItems = cartItems;
-        }
-
-        public void setCartItems(List<Cart> cartItems) {
-            this.cartItems = cartItems;
-        }
-
-        @Override
-        public int getRowCount() {
-            return cartItems.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return 4; // cart_no, cart_qty, product, 상품명, 가격, 수량
-        }
-
-        @Override
-        public String getColumnName(int column) {
-            switch (column) {
-                case 0:
-                    return "상품 이미지";
-                case 1:
-                    return "상품명";
-                case 2:
-                    return "가격";
-                case 3:
-                    return "수량";
-                default:
-                    return "";
-            }
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            Cart cartItem = cartItems.get(rowIndex);
-            Product product = cartItem.getProduct();
-
-            switch (columnIndex) {
-                case 0:
-                    return new ImageIcon(product.getP_image());
-                case 1:
-                    return product.getP_name();
-                case 2:
-                    return product.getPrice();
-                case 3:
-                    return cartItem.getCart_qty();
-                default:
-                    return "";
-            }
-        }
-    }
-
-    private static class ImageRenderer extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            JLabel label = new JLabel((ImageIcon) value);
-            label.setHorizontalAlignment(JLabel.CENTER);
-            return label;
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new CartFrame(null); // 로그인 기능이 없으므로 loggedInMember는 null로 설정
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new CartFrame(new Member()).setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

@@ -37,6 +37,8 @@ public class MemberSQL {
 	public static final String MEMBER_SELETE_BY_ID_COUNT =
 			"select count(*) as cnt  from userinfo where member_id=?";
 			// 아이디 중복 체크 (멤버 아이디 입력 후, 사용자 존재여부 확인)
+
+	public static final String MEMBER_UPDATE_POINT = "UPDATE member SET member_point = ? WHERE member_id = ?";
 	
 
 }

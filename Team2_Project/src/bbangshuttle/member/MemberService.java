@@ -71,6 +71,17 @@ public class MemberService {
 		}
 			
 	}
+	public void updateMemberPoint(Member member, int pointToAdd) throws Exception {
+        // 현재 회원의 memberPoint를 조회
+        int currentMemberPoint = member.getMemberPoint();
+
+        // 새로운 memberPoint를 계산하여 업데이트
+        int newMemberPoint = currentMemberPoint + pointToAdd;
+        member.setMemberPoint(newMemberPoint);
+
+        // 데이터베이스에 업데이트된 memberPoint를 반영
+        memberDao.updateMemberPoint(member);
+    }
 	
 	/*
 	 * 회원상세보기

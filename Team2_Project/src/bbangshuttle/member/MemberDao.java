@@ -143,6 +143,25 @@ public class MemberDao {
 		return userCount;
 	}
 	
+	// 회원의 memberPoint를 업데이트하는 메소드
+    public void updateMemberPoint(Member member) throws Exception {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = dataSource.getConnection();
+            pstmt = con.prepareStatement(MemberSQL.MEMBER_UPDATE_POINT);
+            pstmt.setInt(1, member.getMemberPoint());
+            pstmt.setString(2, member.getMemberId());
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (con != null)
+                con.close();
+        }
+    }
+	
 }
 	
 	
