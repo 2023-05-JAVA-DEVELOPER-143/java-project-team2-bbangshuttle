@@ -50,6 +50,14 @@ public class MemberService {
 		return result;
 	}
 	
+	public Member loginMember(String memberId,String password) throws Exception{
+		Member member = null;
+		if(member.getMemberId().equals(memberId) && member.getMemberPassword().equals(password)){
+			member = memberDao.showMyInfo(password);
+			
+		}
+		return member;
+	}
 	
 	
 	/*

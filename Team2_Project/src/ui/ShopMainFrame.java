@@ -71,9 +71,8 @@ public class ShopMainFrame extends JFrame {
 	private JPanel productSmallDogContentPanel;
 	private JPanel productMiddleDogContentPanel;
 	private JPanel productBigDogContentPanel;
-	private JPanel productPopularDogContentPanel;
+	private JPanel productPopularContentPanel;
 	private JPanel cartContentPanel;
-	private JLabel cartCountLabel;
 	private JPanel cartPanel;
 	private JScrollPane cartContentPanelScrollPane;
 	private JTextField nameTextField;
@@ -164,28 +163,28 @@ public class ShopMainFrame extends JFrame {
 		contentPane.add(shopTabbedPane, BorderLayout.CENTER);
 
 		
-		JPanel productPupularDogPanel = new JPanel();
-		productPupularDogPanel.setBackground(Color.WHITE);
+		JPanel productPupularPanel = new JPanel();
+		productPupularPanel.setBackground(Color.WHITE);
 //		shopTabbedPane.addTab("인기견", new ImageIcon(ShopMainFrame.class.getResource("/images/title_logo20.png")),
 //				productPupularDogPanel, null);
 		shopTabbedPane.addTab("", new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")),
-				productPupularDogPanel, null);
+				productPupularPanel, null);
 		shopTabbedPane.setBackgroundAt(0, Color.WHITE);
-		productPupularDogPanel.setLayout(new BorderLayout(0, 0));
+		productPupularPanel.setLayout(new BorderLayout(0, 0));
 
-		JScrollPane productPopularDogContentPanelScrollPane = new JScrollPane();
-		productPopularDogContentPanelScrollPane.setBackground(Color.WHITE);
-		productPopularDogContentPanelScrollPane.setPreferredSize(new Dimension(390, 780));
-		productPopularDogContentPanelScrollPane
+		JScrollPane productPopularContentPanelScrollPane = new JScrollPane();
+		productPopularContentPanelScrollPane.setBackground(Color.WHITE);
+		productPopularContentPanelScrollPane.setPreferredSize(new Dimension(390, 780));
+		productPopularContentPanelScrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		productPupularDogPanel.add(productPopularDogContentPanelScrollPane, BorderLayout.CENTER);
+		productPupularPanel.add(productPopularContentPanelScrollPane, BorderLayout.CENTER);
 
-		productPopularDogContentPanel = new JPanel();
-		productPopularDogContentPanel.setPreferredSize(new Dimension(390, 780));
-		productPopularDogContentPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-		productPopularDogContentPanel.setBackground(Color.WHITE);
-		productPopularDogContentPanelScrollPane.setViewportView(productPopularDogContentPanel);
-		productPopularDogContentPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 7, 7));
+		productPopularContentPanel = new JPanel();
+		productPopularContentPanel.setPreferredSize(new Dimension(390, 780));
+		productPopularContentPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		productPopularContentPanel.setBackground(Color.WHITE);
+		productPopularContentPanelScrollPane.setViewportView(productPopularContentPanel);
+		productPopularContentPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 7, 7));
 
 		/************* 제품1개UI패널 디자인 시작 *******************/
 		JPanel productPanel = new JPanel();
@@ -203,12 +202,12 @@ public class ShopMainFrame extends JFrame {
 		JLabel productImageLabel = new JLabel("");
 		productImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-		productImageLabel.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")));
+		productImageLabel.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/latte.jpg")));
 		productImageLabel.setBounds(3, 1, 162, 116);
 		productPanel.add(productImageLabel);
 
 		JLabel productDescLabel = new JLabel("<html>\r\n\t<font size='3'>\r\n\t\t\r\n\t\t\t" + "상품명: 라뗴<br>\r\n\t\t\t"
-				+ "가격: 4,000<br>\r\n\t\t\t" + "설명: 라뗴는말이야~\r\n\t\t\r\n </font></html>");
+				+ "가격: 6,000<br>\r\n\t\t\t" + "설명: 라뗴는말이야~\r\n\t\t\r\n </font></html>");
 		productDescLabel.setVerticalAlignment(SwingConstants.TOP);
 		productDescLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		productDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -242,7 +241,7 @@ public class ShopMainFrame extends JFrame {
 		cartQtyComboBox.setMaximumRowCount(cartQtyComboBox.getModel().getSize());
 		productPanel.add(cartQtyComboBox);
 
-		productPopularDogContentPanel.add(productPanel);
+		productPopularContentPanel.add(productPanel);
 		/************* 제품1개UI패널 디자인끝 *******************/
 
 		JPanel productSmallDogPanel = new JPanel();
@@ -846,12 +845,11 @@ public class ShopMainFrame extends JFrame {
 
 		searchTextField = new JTextField();
 		searchTextField.setPreferredSize(new Dimension(10, 21));
-		searchTextField.setBounds(79, 2, 185, 29);
+		searchTextField.setBounds(79, 2, 160, 29);
 		northMenuPanel.add(searchTextField);
 		searchTextField.setColumns(10);
 
-		cartButton = new JButton("");
-		cartButton.setVerticalAlignment(SwingConstants.BOTTOM);
+		cartButton = new JButton("카트");
 		cartButton.setHorizontalAlignment(SwingConstants.LEFT);
 		cartButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cartButton.addActionListener(new ActionListener() {
@@ -882,26 +880,16 @@ public class ShopMainFrame extends JFrame {
 			}
 		});
 		cartButton.setOpaque(false);
-		cartButton.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")));
+		//cartButton.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/cart50.jpg")));
 		cartButton.setBorderPainted(false);
 		cartButton.setBackground(Color.WHITE);
-		cartButton.setBounds(312, 1, 45, 35);
+		cartButton.setBounds(326, 0, 68, 35);
 		northMenuPanel.add(cartButton);
-
-		cartCountLabel = new JLabel("");
-		cartCountLabel.setVerticalAlignment(SwingConstants.TOP);
-		cartCountLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
-		cartCountLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		cartCountLabel.setOpaque(true);
-		cartCountLabel.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")));
-		cartCountLabel.setBackground(Color.WHITE);
-		cartCountLabel.setBounds(357, 0, 20, 13);
-		northMenuPanel.add(cartCountLabel);
 
 		JLabel mainLogoLabel = new JLabel("");
 		mainLogoLabel.setBackground(Color.WHITE);
-		mainLogoLabel.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/die.jpg")));
-		mainLogoLabel.setBounds(0, 0, 75, 35);
+		mainLogoLabel.setIcon(new ImageIcon(ShopMainFrame.class.getResource("/bbangshuttle/images/main_logo76X35.png")));
+		mainLogoLabel.setBounds(0, 0, 76, 35);
 		northMenuPanel.add(mainLogoLabel);
 		
 		JButton searchButton = new JButton("검색");
@@ -910,14 +898,14 @@ public class ShopMainFrame extends JFrame {
 				String keyword = searchTextField.getText();
 				try {
 					productService.ProductFindByKetword(keyword);
-					displayProductPopularDogList();
+					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
-		searchButton.setBounds(260, 3, 55, 29);
+		searchButton.setBounds(275, 3, 55, 29);
 		northMenuPanel.add(searchButton);
 
 		/************ Service객체멤버변수초기화 ************/
@@ -1206,7 +1194,7 @@ public class ShopMainFrame extends JFrame {
 
 	/*********************** 인기견보여주기 *******************************/
 	public void displayProductPopularDogList() throws Exception {
-		productPopularDogContentPanel.removeAll();
+		productPopularContentPanel.removeAll();
 		List<Product> productList = productService.ProductFindByAll();
 		Collections.shuffle(productList);
 		for (Product product : productList) {
@@ -1306,7 +1294,7 @@ public class ShopMainFrame extends JFrame {
 			cartAddButton.setBounds(136, 119, 31, 23);
 			productPanel.add(cartAddButton);
 
-			productPopularDogContentPanel.add(productPanel);
+			productPopularContentPanel.add(productPanel);
 			/*******************************/
 
 		}

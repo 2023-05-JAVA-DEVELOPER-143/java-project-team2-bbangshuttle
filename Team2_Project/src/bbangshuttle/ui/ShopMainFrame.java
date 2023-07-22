@@ -34,13 +34,14 @@ import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
 import bbangshuttle.order.OrderService;
-import bbangshuttle.product.ProductSevrice;
+import bbangshuttle.product.ProductService;
+
 
 public class ShopMainFrame extends JFrame {
 	/************ 1.Service객체멤버변수선언 ************/
 	MemberService ms;
 	OrderService os;
-	ProductSevrice ps;
+	ProductService ps;
 	CartService cs;
 	/**************************************************/
 
@@ -791,7 +792,7 @@ public class ShopMainFrame extends JFrame {
 
 		/************ Service객체멤버변수초기화 ************/
 		ms = new MemberService();
-		ps = new ProductSevrice();
+		ps = new ProductService();
 		os = new OrderService();
 		cs = new CartService();
 		/*************************************************/

@@ -30,9 +30,9 @@ public class ProductService {
 		return productDao.updateViewCount(p_no);
 	}
 		
-		//카테고리 전체 검색
-		public List<Product> productCategoryAll (int p_category) throws Exception {
+	//카테고리 전체 검색
+	public List<Product> productCategoryAll (int p_category) throws Exception {
 			
-			return productDao.productCategoryList(p_category);
-		}
+		return productDao.productCategoryList(p_category);
+	}
 }
