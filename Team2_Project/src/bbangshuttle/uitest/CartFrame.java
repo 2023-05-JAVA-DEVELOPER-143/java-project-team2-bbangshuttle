@@ -39,7 +39,7 @@ public class CartFrame extends JFrame {
         cartService = new CartService();
 
         setTitle("Cart Frame");
-        setSize(600, 400);
+        setSize(1024, 860);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 

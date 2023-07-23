@@ -35,7 +35,7 @@ public class OrderFrame extends JFrame {
         this.loggedInMember = loggedInMember;
 
         setTitle("주문 목록");
-        setSize(800, 500);
+        setSize(1024, 860);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         orderService = new OrderService();

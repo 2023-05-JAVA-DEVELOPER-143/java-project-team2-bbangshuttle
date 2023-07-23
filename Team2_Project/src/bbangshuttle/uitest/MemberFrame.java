@@ -47,13 +47,14 @@ public class MemberFrame extends JFrame {
     private JPasswordField confirmPasswordField;
     private JButton saveButton;
     private JButton cancelButton;
+    private JButton mainButton; // 메인 프레임으로 화면 전환하는 버튼
 
     public MemberFrame(MemberService memberService, Member loggedInMember) {
         this.memberService = memberService;
         this.loggedInMember = loggedInMember;
 
         setTitle("Member Frame");
-        setSize(300, 300);
+        setSize(1024, 860); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -95,8 +96,26 @@ public class MemberFrame extends JFrame {
             }
         });
 
+        mainButton = new JButton("메인 프레임으로"); // 메인 프레임으로 화면 전환하는 버튼
+        mainButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 메인 프레임으로 돌아가기
+                // (메인 프레임을 생성한 곳으로 돌아가야 합니다.)
+                MainFrame mainFrame = null;
+				try {
+					mainFrame = new MainFrame();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                mainFrame.setVisible(true);
+                dispose(); // 현재 프레임 닫기
+            }
+        });
+
         JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new GridLayout(8, 1));
+        infoPanel.setLayout(new GridLayout(9, 1)); // 회원 정보 개수에 맞게 행 개수 변경
         infoPanel.add(idLabel);
         infoPanel.add(nameLabel);
         infoPanel.add(emailLabel);
@@ -107,6 +126,7 @@ public class MemberFrame extends JFrame {
         infoPanel.add(pointLabel);
         infoPanel.add(updateButton);
         infoPanel.add(deleteButton);
+        infoPanel.add(mainButton); // 메인 프레임으로 화면 전환하는 버튼 추가
 
         // 회원 정보 수정 패널 구성
         emailField = new JTextField(loggedInMember.getMemberEmail(), 10);

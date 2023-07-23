@@ -18,7 +18,7 @@ public class SignupFormFrame extends JFrame {
 
     public SignupFormFrame() {
         setTitle("Sign Up Form Frame");
-        setSize(400, 400);
+        setSize(1024, 860);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
