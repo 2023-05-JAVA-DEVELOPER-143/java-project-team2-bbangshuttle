@@ -108,7 +108,7 @@ public class ProductFrame extends JFrame {
             JPanel productPanel = new JPanel();
             productPanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
             productPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-            productPanel.setBounds(new Rectangle(0, 0, 180, 150)); // Increased width by 30 and height by 30
+            productPanel.setBounds(new Rectangle(0, 0, 180, 150)); 
             productPanel.setMaximumSize(new Dimension(230, 200));
             productPanel.setMinimumSize(new Dimension(150, 150));
             productPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));

@@ -1,11 +1,15 @@
 package bbangshuttle.uitest;
 
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import bbangshuttle.cart.Cart;
+import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
 
@@ -22,47 +26,19 @@ public class MainFrame extends JFrame {
 
         // 각 프레임으로 이동하는 버튼 생성
         JButton productButton = new JButton("상품 목록");
-        productButton.addActionListener(e -> {
-			try {
-				showProductFrame();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+        productButton.addActionListener(e -> showProductFrame());
 
         JButton cartButton = new JButton("장바구니");
-        cartButton.addActionListener(e -> {
-			try {
-				showCartFrame();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+        cartButton.addActionListener(e -> showCartFrame());
 
         JButton orderButton = new JButton("주문 목록");
-        orderButton.addActionListener(e -> {
-			try {
-				showOrderFrame();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+        orderButton.addActionListener(e -> showOrderFrame());
 
         // 로그인한 회원이 없을 경우 로그인 프레임으로 이동하는 버튼 생성
         JButton loginButton = new JButton("로그인");
-        loginButton.addActionListener(e -> {
-			try {
-				showLoginFrame();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+        loginButton.addActionListener(e -> showLoginFrame());
 
-        // 로그인한 회원이 있을 경우 로그인 프레임으로 가는 버튼은 비활성화
+        // 로그인한 회원이 있을 경우 로그인 버튼은 비활성화
         if (loggedInMember != null) {
             loginButton.setEnabled(false);
         } else {
@@ -82,29 +58,47 @@ public class MainFrame extends JFrame {
         add(panel);
     }
 
-    private void showProductFrame() throws Exception{
-        ProductFrame productFrame = new ProductFrame(loggedInMember);
-        productFrame.setVisible(true);
+    private void showProductFrame() {
+        try {
+            ProductFrame productFrame = new ProductFrame(loggedInMember);
+            productFrame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void showCartFrame() throws Exception{
-        CartFrame cartFrame = new CartFrame(loggedInMember);
-        cartFrame.setVisible(true);
+    private void showCartFrame() {
+        try {
+            CartFrame cartFrame = new CartFrame(loggedInMember);
+            cartFrame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void showOrderFrame() throws Exception{
-        OrderFrame orderFrame = new OrderFrame(loggedInMember);
-        orderFrame.setVisible(true);
+    private void showOrderFrame() {
+        try {
+            CartService cartService = new CartService();
+            List<Cart> orderedItems = cartService.getCartItemByUserId(loggedInMember.getMemberId());
+            OrderFrame orderFrame = new OrderFrame(loggedInMember, null, orderedItems);
+            orderFrame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void showLoginFrame()throws Exception {
-        LoginFrame loginFrame = new LoginFrame(new MemberService());
-        loginFrame.setVisible(true);
-        dispose();
+    private void showLoginFrame() {
+        try {
+            LoginFrame loginFrame = new LoginFrame(new MemberService());
+            loginFrame.setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // 로그아웃 기능 구현
-    private void logout() throws Exception{
+    private void logout() {
         loggedInMember = null;
         JOptionPane.showMessageDialog(this, "로그아웃 되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
         // 로그아웃 후 다시 로그인 프레임을 띄움
@@ -113,7 +107,6 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 try {
                     MemberService memberService = new MemberService();

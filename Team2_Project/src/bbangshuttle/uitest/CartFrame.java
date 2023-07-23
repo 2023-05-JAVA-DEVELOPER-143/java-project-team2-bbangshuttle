@@ -19,6 +19,7 @@ public class CartFrame extends JFrame {
 
     private CartService cartService;
     private Member currentUser;
+    private List<Cart> orderedItems; // 주문한 상품 목록을 저장하기 위한 변수
 
     public CartFrame(Member currentUser) throws Exception {
         this.currentUser = currentUser;
@@ -37,7 +38,7 @@ public class CartFrame extends JFrame {
         // 총 가격 표시 라벨
         totalPriceLabel = new JLabel("총 가격: 0원");
         updateTotalPrice();
-        add(totalPriceLabel, BorderLayout.SOUTH);
+        add(totalPriceLabel, BorderLayout.NORTH);
 
         // 장바구니 목록 초기화
         updateCartList();
@@ -162,12 +163,11 @@ public class CartFrame extends JFrame {
     }
 
     private void orderProducts() {
-        // 주문하기 기능 구현 (OrderFrame으로 카트에 담긴 상품 정보 전송)
         try {
             List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
-            // OrderFrame으로 carts에 들어있는 카트 정보 전송
-            new OrderFrame(currentUser).setVisible(true);
-            dispose();
+            orderedItems = carts; // 주문한 상품 목록을 저장
+            new OrderFrame(currentUser, this, orderedItems).setVisible(true);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -190,6 +190,21 @@ public class CartFrame extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setOrderedItems(List<Cart> orderedItems) {
+        this.orderedItems = orderedItems;
+    }
+
+    public void updateOrderList() {
+        cartContentPanel.removeAll();
+        for (Cart cart : orderedItems) {
+            JPanel productPanel = createProductPanel(cart);
+            cartContentPanel.add(productPanel);
+        }
+        cartContentPanel.revalidate();
+        cartContentPanel.repaint();
+        updateTotalPrice();
     }
 
     public static void main(String[] args) {

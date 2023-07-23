@@ -101,7 +101,7 @@ public class MemberFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 메인 프레임으로 돌아가기
-                // (메인 프레임을 생성한 곳으로 돌아가야 합니다.)
+              
                 MainFrame mainFrame = null;
 				try {
 					mainFrame = new MainFrame(loggedInMember);

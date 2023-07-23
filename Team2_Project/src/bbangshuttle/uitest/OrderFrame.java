@@ -1,75 +1,58 @@
 package bbangshuttle.uitest;
 
-
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-
+import bbangshuttle.cart.Cart;
+import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
-import bbangshuttle.order.Order;
-import bbangshuttle.order.OrderItem;
-import bbangshuttle.order.OrderService;
+import bbangshuttle.product.Product;
 
 public class OrderFrame extends JFrame {
-    private JPanel mainPanel;
-    private JComboBox<Order> orderComboBox;
-    private JTable orderTable;
-    private JButton deleteOrderButton;
-    private JButton completeOrderButton;
+    private JPanel orderContentPanel;
+    private JLabel totalPriceLabel;
+    private int totalPrice = 0;
 
-    private OrderService orderService;
-    private Member loggedInMember;
+    private CartService cartService;
+    private Member currentUser;
+    private CartFrame cartFrame;
+    private List<Cart> cartItems; // 카트에서 가져온 주문한 상품 목록
+    private List<Cart> orderedItems; // 주문 완료 후 주문한 상품 목록
 
-    public OrderFrame(Member loggedInMember) throws Exception {
-        this.loggedInMember = loggedInMember;
+    public OrderFrame(Member currentUser, CartFrame cartFrame, List<Cart> cartItems) throws Exception {
+        this.currentUser = currentUser;
+        this.cartFrame = cartFrame;
+        this.cartItems = cartItems;
+        orderedItems = new ArrayList<>(); // 초기화
 
-        setTitle("주문 목록");
+        cartService = new CartService();
+
+        setTitle("Order Frame");
         setSize(1024, 860);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        orderService = new OrderService();
+        // 주문한 상품 내용을 보여줄 패널 생성
+        orderContentPanel = new JPanel();
+        orderContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        add(new JScrollPane(orderContentPanel), BorderLayout.CENTER);
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        // 총 가격 표시 라벨
+        totalPriceLabel = new JLabel("총 가격: 0원");
+        updateTotalPrice();
+        add(totalPriceLabel, BorderLayout.SOUTH);
 
-        orderComboBox = new JComboBox<>();
-        orderTable = new JTable();
-        deleteOrderButton = new JButton("주문 삭제");
-        completeOrderButton = new JButton("주문 완료");
+        // 주문한 상품 목록 초기화
+        updateOrderList();
 
-        mainPanel.add(orderComboBox, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(orderTable), BorderLayout.CENTER);
-        mainPanel.add(deleteOrderButton, BorderLayout.SOUTH);
-        mainPanel.add(completeOrderButton, BorderLayout.SOUTH);
-
-        updateOrderComboBox();
-        showOrderDetail();
-
-        orderComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showOrderDetail();
-            }
-        });
-
-        deleteOrderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelectedOrder();
-            }
-        });
-
+        // 하단 버튼들 생성
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton completeOrderButton = new JButton("주문 완료");
         completeOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,83 +60,146 @@ public class OrderFrame extends JFrame {
             }
         });
 
-        add(mainPanel);
-
-        setVisible(true);
-    }
-
-    private void updateOrderComboBox() throws Exception {
-        orderComboBox.removeAllItems();
-        List<Order> orders = orderService.orderList(loggedInMember.getMemberId());
-        for (Order order : orders) {
-            orderComboBox.addItem(order);
-        }
-    }
-
-    private void showOrderDetail() {
-        Order selectedOrder = (Order) orderComboBox.getSelectedItem();
-        if (selectedOrder != null) {
-            DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"상품명", "수량", "가격"}, 0);
-            for (OrderItem orderItem : selectedOrder.getOrderItemList()) {
-                String productName = orderItem.getProduct().getP_name();
-                int quantity = orderItem.getOi_qty();
-                int price = orderItem.getProduct().getPrice();
-                tableModel.addRow(new Object[]{productName, quantity, price});
+        JButton clearAllButton = new JButton("전체 삭제");
+        clearAllButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearAllOrders();
             }
-            orderTable.setModel(tableModel);
-        } else {
-            orderTable.setModel(new DefaultTableModel());
-        }
+        });
+
+        JButton returnButton = new JButton("상품 페이지로 돌아가기");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showProductFrame();
+            }
+        });
+
+        bottomPanel.add(clearAllButton);
+        bottomPanel.add(completeOrderButton);
+        bottomPanel.add(returnButton);
+        add(bottomPanel, BorderLayout.NORTH);
     }
 
-    private void deleteSelectedOrder() {
-        Order selectedOrder = (Order) orderComboBox.getSelectedItem();
-        if (selectedOrder != null) {
-            int confirm = JOptionPane.showConfirmDialog(this, "주문을 삭제하시겠습니까?",
-                    "삭제 확인", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                try {
-                    orderService.deleteByOrderNo(selectedOrder.getO_no());
-                    updateOrderComboBox();
-                    showOrderDetail();
-                    JOptionPane.showMessageDialog(this, "주문이 삭제되었습니다.");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "주문 삭제 중 오류가 발생하였습니다.");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "삭제할 주문을 선택하세요.");
+    private void updateTotalPrice() {
+        totalPrice = 0;
+        for (Cart cart : cartItems) {
+            totalPrice += cart.getProduct().getPrice() * cart.getCart_qty();
         }
+        totalPriceLabel.setText("총 가격: " + new DecimalFormat("#,###").format(totalPrice) + "원");
+    }
+
+    private void updateOrderList() {
+        orderContentPanel.removeAll();
+        for (Cart cart : cartItems) {
+            JPanel productPanel = createProductPanel(cart);
+            orderContentPanel.add(productPanel);
+        }
+        orderContentPanel.revalidate();
+        orderContentPanel.repaint();
+        updateTotalPrice(); // 주문 목록이 업데이트될 때 총 가격도 함께 업데이트
+    }
+
+    private JPanel createProductPanel(Cart cart) {
+        JPanel productPanel = new JPanel();
+        productPanel.setLayout(new BorderLayout());
+        productPanel.setBackground(Color.WHITE);
+        productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+        JLabel productInfoLabel = new JLabel("<html><font size='3'>" + ": " + cart.getProduct().getP_name() + "<br>"
+                + "가격: " + new DecimalFormat("#,###").format(cart.getProduct().getPrice()) + "원<br>"
+                + "설명: " + cart.getProduct().getP_desc() + "</font></html>");
+        productPanel.add(productInfoLabel, BorderLayout.CENTER);
+
+        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JLabel quantityLabel = new JLabel("수량: " + cart.getCart_qty());
+        controlPanel.add(quantityLabel);
+
+        // 상품 삭제 버튼 추가
+        JButton removeButton = new JButton("삭제");
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeCartItem(cart);
+            }
+        });
+        controlPanel.add(removeButton);
+
+        productPanel.add(controlPanel, BorderLayout.SOUTH);
+
+        // 카트 정보를 컴포넌트에 저장하여 사용
+        productPanel.putClientProperty("cart", cart);
+
+        return productPanel;
     }
 
     private void completeOrder() {
-        Order selectedOrder = (Order) orderComboBox.getSelectedItem();
-        if (selectedOrder != null) {
-            double totalPrice = selectedOrder.getO_price();
-            int pointToBeAdded = (int) (totalPrice * 0.01);
+        // 주문 완료 메시지 표시
+        JOptionPane.showMessageDialog(this, "주문이 완료되었습니다.");
 
-            // 멤버 포인트 업데이트
-            loggedInMember.setMemberPoint(loggedInMember.getMemberPoint() + pointToBeAdded);
+        // 주문한 상품 목록을 orderedItems에 저장
+        orderedItems.addAll(cartItems);
 
-            // 업데이트 된 멤버 정보를 저장 (실제 응용 프로그램에서는 데이터베이스에 저장)
-            // 여기서는 간단히 메시지만 표시
-            JOptionPane.showMessageDialog(this, pointToBeAdded + "포인트가 회원님의 포인트로 추가되었습니다.", "주문 완료", JOptionPane.INFORMATION_MESSAGE);
+        // 주문 목록 업데이트
+        if (cartFrame != null) {
+            cartFrame.setOrderedItems(orderedItems);
+            cartFrame.updateOrderList();
+        }
 
-            // 완료한 주문은 콤보 박스에서 삭제하고 테이블 갱신
-            orderComboBox.removeItem(selectedOrder);
-            showOrderDetail();
-        } else {
-            JOptionPane.showMessageDialog(this, "주문을 선택하세요.");
+        // 주문 완료 후 카트 비우고 CartFrame으로 돌아가기
+        clearAllOrders();
+        showCartFrame();
+    }
+
+    private void clearAllOrders() {
+        try {
+            cartService.deleteCartItemByUserId(currentUser.getMemberId());
+            cartItems.clear(); // 주문한 상품 목록도 비워줘야함.
+            updateOrderList();
+            updateTotalPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeCartItem(Cart cart) {
+        try {
+            cartService.deleteCartItemByCartNo(cart.getCart_no());
+            cartItems.remove(cart);
+            updateOrderList();
+            updateTotalPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showProductFrame() {
+        try {
+            new ProductFrame(currentUser).setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showCartFrame() {
+        try {
+            new CartFrame(currentUser).setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new OrderFrame(null); // 로그인 기능이 없으므로 loggedInMember는 null로 설정
-            } catch (Exception e) {
-                e.printStackTrace();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new OrderFrame(new Member(), null, null).setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
