@@ -54,7 +54,7 @@ public class MemberService {
 		Member member = null;
 		if(member.getMemberId().equals(memberId) && member.getMemberPassword().equals(password)){
 			member = memberDao.showMyInfo(password);
-			
+			return member;
 		}
 		return member;
 	}
