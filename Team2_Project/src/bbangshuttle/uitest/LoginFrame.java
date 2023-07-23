@@ -60,6 +60,7 @@ public class LoginFrame extends JFrame {
                         memberFrame.setVisible(true);
                         setVisible(false);
                     } else {
+                        // 로그인 실패 처리
                         JOptionPane.showMessageDialog(LoginFrame.this, "로그인 실패. 아이디와 비밀번호를 확인하세요.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (Exception ex) {
@@ -78,7 +79,7 @@ public class LoginFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 회원가입 버튼을 클릭하면 회원가입 폼 프레임을 띄움
-                SignupFormFrame signupFormFrame = new SignupFormFrame(memberService);
+                SignupFormFrame signupFormFrame = new SignupFormFrame();
                 signupFormFrame.setVisible(true);
             }
         });
