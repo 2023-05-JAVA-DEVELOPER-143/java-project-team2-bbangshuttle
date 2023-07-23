@@ -1,12 +1,8 @@
 package bbangshuttle.uitest;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -14,89 +10,118 @@ import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
 
 public class MainFrame extends JFrame {
-    public MainFrame() {
+    private Member loggedInMember;
+
+    public MainFrame(Member loggedInMember) {
+        this.loggedInMember = loggedInMember;
+
         setTitle("Main Frame");
-        setSize(1024, 860); // 사이즈 1024x860으로 변경
+        setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // 메인 패널 생성
+        // 각 프레임으로 이동하는 버튼 생성
+        JButton productButton = new JButton("상품 목록");
+        productButton.addActionListener(e -> {
+			try {
+				showProductFrame();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+
+        JButton cartButton = new JButton("장바구니");
+        cartButton.addActionListener(e -> {
+			try {
+				showCartFrame();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+
+        JButton orderButton = new JButton("주문 목록");
+        orderButton.addActionListener(e -> {
+			try {
+				showOrderFrame();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+
+        // 로그인한 회원이 없을 경우 로그인 프레임으로 이동하는 버튼 생성
+        JButton loginButton = new JButton("로그인");
+        loginButton.addActionListener(e -> {
+			try {
+				showLoginFrame();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+
+        // 로그인한 회원이 있을 경우 로그인 프레임으로 가는 버튼은 비활성화
+        if (loggedInMember != null) {
+            loginButton.setEnabled(false);
+        } else {
+            // 로그인하지 않은 경우 나머지 버튼 비활성화
+            productButton.setEnabled(false);
+            cartButton.setEnabled(false);
+            orderButton.setEnabled(false);
+        }
+
+        // 메인 프레임에 버튼 추가
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1));
+        panel.add(productButton);
+        panel.add(cartButton);
+        panel.add(orderButton);
+        panel.add(loginButton);
 
-        // ProductFrame으로 이동할 수 있는 버튼
-        JButton productFrameButton = new JButton("상품 프레임으로");
-        productFrameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    ProductFrame productFrame = new ProductFrame(new Member());
-                    productFrame.setVisible(true);
-                    dispose();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        panel.add(productFrameButton);
+        add(panel);
+    }
 
-        // CartFrame으로 이동할 수 있는 버튼
-        JButton cartFrameButton = new JButton("장바구니 프레임으로");
-        cartFrameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    CartFrame cartFrame = new CartFrame(new Member());
-                    cartFrame.setVisible(true);
-                    dispose();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        panel.add(cartFrameButton);
+    private void showProductFrame() throws Exception{
+        ProductFrame productFrame = new ProductFrame(loggedInMember);
+        productFrame.setVisible(true);
+    }
 
-        // OrderFrame으로 이동할 수 있는 버튼
-        JButton orderFrameButton = new JButton("주문 프레임으로");
-        orderFrameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    OrderFrame orderFrame = new OrderFrame(new Member());
-                    orderFrame.setVisible(true);
-                    dispose();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        panel.add(orderFrameButton);
+    private void showCartFrame() throws Exception{
+        CartFrame cartFrame = new CartFrame(loggedInMember);
+        cartFrame.setVisible(true);
+    }
 
-        // 로그인 프레임으로 이동할 수 있는 버튼
-        JButton loginFrameButton = new JButton("로그인 프레임으로");
-        loginFrameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    LoginFrame loginFrame = new LoginFrame(new MemberService());
-                    loginFrame.setVisible(true);
-                    dispose();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        panel.add(loginFrameButton);
+    private void showOrderFrame() throws Exception{
+        OrderFrame orderFrame = new OrderFrame(loggedInMember);
+        orderFrame.setVisible(true);
+    }
 
-        add(panel, BorderLayout.CENTER);
+    private void showLoginFrame()throws Exception {
+        LoginFrame loginFrame = new LoginFrame(new MemberService());
+        loginFrame.setVisible(true);
+        dispose();
+    }
+
+    // 로그아웃 기능 구현
+    private void logout() throws Exception{
+        loggedInMember = null;
+        JOptionPane.showMessageDialog(this, "로그아웃 되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+        // 로그아웃 후 다시 로그인 프레임을 띄움
+        showLoginFrame();
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainFrame mainFrame = new MainFrame();
-                mainFrame.setVisible(true);
+                try {
+                    MemberService memberService = new MemberService();
+                    LoginFrame loginFrame = new LoginFrame(memberService);
+                    loginFrame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

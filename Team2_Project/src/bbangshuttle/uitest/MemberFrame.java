@@ -104,7 +104,7 @@ public class MemberFrame extends JFrame {
                 // (메인 프레임을 생성한 곳으로 돌아가야 합니다.)
                 MainFrame mainFrame = null;
 				try {
-					mainFrame = new MainFrame();
+					mainFrame = new MainFrame(loggedInMember);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
