@@ -74,10 +74,9 @@ public class ProductFrame extends JFrame {
         add(menuPanel, BorderLayout.NORTH);
 
         // 인기 상품 패널 생성 및 추가
-        productPopularContentPanel = new JPanel();
-        productPopularContentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        add(new JScrollPane(productPopularContentPanel), BorderLayout.CENTER);
-        
+        productPopularContentPanel = new JPanel(new GridLayout(0, 4, 10, 10));
+        JScrollPane scrollPane = new JScrollPane(productPopularContentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        add(scrollPane, BorderLayout.CENTER);
 
         // 처음에 전체상품을 보여줌
         displayProductListByCategory("전체상품");
@@ -109,28 +108,28 @@ public class ProductFrame extends JFrame {
             JPanel productPanel = new JPanel();
             productPanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
             productPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-            productPanel.setBounds(new Rectangle(0, 0, 120, 120));
-            productPanel.setMaximumSize(new Dimension(200, 200));
+            productPanel.setBounds(new Rectangle(0, 0, 180, 150)); // Increased width by 30 and height by 30
+            productPanel.setMaximumSize(new Dimension(230, 200));
             productPanel.setMinimumSize(new Dimension(150, 150));
             productPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             productPanel.setBackground(Color.WHITE);
             productPanel.setBorder(null);
-            productPanel.setSize(new Dimension(120, 120));
-            productPanel.setPreferredSize(new Dimension(170, 190));
+            productPanel.setSize(new Dimension(150, 120));
+            productPanel.setPreferredSize(new Dimension(200, 220)); 
             productPanel.setLayout(null);
 
             JLabel productImageLabel = new JLabel();
-            productImageLabel.setIcon(new ImageIcon(product.getP_image()));
-            productImageLabel.setBounds(3, 1, 160, 120);
+            productImageLabel.setIcon(new ImageIcon(""+product.getP_image()));
+            productImageLabel.setBounds(3, 1, 160, 120); 
             productPanel.add(productImageLabel);
 
-            JLabel productDescLabel = new JLabel("<html><font size='3'>" + ": " + product.getP_name() + "<br>"
-                    + "가격: " + new DecimalFormat("#,###").format(product.getPrice()) + "<br>" + "설명: "
+            JLabel productDescLabel = new JLabel("<html><font size='3'>" + "상품명 : " + product.getP_name() + "<br>"
+                    + "가격 : " + new DecimalFormat("#,###").format(product.getPrice()) + "<br>" + "설명 : "
                     + product.getP_desc() + "</font></html>");
             productDescLabel.setVerticalAlignment(SwingConstants.TOP);
             productDescLabel.setHorizontalTextPosition(SwingConstants.CENTER);
             productDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            productDescLabel.setBounds(3, 143, 164, 47);
+            productDescLabel.setBounds(3, 143, 174, 47); 
             productPanel.add(productDescLabel);
 
             JComboBox<String> cartQtyComboBox = new JComboBox<>();
@@ -139,7 +138,7 @@ public class ProductFrame extends JFrame {
             cartQtyComboBox.setOpaque(false);
             cartQtyComboBox.setBorder(null);
             cartQtyComboBox.setBackground(Color.WHITE);
-            cartQtyComboBox.setBounds(99, 119, 33, 23);
+            cartQtyComboBox.setBounds(70, 120, 70, 23);
             cartQtyComboBox.setMaximumRowCount(cartQtyComboBox.getModel().getSize());
             productPanel.add(cartQtyComboBox);
 
@@ -148,15 +147,30 @@ public class ProductFrame extends JFrame {
                 private Product p = product;
 
                 public void actionPerformed(ActionEvent e) {
-                    int quantity = Integer.parseInt((String) cartQtyComboBox.getSelectedItem());
-                    try {
-                        Cart cart = new Cart(0, quantity, currentUser.getMemberId(), product);
-                        cartService.addCart(cart);
-                        // 장바구니에 담은 후의 처리 (예: 장바구니 아이콘 업데이트 등)
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                	if (currentUser == null) {
+                        JOptionPane.showMessageDialog(null, "로그인을 해주세요!");
+                        showLoginFrame();
+                    } else {
+                        // 로그인한 경우 장바구니에 상품을 담을지 확인하는 메시지 다이얼로그 표시
+                        int option = JOptionPane.showOptionDialog(ProductFrame.this,
+                                "장바구니에 담으시겠습니까?", "장바구니 추가 확인", JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null, new String[]{"예", "아니요"}, "아니요");
+
+                        if (option == JOptionPane.YES_OPTION) {
+                            // 사용자가 "예" 버튼을 선택한 경우 상품을 카트에 추가
+                            int quantity = Integer.parseInt((String) cartQtyComboBox.getSelectedItem());
+                            try {
+                                Cart cart = new Cart(0, quantity, currentUser.getMemberId(), p);
+                                cartService.addCart(cart);
+                                showCartFrame();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
                 }
+
+				
             });
             cartAddButton.setBounds(131, 119, 110, 23);
             productPanel.add(cartAddButton);
@@ -189,5 +203,10 @@ public class ProductFrame extends JFrame {
                 }
             }
         });
+    }
+   
+    private void showLoginFrame() {
+        LoginFrame loginFrame = new LoginFrame(null);
+        loginFrame.setVisible(true);
     }
 }

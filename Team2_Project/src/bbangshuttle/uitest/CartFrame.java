@@ -1,41 +1,27 @@
 package bbangshuttle.uitest;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import bbangshuttle.cart.Cart;
 import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
-import bbangshuttle.product.ProductService;
+import bbangshuttle.product.Product;
 
 public class CartFrame extends JFrame {
-    private JList<Cart> cartList;
-    private JComboBox<Integer> quantityComboBox;
-    private JLabel totalLabel;
+    private JPanel cartContentPanel;
+    private JLabel totalPriceLabel;
     private int totalPrice = 0;
 
-    private ProductService productService;
     private CartService cartService;
     private Member currentUser;
 
     public CartFrame(Member currentUser) throws Exception {
         this.currentUser = currentUser;
-        productService = new ProductService();
         cartService = new CartService();
 
         setTitle("Cart Frame");
@@ -43,112 +29,164 @@ public class CartFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // 장바구니 목록을 보여줄 JList 생성
-        cartList = new JList<>();
-        cartList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        cartList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                updateTotalPrice();
-            }
-        });
-
-        // 수량 조절 콤보박스
-        Integer[] quantities = {1, 2, 3, 4, 5};
-        quantityComboBox = new JComboBox<>(quantities);
-        quantityComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateTotalPrice();
-            }
-        });
+        // 카트 내용을 보여줄 패널 생성
+        cartContentPanel = new JPanel();
+        cartContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        add(new JScrollPane(cartContentPanel), BorderLayout.CENTER);
 
         // 총 가격 표시 라벨
-        totalLabel = new JLabel("총 가격: 0원");
+        totalPriceLabel = new JLabel("총 가격: 0원");
+        updateTotalPrice();
+        add(totalPriceLabel, BorderLayout.SOUTH);
 
-        // 상품 수량 변경 버튼
-        JButton updateQuantityButton = new JButton("수량 변경");
-        updateQuantityButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Cart selectedCart = cartList.getSelectedValue();
-                if (selectedCart != null) {
-                    int quantity = Integer.parseInt(quantityComboBox.getSelectedItem().toString());
-                    try {
-                        selectedCart.setCart_qty(quantity);
-                        cartService.updateCart(selectedCart);
-                        updateTotalPrice();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
+        // 장바구니 목록 초기화
+        updateCartList();
 
-        // 상품 삭제 버튼
-        JButton removeButton = new JButton("삭제");
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Cart selectedCart = cartList.getSelectedValue();
-                if (selectedCart != null) {
-                    try {
-                        cartService.deleteCartItemByCartNo(selectedCart.getCart_no());
-                        updateCartList();
-                        updateTotalPrice();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-
-        // 주문하기 버튼
+        // 하단 버튼들 생성
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton orderButton = new JButton("주문하기");
         orderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 주문 프레임과 연동
                 try {
-                    new OrderFrame(currentUser).setVisible(true);
+                    orderProducts();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
 
-        // 하단 영역에 버튼들 추가
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bottomPanel.add(updateQuantityButton);
-        bottomPanel.add(removeButton);
-        bottomPanel.add(new JLabel("수량:"));
-        bottomPanel.add(quantityComboBox);
-        bottomPanel.add(totalLabel);
+        JButton clearButton = new JButton("장바구니 비우기");
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    clearCart();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        // 상품 페이지로 돌아가는 버튼 생성
+        JButton returnButton = new JButton("상품 페이지로 돌아가기");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showProductFrame();
+            }
+        });
+
+        bottomPanel.add(clearButton);
         bottomPanel.add(orderButton);
-
-        // 프레임에 추가
-        add(new JScrollPane(cartList), BorderLayout.CENTER);
+        bottomPanel.add(returnButton);
         add(bottomPanel, BorderLayout.SOUTH);
-
-        // 장바구니 목록 초기화
-        updateCartList();
     }
 
     private void updateTotalPrice() {
-        Cart selectedCart = cartList.getSelectedValue();
-        if (selectedCart != null) {
-            int quantity = Integer.parseInt(quantityComboBox.getSelectedItem().toString());
-            totalPrice = selectedCart.getProduct().getPrice() * quantity;
-            totalLabel.setText("총 가격: " + totalPrice + "원");
+        totalPrice = 0;
+        for (Component component : cartContentPanel.getComponents()) {
+            if (component instanceof JPanel) {
+                JPanel productPanel = (JPanel) component;
+                Cart cart = (Cart) productPanel.getClientProperty("cart");
+                totalPrice += cart.getProduct().getPrice() * cart.getCart_qty();
+            }
         }
+        totalPriceLabel.setText("총 가격: " + new DecimalFormat("#,###").format(totalPrice) + "원");
     }
 
     private void updateCartList() {
+        cartContentPanel.removeAll();
         try {
-            // 장바구니 목록 가져오기
             List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
-            Cart[] cartArray = carts.toArray(new Cart[0]);
-            cartList.setListData(cartArray);
+            for (Cart cart : carts) {
+                JPanel productPanel = createProductPanel(cart);
+                cartContentPanel.add(productPanel);
+            }
+            cartContentPanel.revalidate();
+            cartContentPanel.repaint();
+            updateTotalPrice(); // 장바구니 목록이 업데이트될 때 총 가격도 함께 업데이트
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JPanel createProductPanel(Cart cart) {
+        JPanel productPanel = new JPanel();
+        productPanel.setLayout(new BorderLayout());
+        productPanel.setBackground(Color.WHITE);
+        productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+        JLabel productInfoLabel = new JLabel("<html><font size='3'>" + ": " + cart.getProduct().getP_name() + "<br>"
+                + "가격: " + new DecimalFormat("#,###").format(cart.getProduct().getPrice()) + "원<br>"
+                + "설명: " + cart.getProduct().getP_desc() + "</font></html>");
+        productPanel.add(productInfoLabel, BorderLayout.CENTER);
+
+        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JComboBox<Integer> cartQtyComboBox = new JComboBox<>();
+        for (int i = 1; i <= 10; i++) {
+            cartQtyComboBox.addItem(i);
+        }
+        cartQtyComboBox.setSelectedItem(cart.getCart_qty());
+        cartQtyComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int quantity = (int) cartQtyComboBox.getSelectedItem();
+                cart.setCart_qty(quantity);
+                updateTotalPrice();
+            }
+        });
+        controlPanel.add(cartQtyComboBox);
+
+        JButton removeButton = new JButton("삭제");
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cartService.deleteCartItemByCartNo(cart.getCart_no());
+                    updateCartList();
+                    updateTotalPrice();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        controlPanel.add(removeButton);
+
+        productPanel.add(controlPanel, BorderLayout.SOUTH);
+
+        // 카트 정보를 컴포넌트에 저장하여 사용
+        productPanel.putClientProperty("cart", cart);
+
+        return productPanel;
+    }
+
+    private void orderProducts() {
+        // 주문하기 기능 구현 (OrderFrame으로 카트에 담긴 상품 정보 전송)
+        try {
+            List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
+            // OrderFrame으로 carts에 들어있는 카트 정보 전송
+            new OrderFrame(currentUser).setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearCart() {
+        try {
+            cartService.deleteCartItemByUserId(currentUser.getMemberId());
+            updateCartList();
+            updateTotalPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showProductFrame() {
+        try {
+            new ProductFrame(currentUser).setVisible(true);
+            dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }

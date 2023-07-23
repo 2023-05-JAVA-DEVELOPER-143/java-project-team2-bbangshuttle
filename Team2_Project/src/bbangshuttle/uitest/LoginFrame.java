@@ -79,7 +79,13 @@ public class LoginFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 회원가입 버튼을 클릭하면 회원가입 폼 프레임을 띄움
-                SignupFormFrame signupFormFrame = new SignupFormFrame();
+                SignupFormFrame signupFormFrame = null;
+				try {
+					signupFormFrame = new SignupFormFrame();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 signupFormFrame.setVisible(true);
             }
         });

@@ -1,7 +1,17 @@
 package bbangshuttle.uitest;
 
+import bbangshuttle.member.Member;
+import bbangshuttle.member.MemberDao;
+import bbangshuttle.member.MemberService;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class SignupFormFrame extends JFrame {
     private JTextField usernameField;
@@ -15,113 +25,253 @@ public class SignupFormFrame extends JFrame {
     private JComboBox<String> monthCombo;
     private JComboBox<String> dayCombo;
     private JButton signUpButton;
+    private JButton cancelButton;
 
-    public SignupFormFrame() {
+    private MemberService memberService;
+
+    public SignupFormFrame() throws Exception {
         setTitle("Sign Up Form Frame");
-        setSize(1024, 860);
+        setSize(400, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // 컴포넌트 생성
+        memberService = new MemberService();
+
+        // 컴포넌트 생성 및 배치
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+
         JLabel usernameLabel = new JLabel("아이디:");
-        usernameField = new JTextField(10);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(usernameLabel, gbc);
+
+        usernameField = new JTextField(20);
+        usernameField.setPreferredSize(new Dimension(200, 30)); 
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        panel.add(usernameField, gbc);
 
         JLabel passwordLabel = new JLabel("비밀번호:");
-        passwordField = new JPasswordField(10);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        panel.add(passwordLabel, gbc);
+
+        passwordField = new JPasswordField(20);
+        passwordField.setPreferredSize(new Dimension(200, 30)); 
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 3;
+        panel.add(passwordField, gbc);
 
         JLabel confirmPasswordLabel = new JLabel("비밀번호 확인:");
-        confirmPasswordField = new JPasswordField(10);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        panel.add(confirmPasswordLabel, gbc);
+
+        confirmPasswordField = new JPasswordField(20);
+        confirmPasswordField.setPreferredSize(new Dimension(200, 30)); 
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.gridwidth = 3;
+        panel.add(confirmPasswordField, gbc);
 
         JLabel nameLabel = new JLabel("이름:");
-        nameField = new JTextField(10);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
+        panel.add(nameLabel, gbc);
+
+        nameField = new JTextField(20);
+        nameField.setPreferredSize(new Dimension(200, 30)); 
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.gridwidth = 3;
+        panel.add(nameField, gbc);
 
         JLabel emailLabel = new JLabel("이메일:");
-        emailField = new JTextField(10);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 1;
+        panel.add(emailLabel, gbc);
+
+        emailField = new JTextField(20);
+        emailField.setPreferredSize(new Dimension(200, 30));
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.gridwidth = 3;
+        panel.add(emailField, gbc);
 
         JLabel addressLabel = new JLabel("주소:");
-        addressField = new JTextField(10);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 1;
+        panel.add(addressLabel, gbc);
+
+        addressField = new JTextField(20);
+        addressField.setPreferredSize(new Dimension(200, 30)); 
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.gridwidth = 3;
+        panel.add(addressField, gbc);
 
         JLabel contactLabel = new JLabel("연락처:");
-        contactField = new JTextField(10);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
+        panel.add(contactLabel, gbc);
+
+        contactField = new JTextField(20);
+        contactField.setPreferredSize(new Dimension(200, 30)); 
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.gridwidth = 3;
+        panel.add(contactField, gbc);
+
+        // 
+        contactField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '-')) {
+                    evt.consume();
+                }
+            }
+        });
 
         JLabel birthdayLabel = new JLabel("생년월일:");
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 1;
+        panel.add(birthdayLabel, gbc);
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
         String[] years = new String[100];
-        String[] months = new String[12];
-        String[] days = new String[31];
         for (int i = 0; i < 100; i++) {
-            years[i] = Integer.toString(2023 - i);
+            years[i] = Integer.toString(year - i);
         }
+        yearCombo = new JComboBox<>(years);
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        gbc.gridwidth = 1;
+        panel.add(yearCombo, gbc);
+
+        String[] months = new String[12];
         for (int i = 0; i < 12; i++) {
             months[i] = Integer.toString(i + 1);
         }
+        monthCombo = new JComboBox<>(months);
+        gbc.gridx = 2;
+        gbc.gridy = 7;
+        gbc.gridwidth = 1;
+        panel.add(monthCombo, gbc);
+
+        String[] days = new String[31];
         for (int i = 0; i < 31; i++) {
             days[i] = Integer.toString(i + 1);
         }
-        yearCombo = new JComboBox<>(years);
-        monthCombo = new JComboBox<>(months);
         dayCombo = new JComboBox<>(days);
+        gbc.gridx = 3;
+        gbc.gridy = 7;
+        gbc.gridwidth = 1;
+        panel.add(dayCombo, gbc);
 
         signUpButton = new JButton("회원가입");
+        signUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+					signup();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+            }
+        });
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        gbc.gridwidth = 1;
+        panel.add(signUpButton, gbc);
 
-        // 앱솔루트 레이아웃으로 설정
-        getContentPane().setLayout(null);
+        cancelButton = new JButton("취소");
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goBackToLogin();
+            }
+        });
+        gbc.gridx = 2;
+        gbc.gridy = 8;
+        gbc.gridwidth = 1;
+        panel.add(cancelButton, gbc);
 
-        // 컴포넌트 위치 설정
-        usernameLabel.setBounds(20, 20, 100, 30);
-        usernameField.setBounds(120, 20, 200, 30);
+        add(panel);
+    }
 
-        passwordLabel.setBounds(20, 60, 100, 30);
-        passwordField.setBounds(120, 60, 200, 30);
+    private void signup() throws Exception {
+        // 회원가입 정보 DB에 저장
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
+        String name = nameField.getText();
+        String email = emailField.getText();
+        String address = addressField.getText();
+        String contact = contactField.getText();
+        String birthday = yearCombo.getSelectedItem() + "-" + monthCombo.getSelectedItem() + "-" + dayCombo.getSelectedItem();
 
-        confirmPasswordLabel.setBounds(20, 100, 100, 30);
-        confirmPasswordField.setBounds(120, 100, 200, 30);
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this, "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return;
+        }
 
-        nameLabel.setBounds(20, 140, 100, 30);
-        nameField.setBounds(120, 140, 200, 30);
+        // MemberDao를 이용하여 회원 정보를 데이터베이스에 저장
+        MemberDao memberDao = new MemberDao();
+        Member newMember = new Member(username, password, name, email, address,birthday,contact,null,0);
+        try {
+            memberDao.insert(newMember);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "회원가입에 실패하였습니다. 다시 시도해주세요.");
+            return;
+        }
 
-        emailLabel.setBounds(20, 180, 100, 30);
-        emailField.setBounds(120, 180, 200, 30);
+        // 회원가입 성공 메시지 표시
+        JOptionPane.showMessageDialog(this, "회원가입이 완료되었습니다.");
 
-        addressLabel.setBounds(20, 220, 100, 30);
-        addressField.setBounds(120, 220, 200, 30);
+        // 로그인 화면으로 이동
+        goBackToLogin();
+    }
 
-        contactLabel.setBounds(20, 260, 100, 30);
-        contactField.setBounds(120, 260, 200, 30);
+    private Date parseBirthday(String birthday) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return dateFormat.parse(birthday);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-        birthdayLabel.setBounds(20, 300, 100, 30);
-        yearCombo.setBounds(120, 300, 97, 30);
-        monthCombo.setBounds(244, 302, 60, 30);
-        dayCombo.setBounds(316, 301, 60, 30);
-
-        signUpButton.setBounds(120, 340, 200, 30);
-
-        // 컴포넌트를 프레임에 추가
-        getContentPane().add(usernameLabel);
-        getContentPane().add(usernameField);
-        getContentPane().add(passwordLabel);
-        getContentPane().add(passwordField);
-        getContentPane().add(confirmPasswordLabel);
-        getContentPane().add(confirmPasswordField);
-        getContentPane().add(nameLabel);
-        getContentPane().add(nameField);
-        getContentPane().add(emailLabel);
-        getContentPane().add(emailField);
-        getContentPane().add(addressLabel);
-        getContentPane().add(addressField);
-        getContentPane().add(contactLabel);
-        getContentPane().add(contactField);
-        getContentPane().add(birthdayLabel);
-        getContentPane().add(yearCombo);
-        getContentPane().add(monthCombo);
-        getContentPane().add(dayCombo);
-        getContentPane().add(signUpButton);
+    private void goBackToLogin() {
+        new LoginFrame(memberService).setVisible(true);
+        dispose();
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                SignupFormFrame signupFrame = new SignupFormFrame();
+                SignupFormFrame signupFrame = null;
+				try {
+					signupFrame = new SignupFormFrame();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 signupFrame.setVisible(true);
             }
         });
