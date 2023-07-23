@@ -47,15 +47,15 @@ public class LoginFrame extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 사용자가 로그인 버튼을 클릭하면 입력된 아이디와 비밀번호를 가져옵니다.
+                // 사용자가 로그인 버튼을 클릭하면 입력된 아이디와 비밀번호를 가져옴.
                 String username = usernameField.getText();
                 char[] password = passwordField.getPassword();
 
-                // MemberService를 통해 로그인 기능을 수행합니다.
+                // MemberService를 통해 로그인 기능을 수행함.
                 try {
                     Member member = memberService.loginMember(username, new String(password));
                     if (member != null) {
-                        // 로그인 성공시 회원 프레임을 띄우고 현재 프레임을 숨깁니다.
+                        // 로그인 성공시 회원 프레임을 띄우고 현재 프레임을 숨김.
                         MemberFrame memberFrame = new MemberFrame(memberService, member);
                         memberFrame.setVisible(true);
                         setVisible(false);
@@ -67,7 +67,7 @@ public class LoginFrame extends JFrame {
                     JOptionPane.showMessageDialog(LoginFrame.this, "로그인 과정에서 오류가 발생했습니다.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
-                // 비밀번호 필드는 사용 후에 지워줍니다.
+                // 비밀번호 필드는 사용 후에 지워줌.
                 passwordField.setText("");
             }
         });
@@ -77,7 +77,7 @@ public class LoginFrame extends JFrame {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 회원가입 버튼을 클릭하면 회원가입 폼 프레임을 띄웁니다.
+                // 회원가입 버튼을 클릭하면 회원가입 폼 프레임을 띄움
                 SignupFormFrame signupFormFrame = new SignupFormFrame(memberService);
                 signupFormFrame.setVisible(true);
             }

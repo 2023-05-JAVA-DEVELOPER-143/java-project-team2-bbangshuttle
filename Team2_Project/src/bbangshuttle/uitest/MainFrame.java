@@ -53,7 +53,7 @@ public class MainFrame extends JFrame {
             public void run() {
                 try {
                     MemberService memberService = new MemberService();
-                    // 여기서 로그인 프레임을 띄우도록 합니다.
+                    // 여기서 로그인 프레임을 띄움.
                     LoginFrame loginFrame = new LoginFrame(memberService);
                     loginFrame.setVisible(true);
                 } catch (Exception e) {

@@ -1,23 +1,7 @@
 package bbangshuttle.uitest;
 
-
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-
-import bbangshuttle.member.Member;
-import bbangshuttle.member.MemberService;
+import javax.swing.*;
+import java.awt.*;
 
 public class SignupFormFrame extends JFrame {
     private JTextField usernameField;
@@ -32,45 +16,34 @@ public class SignupFormFrame extends JFrame {
     private JComboBox<String> dayCombo;
     private JButton signUpButton;
 
-    private MemberService memberService;
-
-    public SignupFormFrame(MemberService memberService) {
-        this.memberService = memberService;
-
+    public SignupFormFrame() {
         setTitle("Sign Up Form Frame");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // 아이디 입력 필드
+        // 컴포넌트 생성
         JLabel usernameLabel = new JLabel("아이디:");
         usernameField = new JTextField(10);
 
-        // 비밀번호 입력 필드
         JLabel passwordLabel = new JLabel("비밀번호:");
         passwordField = new JPasswordField(10);
 
-        // 비밀번호 확인 입력 필드
         JLabel confirmPasswordLabel = new JLabel("비밀번호 확인:");
         confirmPasswordField = new JPasswordField(10);
 
-        // 이름 입력 필드
         JLabel nameLabel = new JLabel("이름:");
         nameField = new JTextField(10);
 
-        // 이메일 입력 필드
         JLabel emailLabel = new JLabel("이메일:");
         emailField = new JTextField(10);
 
-        // 주소 입력 필드
         JLabel addressLabel = new JLabel("주소:");
         addressField = new JTextField(10);
 
-        // 연락처 입력 필드
         JLabel contactLabel = new JLabel("연락처:");
         contactField = new JTextField(10);
 
-        // 생년월일 입력 필드
         JLabel birthdayLabel = new JLabel("생년월일:");
         String[] years = new String[100];
         String[] months = new String[12];
@@ -88,89 +61,68 @@ public class SignupFormFrame extends JFrame {
         monthCombo = new JComboBox<>(months);
         dayCombo = new JComboBox<>(days);
 
-        // 회원가입 버튼
         signUpButton = new JButton("회원가입");
-        signUpButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 사용자가 회원가입 버튼을 클릭하면 입력된 정보를 가져옵니다.
-                String username = usernameField.getText();
-                char[] password = passwordField.getPassword();
-                char[] confirmPassword = confirmPasswordField.getPassword();
-                String name = nameField.getText();
-                String email = emailField.getText();
-                String address = addressField.getText();
-                String contact = contactField.getText();
-                String year = yearCombo.getSelectedItem().toString();
-                String month = monthCombo.getSelectedItem().toString();
-                String day = dayCombo.getSelectedItem().toString();
 
-                // 비밀번호와 비밀번호 확인이 일치하는지 확인합니다.
-                if (!passwordMatch(password, confirmPassword)) {
-                    JOptionPane.showMessageDialog(SignupFormFrame.this, "비밀번호와 비밀번호 확인이 일치하지 않습니다.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+        // 앱솔루트 레이아웃으로 설정
+        getContentPane().setLayout(null);
 
-                // 생년월일을 yyyy/mm/dd 형식으로 만듭니다.
-                String birthday = year + "/" + month + "/" + day;
+        // 컴포넌트 위치 설정
+        usernameLabel.setBounds(20, 20, 100, 30);
+        usernameField.setBounds(120, 20, 200, 30);
 
-                // 회원가입 정보를 생성합니다.
-                Member member = new Member(username, new String(password), name, email, address, contact, birthday,null,0);
+        passwordLabel.setBounds(20, 60, 100, 30);
+        passwordField.setBounds(120, 60, 200, 30);
 
-                // MemberService를 통해 회원가입 기능을 수행합니다.
-                try {
-                    memberService.addMember(member);
-                    JOptionPane.showMessageDialog(SignupFormFrame.this, "회원가입이 완료되었습니다.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    dispose(); // 현재 프레임을 닫습니다.
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(SignupFormFrame.this, "회원가입 과정에서 오류가 발생했습니다.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        confirmPasswordLabel.setBounds(20, 100, 100, 30);
+        confirmPasswordField.setBounds(120, 100, 200, 30);
 
-        // 레이아웃 설정
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(9, 2));
-        panel.add(usernameLabel);
-        panel.add(usernameField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
-        panel.add(confirmPasswordLabel);
-        panel.add(confirmPasswordField);
-        panel.add(nameLabel);
-        panel.add(nameField);
-        panel.add(emailLabel);
-        panel.add(emailField);
-        panel.add(addressLabel);
-        panel.add(addressField);
-        panel.add(contactLabel);
-        panel.add(contactField);
-        panel.add(birthdayLabel);
-        panel.add(yearCombo);
-        panel.add(monthCombo);
-        panel.add(dayCombo);
-        panel.add(new JLabel());
-        panel.add(signUpButton);
+        nameLabel.setBounds(20, 140, 100, 30);
+        nameField.setBounds(120, 140, 200, 30);
 
-        add(panel, BorderLayout.CENTER);
-    }
+        emailLabel.setBounds(20, 180, 100, 30);
+        emailField.setBounds(120, 180, 200, 30);
 
-    private boolean passwordMatch(char[] password1, char[] password2) {
-        return new String(password1).equals(new String(password2));
+        addressLabel.setBounds(20, 220, 100, 30);
+        addressField.setBounds(120, 220, 200, 30);
+
+        contactLabel.setBounds(20, 260, 100, 30);
+        contactField.setBounds(120, 260, 200, 30);
+
+        birthdayLabel.setBounds(20, 300, 100, 30);
+        yearCombo.setBounds(120, 300, 97, 30);
+        monthCombo.setBounds(244, 302, 60, 30);
+        dayCombo.setBounds(316, 301, 60, 30);
+
+        signUpButton.setBounds(120, 340, 200, 30);
+
+        // 컴포넌트를 프레임에 추가
+        getContentPane().add(usernameLabel);
+        getContentPane().add(usernameField);
+        getContentPane().add(passwordLabel);
+        getContentPane().add(passwordField);
+        getContentPane().add(confirmPasswordLabel);
+        getContentPane().add(confirmPasswordField);
+        getContentPane().add(nameLabel);
+        getContentPane().add(nameField);
+        getContentPane().add(emailLabel);
+        getContentPane().add(emailField);
+        getContentPane().add(addressLabel);
+        getContentPane().add(addressField);
+        getContentPane().add(contactLabel);
+        getContentPane().add(contactField);
+        getContentPane().add(birthdayLabel);
+        getContentPane().add(yearCombo);
+        getContentPane().add(monthCombo);
+        getContentPane().add(dayCombo);
+        getContentPane().add(signUpButton);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    MemberService memberService = new MemberService();
-                    SignupFormFrame signupFrame = new SignupFormFrame(memberService);
-                    signupFrame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                SignupFormFrame signupFrame = new SignupFormFrame();
+                signupFrame.setVisible(true);
             }
         });
     }
