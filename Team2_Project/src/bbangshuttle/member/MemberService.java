@@ -50,13 +50,17 @@ public class MemberService {
 		return result;
 	}
 	
-	public Member loginMember(String memberId,String password) throws Exception{
-		Member member = null;
-		if(member.getMemberId().equals(memberId) && member.getMemberPassword().equals(password)){
-			member = memberDao.showMyInfo(password);
-			return member;
-		}
-		return member;
+	public Member loginMember(String memberId, String password) throws Exception {
+	    // 회원 정보를 데이터베이스 등에서 가져오는 DAO의 메서드를 사용하여 조회
+	    Member member = memberDao.getMemberById(memberId);
+
+	    // 회원 정보가 존재하고 비밀번호가 일치하면 로그인 성공
+	    if (member != null && member.getMemberPassword().equals(password)) {
+	        return member;
+	    } else {
+	        // 로그인 실패 시 null 반환
+	        return null;
+	    }
 	}
 	
 	

@@ -1,11 +1,11 @@
 package bbangshuttle.member;
 
 import java.sql.Connection;
-
+import java.sql.Date;
 import java.sql.PreparedStatement;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
 import bbangshuttle.common.DataSource;
 
 public class MemberDao {
@@ -161,7 +161,32 @@ public class MemberDao {
                 con.close();
         }
     }
-	
+    // 회원 아이디로 회원 정보를 조회하는 메서드
+    public Member getMemberById(String memberId) throws Exception {
+        String query = "SELECT * FROM userinfo WHERE member_id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, memberId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                	String id=rs.getString("member_id");
+					String password=rs.getString("member_password");
+					String name =rs.getString("member_name");
+					String email=rs.getString("member_email");
+					String address = rs.getString("member_address");
+					String birth = rs.getString("member_birth");
+					String phone =rs.getString("member_number");
+					Date regDate=rs.getDate("member_regdate");
+					int point = rs.getInt("member_point");
+                	return new Member(id, password, name, email,address,birth,phone,regDate,point);
+
+                    
+                } else {
+                    return null; // 회원 정보가 없으면 null 반환
+                }
+            }
+        }
+    }
 }
 	
 	
