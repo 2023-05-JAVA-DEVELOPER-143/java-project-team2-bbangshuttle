@@ -1,26 +1,12 @@
 package bbangshuttle.uitest;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.List;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.AbstractTableModel;
 
 import bbangshuttle.cart.Cart;
 import bbangshuttle.cart.CartService;
@@ -29,10 +15,10 @@ import bbangshuttle.product.Product;
 import bbangshuttle.product.ProductService;
 
 public class ProductFrame extends JFrame {
-    private JTable productTable;
-    private ProductTableModel tableModel;
-    private JPanel cardPanel;
-    private CardLayout cardLayout;
+    private JPanel productPopularContentPanel;
+    private JComboBox<String> categoryComboBox;
+    private JButton mainFrameButton;
+    private JButton cartFrameButton;
 
     private ProductService productService;
     private CartService cartService;
@@ -48,236 +34,149 @@ public class ProductFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // 카드 레이아웃을 사용하여 4개의 패널로 구성
-        cardLayout = new CardLayout();
-        cardPanel = new JPanel(cardLayout);
-
-        // 상품 목록을 보여줄 테이블 생성
-        tableModel = new ProductTableModel();
-        productTable = new JTable(tableModel);
-        productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        productTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int selectedRow = productTable.getSelectedRow();
-                if (selectedRow >= 0) {
-                    Product selectedProduct = tableModel.getProductAt(selectedRow);
-                    showProductDetail(selectedProduct);
-                }
-            }
-        });
-
-        // 프레임에 추가
-        add(createMenuPanel(), BorderLayout.NORTH);
-        cardPanel.add(createProductPanel("전체메뉴", 0), "전체메뉴");
-        cardPanel.add(createProductPanel("베이커리", 1), "베이커리");
-        cardPanel.add(createProductPanel("음료", 2), "음료");
-        add(cardPanel, BorderLayout.CENTER);
-
-        // Product 목록 초기화
-        updateProductList();
-    }
-
-    private JPanel createMenuPanel() {
-        // 카테고리 선택 버튼 추가
-        JPanel menuPanel = new JPanel();
-        menuPanel.add(createCategoryButton("전체메뉴", 0));
-        menuPanel.add(createCategoryButton("베이커리", 1));
-        menuPanel.add(createCategoryButton("음료", 2));
-        return menuPanel;
-    }
-
-    private JButton createCategoryButton(String categoryName, int categoryNumber) {
-        JButton categoryButton = new JButton(categoryName);
-        categoryButton.addActionListener(new ActionListener() {
+        // 카테고리 선택 콤보박스 생성
+        categoryComboBox = new JComboBox<>(new String[]{"전체상품", "베이커리", "음료"});
+        categoryComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, categoryName);
+                String selectedCategory = (String) categoryComboBox.getSelectedItem();
+                displayProductListByCategory(selectedCategory);
             }
         });
-        return categoryButton;
-    }
 
-    private JPanel createProductPanel(String categoryName, int categoryNumber) {
-        JPanel productPanel = new JPanel(new BorderLayout());
-
-        // 카테고리 별로 상품 목록을 보여줄 테이블 생성
-        JTable productListByCategory = new JTable();
-        productListByCategory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        productListByCategory.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        // Main Frame으로 가는 버튼 생성
+        mainFrameButton = new JButton("Main Frame로 가기");
+        mainFrameButton.addActionListener(new ActionListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int selectedRow = productListByCategory.getSelectedRow();
-                if (selectedRow >= 0) {
-                    Product selectedProduct = tableModel.getProductAt(selectedRow);
-                    showProductDetail(selectedProduct);
+            public void actionPerformed(ActionEvent e) {
+                showMainFrame();
+            }
+        });
+
+        // Cart Frame으로 가는 버튼 생성
+        cartFrameButton = new JButton("Cart Frame으로 가기");
+        cartFrameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    showCartFrame();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
             }
         });
 
-        JScrollPane scrollPane = new JScrollPane(productListByCategory);
-        productPanel.add(scrollPane, BorderLayout.CENTER);
+        // 카테고리 선택 콤보박스와 버튼들을 담을 패널 생성
+        JPanel menuPanel = new JPanel();
+        menuPanel.add(categoryComboBox);
+        menuPanel.add(mainFrameButton);
+        menuPanel.add(cartFrameButton);
+        add(menuPanel, BorderLayout.NORTH);
 
-        // 카테고리 별로 상품 목록 초기화
-        updateProductListByCategory(categoryNumber, productListByCategory);
+        // 인기 상품 패널 생성 및 추가
+        productPopularContentPanel = new JPanel();
+        productPopularContentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        add(new JScrollPane(productPopularContentPanel), BorderLayout.CENTER);
+        
 
-        return productPanel;
+        // 처음에 전체상품을 보여줌
+        displayProductListByCategory("전체상품");
     }
 
-    private void updateProductListByCategory(int category, JTable table) {
+    private void displayProductListByCategory(String category) {
         try {
             List<Product> products;
-            if (category == 0) {
+            if ("전체상품".equals(category)) {
                 products = productService.ProductFindByAll();
+            } else if ("베이커리".equals(category)) {
+                products = productService.productCategoryAll(1);
+            } else if ("음료".equals(category)) {
+                products = productService.productCategoryAll(2);
             } else {
-                products = productService.productCategoryAll(category);
+                // 잘못된 카테고리 처리
+                products = Collections.emptyList();
             }
-            ProductTableModel model = new ProductTableModel(products);
-            table.setModel(model);
+            displayProductList(products);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void updateProductList() {
-        try {
-            // 전체 상품 목록 가져오기
-            List<Product> products = productService.ProductFindByAll();
-            tableModel.setData(products);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    private void displayProductList(List<Product> productList) {
+        productPopularContentPanel.removeAll();
+        for (Product product : productList) {
+            /************* 제품1개UI디자인 *******************/
+            JPanel productPanel = new JPanel();
+            productPanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+            productPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+            productPanel.setBounds(new Rectangle(0, 0, 120, 120));
+            productPanel.setMaximumSize(new Dimension(200, 200));
+            productPanel.setMinimumSize(new Dimension(150, 150));
+            productPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            productPanel.setBackground(Color.WHITE);
+            productPanel.setBorder(null);
+            productPanel.setSize(new Dimension(120, 120));
+            productPanel.setPreferredSize(new Dimension(170, 190));
+            productPanel.setLayout(null);
 
-    private void showProductDetail(Product product) {
-        // 카드 레이아웃에서 사용할 상세 정보 패널 생성
-        JPanel detailPanel = createProductDetailPanel(product);
+            JLabel productImageLabel = new JLabel();
+            productImageLabel.setIcon(new ImageIcon(product.getP_image()));
+            productImageLabel.setBounds(3, 1, 160, 120);
+            productPanel.add(productImageLabel);
 
-        // 카드 레이아웃에 상세 정보 패널 추가 및 전환
-        cardPanel.add(detailPanel, "상세페이지");
-        cardLayout.show(cardPanel, "상세페이지");
-    }
+            JLabel productDescLabel = new JLabel("<html><font size='3'>" + ": " + product.getP_name() + "<br>"
+                    + "가격: " + new DecimalFormat("#,###").format(product.getPrice()) + "<br>" + "설명: "
+                    + product.getP_desc() + "</font></html>");
+            productDescLabel.setVerticalAlignment(SwingConstants.TOP);
+            productDescLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            productDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            productDescLabel.setBounds(3, 143, 164, 47);
+            productPanel.add(productDescLabel);
 
-    private JPanel createProductDetailPanel(Product product) {
-        JPanel detailPanel = new JPanel(new BorderLayout());
+            JComboBox<String> cartQtyComboBox = new JComboBox<>();
+            cartQtyComboBox.setAutoscrolls(true);
+            cartQtyComboBox.setModel(new DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
+            cartQtyComboBox.setOpaque(false);
+            cartQtyComboBox.setBorder(null);
+            cartQtyComboBox.setBackground(Color.WHITE);
+            cartQtyComboBox.setBounds(99, 119, 33, 23);
+            cartQtyComboBox.setMaximumRowCount(cartQtyComboBox.getModel().getSize());
+            productPanel.add(cartQtyComboBox);
 
-        // 이미지
-        JLabel imageLabel = new JLabel();
-        imageLabel.setPreferredSize(new Dimension(120, 80)); // 이미지 칸의 크기를 120x80 픽셀로 조정
+            JButton cartAddButton = new JButton("장바구니에 담기");
+            cartAddButton.addActionListener(new ActionListener() {
+                private Product p = product;
 
-        // 이미지 정보 설정
-        String imagePath = product.getP_image(); // 상대주소에 있는 이미지 경로
-        
-        ImageIcon imageIcon = new ImageIcon(imagePath);
-        imageLabel.setIcon(imageIcon);
-
-        // 상품명
-        JLabel nameLabel = new JLabel(product.getP_name());
-
-        // 가격
-        JLabel priceLabel = new JLabel(product.getPrice() + "원");
-
-        // 상품 설명
-        JLabel descriptionLabel = new JLabel(product.getP_desc());
-
-        // 조회수
-        JLabel viewCountLabel = new JLabel("조회수: " + product.getP_view_count());
-
-        // 수량 선택 콤보박스
-        Integer[] quantities = {1, 2, 3, 4, 5};
-        JComboBox<Integer> quantityComboBox = new JComboBox<>(quantities);
-
-        // 장바구니 담기 버튼
-        JButton addToCartButton = new JButton("장바구니에 담기");
-        addToCartButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int quantity = (int) quantityComboBox.getSelectedItem();
-                try {
-                    Cart cart = new Cart(0, quantity, currentUser.getMemberId(), product);
-                    cartService.addCart(cart);
-                    // 장바구니에 담은 후의 처리 (예: 장바구니 아이콘 업데이트 등)
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                public void actionPerformed(ActionEvent e) {
+                    int quantity = Integer.parseInt((String) cartQtyComboBox.getSelectedItem());
+                    try {
+                        Cart cart = new Cart(0, quantity, currentUser.getMemberId(), product);
+                        cartService.addCart(cart);
+                        // 장바구니에 담은 후의 처리 (예: 장바구니 아이콘 업데이트 등)
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+            cartAddButton.setBounds(131, 119, 110, 23);
+            productPanel.add(cartAddButton);
 
-        // 패널에 컴포넌트 추가
-        JPanel infoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        infoPanel.add(imageLabel);
-        infoPanel.add(nameLabel);
-        infoPanel.add(priceLabel);
-        infoPanel.add(descriptionLabel);
-        infoPanel.add(viewCountLabel);
-        infoPanel.add(new JLabel("수량:"));
-        infoPanel.add(quantityComboBox);
-        infoPanel.add(addToCartButton);
-
-        detailPanel.add(infoPanel, BorderLayout.CENTER);
-
-        return detailPanel;
+            productPopularContentPanel.add(productPanel);
+        }
+        productPopularContentPanel.revalidate();
+        productPopularContentPanel.repaint();
     }
 
-    // 테이블 모델 클래스
-    private class ProductTableModel extends AbstractTableModel {
-        private List<Product> data;
-        private String[] columnNames = {"이미지", "상품명", "가격", "상품설명"};
+    private void showMainFrame() {
+        MainFrame mainFrame = new MainFrame(currentUser);
+        mainFrame.setVisible(true);
+        dispose();
+    }
 
-        public ProductTableModel() {
-        }
-
-        public ProductTableModel(List<Product> data) {
-            this.data = data;
-        }
-
-        public void setData(List<Product> data) {
-            this.data = data;
-            fireTableDataChanged();
-        }
-
-        public Product getProductAt(int row) {
-            return data.get(row);
-        }
-
-        @Override
-        public int getRowCount() {
-            if (data == null) {
-                return 0;
-            }
-            return data.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
-        }
-
-        @Override
-        public String getColumnName(int column) {
-            return columnNames[column];
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            Product product = data.get(rowIndex);
-            switch (columnIndex) {
-                case 0:
-                    // 이미지
-                    return product.getP_image();
-                case 1:
-                    // 상품명
-                    return product.getP_name();
-                case 2:
-                    // 가격
-                    return product.getPrice() + "원";
-                case 3:
-                    // 상품설명
-                    return product.getP_desc();
-                default:
-                    return null;
-            }
-        }
+    private void showCartFrame() throws Exception {
+        CartFrame cartFrame = new CartFrame(currentUser);
+        cartFrame.setVisible(true);
+        dispose();
     }
 
     public static void main(String[] args) {
