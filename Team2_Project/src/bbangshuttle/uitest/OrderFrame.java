@@ -3,14 +3,15 @@ package bbangshuttle.uitest;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class OrderFrame extends JFrame {
 
     public OrderFrame(Member currentUser, CartFrame cartFrame, List<Cart> cartItems) throws Exception {
         // 아이콘 설정 및 사용할 멤버 변수 초기화
-        setIconImage(Toolkit.getDefaultToolkit().getImage(OrderFrame.class.getResource("")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(OrderFrame.class.getResource("/bbangshuttle/images/3035467_and_bread_drink_food_wine_icon.png")));
         this.currentUser = currentUser;
         this.cartFrame = cartFrame;
         this.cartItems = cartItems;
@@ -112,6 +113,14 @@ public class OrderFrame extends JFrame {
                 showProductFrame();
             }
         });
+        
+        JButton goCartButton = new JButton("장바구니");
+        goCartButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showCartFrame();
+            }
+        });
+        bottomPanel.add(goCartButton);
 
         bottomPanel.add(clearAllButton);
         bottomPanel.add(completeOrderButton);
@@ -127,6 +136,9 @@ public class OrderFrame extends JFrame {
         orderContentPanel = new JPanel();
         orderContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
         orderPagePanel.add(new JScrollPane(orderContentPanel), BorderLayout.CENTER);
+        
+        JButton button = new JButton("New button");
+        orderContentPanel.add(button);
 
         // 총 가격 표시 라벨 생성
         totalPriceLabel = new JLabel("총 가격: 0원");
@@ -135,16 +147,6 @@ public class OrderFrame extends JFrame {
 
         // 주문한 상품 목록 초기화
         updateOrderList();
-
-        // 선택 삭제 버튼 생성
-        JButton deleteButton = new JButton("선택 삭제");
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelectedItems();
-            }
-        });
-        orderPagePanel.add(deleteButton, BorderLayout.WEST);
 
         return orderPagePanel;
     }
@@ -157,16 +159,23 @@ public class OrderFrame extends JFrame {
         JLabel completeOrderLabel = new JLabel("주문이 완료되었습니다.");
         completeOrderLabel.setFont(new Font("Arial", Font.BOLD, 20));
         completeOrderLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        completeOrderPage.add(completeOrderLabel, BorderLayout.CENTER);
+        completeOrderPage.add(completeOrderLabel, BorderLayout.NORTH);
 
-        // 주문 이력을 표시할 JTable 생성
-        orderTable = new JTable();
+        JTable orderTable = new JTable();
         DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"상품명", "가격", "수량", "주문 시간"}, 0);
         orderTable.setModel(tableModel);
 
-        // JTable 스크롤 가능하도록 추가
         JScrollPane scrollPane = new JScrollPane(orderTable);
-        completeOrderPage.add(scrollPane, BorderLayout.SOUTH);
+        completeOrderPage.add(scrollPane, BorderLayout.CENTER);
+
+        JButton returnButton = new JButton("상품 페이지로 돌아가기");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showProductFrame();
+            }
+        });
+        completeOrderPage.add(returnButton, BorderLayout.SOUTH);
 
         return completeOrderPage;
     }
@@ -192,28 +201,15 @@ public class OrderFrame extends JFrame {
         updateTotalPrice(); // 주문 목록이 업데이트될 때 총 가격도 함께 업데이트
     }
 
-    // 선택된 상품들을 삭제하는 메소드
-    private void deleteSelectedItems() {
-        // 선택된 상품들을 삭제
-        List<Cart> selectedItems = new ArrayList<>();
-        for (Component component : orderContentPanel.getComponents()) {
-            if (component instanceof JPanel) {
-                JPanel productPanel = (JPanel) component;
-                Cart cart = (Cart) productPanel.getClientProperty("cart");
-                JCheckBox checkBox = (JCheckBox) productPanel.getClientProperty("checkBox");
-                if (checkBox.isSelected()) {
-                    selectedItems.add(cart);
-                }
-            }
-        }
+    private String getCurrentTimeAsString() {
+        // 현재 시스템 시간을 가져옴
+        long currentTimeMillis = System.currentTimeMillis();
 
-        if (!selectedItems.isEmpty()) {
-            for (Cart cart : selectedItems) {
-                removeCartItem(cart);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "삭제할 상품을 선택해주세요.");
-        }
+        // SimpleDateFormat을 생성하여 원하는 형식으로 시간을 포맷
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // 포맷된 시간을 문자열로 반환
+        return sdf.format(new Date(currentTimeMillis));
     }
 
     // 주문 완료 메소드
@@ -221,7 +217,10 @@ public class OrderFrame extends JFrame {
         // 주문 완료 메시지 표시
         JOptionPane.showMessageDialog(this, "주문이 완료되었습니다.");
 
-        // 주문한 상품 목록을 orderedItems에 저장
+        // 현재 시스템 시간을 주문 시간으로 설정
+        String orderTime = getCurrentTimeAsString();
+
+        // 주문한 상품 목록을 orderedItems 리스트에 추가
         orderedItems.addAll(cartItems);
 
         // 주문 목록 업데이트
@@ -252,8 +251,9 @@ public class OrderFrame extends JFrame {
     }
 
     public void complateDisplayOrderList() {
-    	
+        
     }
+
     // 특정 상품 삭제 메소드
     private void removeCartItem(Cart cart) {
         try {
