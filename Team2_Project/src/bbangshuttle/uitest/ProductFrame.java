@@ -23,6 +23,7 @@ public class ProductFrame extends JFrame {
     private ProductService productService;
     private CartService cartService;
     private Member currentUser;
+    private JLabel lblNewLabel;
 
     public ProductFrame(Member currentUser) throws Exception {
     	getContentPane().setName("ProductContentPane");
@@ -69,6 +70,9 @@ public class ProductFrame extends JFrame {
 
         // 카테고리 선택 콤보박스와 버튼들을 담을 패널 생성
         JPanel menuPanel = new JPanel();
+        
+      
+     
         menuPanel.add(categoryComboBox);
         menuPanel.add(mainFrameButton);
         menuPanel.add(cartFrameButton);
@@ -120,7 +124,7 @@ public class ProductFrame extends JFrame {
             productPanel.setLayout(null);
 
             JLabel productImageLabel = new JLabel();
-            productImageLabel.setIcon(new ImageIcon(""+product.getP_image()));
+            productImageLabel.setIcon(new ImageIcon(ProductFrame.class.getResource(product.getP_image())));
             productImageLabel.setBounds(3, 1, 160, 120); 
             productPanel.add(productImageLabel);
 
