@@ -19,6 +19,9 @@ import javax.swing.JTextField;
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
 import java.awt.Toolkit;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class MemberFrame extends JFrame {
     private MemberService memberService;
@@ -51,6 +54,7 @@ public class MemberFrame extends JFrame {
     private JButton mainButton; // 메인 프레임으로 화면 전환하는 버튼
     private JButton logoutButton;
     private JButton logoutNewButton;
+    private JLabel lblNewLabel;
 
     public MemberFrame(MemberService memberService, Member loggedInMember) {
        setIconImage(Toolkit.getDefaultToolkit().getImage(MemberFrame.class.getResource("/bbangshuttle/images/2530816_align_employee_general_human_human list_icon.png")));
@@ -63,16 +67,35 @@ public class MemberFrame extends JFrame {
         setLocationRelativeTo(null);
 
         // 회원 정보 표시 패널 구성
-        idLabel = new JLabel("아이디: " + loggedInMember.getMemberId());
-        nameLabel = new JLabel("이름: " + loggedInMember.getMemberName());
-        emailLabel = new JLabel("이메일: " + loggedInMember.getMemberEmail());
-        addressLabel = new JLabel("주소: " + loggedInMember.getMemberAddress());
-        phoneLabel = new JLabel("연락처: " + loggedInMember.getMemberNumber());
-        birthLabel = new JLabel("생년월일: " + loggedInMember.getMemberBirth());
-        joinDateLabel = new JLabel("가입일자: " + formatDate(loggedInMember.getMemberRegdate()));
-        pointLabel = new JLabel("포인트: " + loggedInMember.getMemberPoint());
+        idLabel = new JLabel("                     아이디 : " + loggedInMember.getMemberId());
+        idLabel.setBounds(0, 1, 312, 101);
+        idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        nameLabel = new JLabel("                    이름 : " + loggedInMember.getMemberName());
+        nameLabel.setBounds(312, 1, 312, 101);
+        nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        emailLabel = new JLabel("              이메일 : " + loggedInMember.getMemberEmail());
+        emailLabel.setBounds(0, 102, 312, 101);
+        emailLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        addressLabel = new JLabel("              주소 : " + loggedInMember.getMemberAddress());
+        addressLabel.setBounds(312, 102, 312, 101);
+        addressLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        phoneLabel = new JLabel("              연락처 : " + loggedInMember.getMemberNumber());
+        phoneLabel.setBounds(0, 203, 312, 101);
+        phoneLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        birthLabel = new JLabel("              생년월일 : " + loggedInMember.getMemberBirth());
+        birthLabel.setBounds(312, 203, 312, 101);
+        birthLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        joinDateLabel = new JLabel("              가입일자 : " + formatDate(loggedInMember.getMemberRegdate()));
+        joinDateLabel.setBounds(0, 304, 312, 101);
+        joinDateLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        pointLabel = new JLabel("                    포인트 : " + loggedInMember.getMemberPoint());
+        pointLabel.setBounds(312, 304, 312, 101);
+        pointLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         infoUpdateButton = new JButton("정보 수정");
+        infoUpdateButton.setBackground(new Color(252, 242, 203));
+        infoUpdateButton.setBounds(85, 436, 205, 76);
+        infoUpdateButton.setFont(new Font("맑은 고딕", Font.BOLD, 15));
         infoUpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,6 +105,9 @@ public class MemberFrame extends JFrame {
         });
 
         memberDeleteButton = new JButton("회원 탈퇴");
+        memberDeleteButton.setBackground(new Color(252, 242, 203));
+        memberDeleteButton.setBounds(328, 436, 205, 76);
+        memberDeleteButton.setFont(new Font("맑은 고딕", Font.BOLD, 15));
         memberDeleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,6 +127,9 @@ public class MemberFrame extends JFrame {
         });
 
         mainButton = new JButton("메인 프레임으로"); // 메인 프레임으로 화면 전환하는 버튼
+        mainButton.setBackground(new Color(252, 242, 203));
+        mainButton.setBounds(85, 537, 205, 76);
+        mainButton.setFont(new Font("맑은 고딕", Font.BOLD, 15));
         mainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -119,7 +148,8 @@ public class MemberFrame extends JFrame {
         });
 
         JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new GridLayout(9, 1)); // 회원 정보 개수에 맞게 행 개수 변경
+        infoPanel.setBackground(new Color(244, 227, 204));
+        infoPanel.setLayout(null);
         infoPanel.add(idLabel);
         infoPanel.add(nameLabel);
         infoPanel.add(emailLabel);
@@ -205,7 +235,15 @@ public class MemberFrame extends JFrame {
         cardPanel.add(infoPanel, "Info");
         
         logoutNewButton = new JButton("로그아웃");
+        logoutNewButton.setBackground(new Color(252, 242, 203));
+        logoutNewButton.setBounds(328, 537, 205, 76);
+        logoutNewButton.setFont(new Font("맑은 고딕", Font.BOLD, 15));
         infoPanel.add(logoutNewButton);
+        
+        lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(MemberFrame.class.getResource("/bbangshuttle/images/pngwing.com (4).png")));
+        lblNewLabel.setBounds(173, 655, 281, 230);
+        infoPanel.add(lblNewLabel);
         logoutNewButton.addActionListener(e -> logout());
 
         // ... 이전 코드 생략 ...

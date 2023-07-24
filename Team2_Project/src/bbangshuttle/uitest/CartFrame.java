@@ -37,6 +37,7 @@ public class CartFrame extends JFrame {
 
         // 총 가격 표시 라벨
         totalPriceLabel = new JLabel("총 가격: 0원");
+        totalPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
         updateTotalPrice();
         getContentPane().add(totalPriceLabel, BorderLayout.NORTH);
 
@@ -46,6 +47,7 @@ public class CartFrame extends JFrame {
         // 하단 버튼들 생성
         JPanel cartBottonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton orderButton = new JButton("주문하기");
+        orderButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
         orderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +60,7 @@ public class CartFrame extends JFrame {
         });
 
         JButton clearButton = new JButton("장바구니 비우기");
+        clearButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +74,7 @@ public class CartFrame extends JFrame {
 
         // 상품 페이지로 돌아가는 버튼 생성
         JButton returnButton = new JButton("상품 페이지로 돌아가기");
+        returnButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,7 +97,7 @@ public class CartFrame extends JFrame {
                 totalPrice += cart.getProduct().getPrice() * cart.getCart_qty();
             }
         }
-        totalPriceLabel.setText("총 가격: " + new DecimalFormat("#,###").format(totalPrice) + "원");
+        totalPriceLabel.setText("  총 가격 : 0원");
     }
 
     private void updateCartList() {

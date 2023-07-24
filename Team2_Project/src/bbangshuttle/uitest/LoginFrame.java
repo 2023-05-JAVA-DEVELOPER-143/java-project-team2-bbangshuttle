@@ -54,6 +54,7 @@ public class LoginFrame extends JFrame {
 
 		// 레이아웃 설정
 		JPanel loginPanel = new JPanel();
+		loginPanel.setBackground(new Color(244, 227, 204));
 		loginPanel.setLayout(null);
 		loginPanel.add(userNameLabel);
 		loginPanel.add(userNameField);
@@ -63,7 +64,7 @@ public class LoginFrame extends JFrame {
 		// 로그인 버튼
 		loginButton = new JButton("로그인");
 		loginButton.setForeground(new Color(0, 0, 0));
-		loginButton.setBackground(new Color(192, 192, 192));
+		loginButton.setBackground(new Color(252, 242, 203));
 		loginButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		loginButton.setBounds(168, 627, 120, 50);
 		loginButton.addActionListener(new ActionListener() {
@@ -111,6 +112,7 @@ public class LoginFrame extends JFrame {
 		memberDao = new MemberDao();
 		
 		IdSearchButton = new JButton("아이디 찾기");
+		IdSearchButton.setBackground(new Color(252, 242, 203));
 		IdSearchButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		IdSearchButton.setBounds(168, 706, 120, 45);
 		IdSearchButton.addActionListener(new ActionListener() {
@@ -145,6 +147,7 @@ public class LoginFrame extends JFrame {
 		memberDao = new MemberDao();
 		
 		PwSearchButton = new JButton("비밀번호 찾기");
+		PwSearchButton.setBackground(new Color(252, 242, 203));
 		PwSearchButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		PwSearchButton.setBounds(314, 706, 120, 45);
 		PwSearchButton.addActionListener(new ActionListener() {
@@ -177,6 +180,7 @@ public class LoginFrame extends JFrame {
 
 		// 회원가입 버튼
 		signUpButton = new JButton("회원가입");
+		signUpButton.setBackground(new Color(252, 242, 203));
 		signUpButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		signUpButton.setBounds(314, 627, 120, 50);
 		signUpButton.addActionListener(new ActionListener() {
@@ -196,7 +200,7 @@ public class LoginFrame extends JFrame {
 		loginPanel.add(signUpButton);
 		
 		JLabel loginbread = new JLabel("");
-		loginbread.setIcon(new ImageIcon("/bbangshuttle/images/pngwing.png"));
+		loginbread.setIcon(new ImageIcon(LoginFrame.class.getResource("/bbangshuttle/images/pngwing.com (4).png")));
 		loginbread.setBounds(185, 71, 283, 223);
 		loginPanel.add(loginbread);
 	}
