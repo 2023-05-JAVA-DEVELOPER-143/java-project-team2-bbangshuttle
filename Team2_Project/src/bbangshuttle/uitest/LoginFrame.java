@@ -58,7 +58,7 @@ public class LoginFrame extends JFrame {
 
 		// 로그인 버튼
 		loginButton = new JButton("로그인");
-		loginButton.setBounds(140, 128, 128, 45);
+		loginButton.setBounds(14, 128, 128, 45);
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class LoginFrame extends JFrame {
 		memberDao = new MemberDao();
 		
 		PwSearchButton = new JButton("비밀번호 찾기");
-		PwSearchButton.setBounds(14, 128, 128, 45);
+		PwSearchButton.setBounds(144, 171, 128, 45);
 		PwSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +167,7 @@ public class LoginFrame extends JFrame {
 
 		// 회원가입 버튼
 		signUpButton = new JButton("회원가입");
-		signUpButton.setBounds(140, 171, 128, 45);
+		signUpButton.setBounds(144, 128, 128, 45);
 		signUpButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
