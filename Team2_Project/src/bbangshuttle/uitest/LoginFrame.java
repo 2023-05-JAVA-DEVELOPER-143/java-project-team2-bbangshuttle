@@ -44,9 +44,9 @@ public class LoginFrame extends JFrame {
 
 		// 아이디 입력 필드
 		JLabel userNameLabel = new JLabel("아이디:");
-		userNameLabel.setBounds(32, 18, 94, 45);
+		userNameLabel.setBounds(34, 17, 94, 45);
 		userNameField = new JTextField(10);
-		userNameField.setBounds(91, 18, 152, 45);
+		userNameField.setBounds(91, 25, 152, 30);
 
 		// 레이아웃 설정
 		JPanel loginPanel = new JPanel();
@@ -90,7 +90,7 @@ public class LoginFrame extends JFrame {
 			}
 		});
 		passwordField = new JPasswordField(10);
-		passwordField.setBounds(91, 73, 152, 45);
+		passwordField.setBounds(91, 81, 152, 30);
 		loginPanel.add(passwordField);
 
 		// 비밀번호 입력 필드

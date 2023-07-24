@@ -83,7 +83,7 @@ public class MainFrame extends JFrame {
         panel.add(logoutButton);
         
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon("C:\\Users\\user\\Downloads\\pngwing.com (4).png"));
+        lblNewLabel.setIcon(new ImageIcon(MemberFrame.class.getResource("/bbangshuttle/images/pngwing.png")));
         lblNewLabel.setBounds(39, 58, 283, 248);
         panel.add(lblNewLabel);
         
