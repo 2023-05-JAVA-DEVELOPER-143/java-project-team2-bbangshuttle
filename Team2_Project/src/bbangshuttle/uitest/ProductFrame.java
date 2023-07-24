@@ -31,7 +31,7 @@ public class ProductFrame extends JFrame {
         productService = new ProductService();
         cartService = new CartService();
 
-        setTitle("Product Frame");
+        setTitle(currentUser.getMemberName()+"님 의 빵셔틀");
         setSize(1024, 860);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
