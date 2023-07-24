@@ -20,14 +20,12 @@ public class MainFrame extends JFrame {
     private Member loggedInMember;
 
     public MainFrame(Member loggedInMember) {
-    	setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/o_user.png")));
+       setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/o_user.png")));
         this.loggedInMember = loggedInMember;
 
         setTitle(loggedInMember.getMemberName()+"님 로그인중");
-        setSize(640, 960);
-        setSize(350, 600);		// 고정사이즈
-
         setSize(350, 600);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -66,14 +64,7 @@ public class MainFrame extends JFrame {
         
         JButton logoutButton = new JButton("로그아웃");
         logoutButton.addActionListener(e -> logout());
-        logoutButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		// 로그인한 회원이 있을경우 로그아웃 버튼 활성화
-        		if(loggedInMember != null) {
-        			logoutButton.setEnabled(true);
-        		}
-        	}
-        });
+
         panel.add(logoutButton);
     }
 
