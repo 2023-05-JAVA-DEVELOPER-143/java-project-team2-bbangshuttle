@@ -31,7 +31,7 @@ public class LoginFrame extends JFrame {
 	private JButton PwSearchButton;
 	private String memberEmail;
 
-	public LoginFrame(MemberService memberService) {
+	public LoginFrame(MemberService memberService) throws Exception {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginFrame.class.getResource("/images/o_user.png")));
 		this.memberService = memberService;
 
@@ -98,6 +98,9 @@ public class LoginFrame extends JFrame {
 		loginPanel.add(passwordLabel);
 		loginPanel.add(loginButton);
 
+		this.memberService = memberService;
+		memberDao = new MemberDao();
+		
 		IdSearchButton = new JButton("아이디 찾기");
 		IdSearchButton.setBounds(13, 169, 128, 45);
 		IdSearchButton.addActionListener(new ActionListener() {
@@ -108,15 +111,13 @@ public class LoginFrame extends JFrame {
 				if (memberEmail != null && !memberEmail.isEmpty()) {
 					try {
 						// Use MemberService to search for the ID
-						String email = memberDao.findByEmail(memberEmail);
-						if (email != null) {
-							// Display the ID using a dialog box
-							JOptionPane.showMessageDialog(LoginFrame.this, "검색된 이메일: " + memberEmail, "이메일 찾기 결과",
-									JOptionPane.INFORMATION_MESSAGE);
+						String id = memberDao.findByEmail(memberEmail);
+						if (id != null) {
+						    JOptionPane.showMessageDialog(LoginFrame.this, "검색된 아이디: " + id, "이메일 찾기 결과", JOptionPane.INFORMATION_MESSAGE);
 						} else {
-							JOptionPane.showMessageDialog(LoginFrame.this, "검색된 이메일이 없습니다.", "이메일 찾기 결과",
-									JOptionPane.INFORMATION_MESSAGE);
+						    JOptionPane.showMessageDialog(LoginFrame.this, "검색된 이메일이 없습니다.", "이메일 찾기 결과", JOptionPane.INFORMATION_MESSAGE);
 						}
+
 					} catch (Exception ex) {
 						ex.printStackTrace();
 						JOptionPane.showMessageDialog(LoginFrame.this, "이메일 검색 과정에서 오류가 발생했습니다.", "Error",
