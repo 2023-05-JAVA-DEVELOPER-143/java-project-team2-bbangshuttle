@@ -31,7 +31,7 @@ public class SignupFormFrame extends JFrame {
 
     public SignupFormFrame() throws Exception {
         setTitle("Sign Up Form Frame");
-        setSize(400, 500);
+        setSize(640, 960);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 

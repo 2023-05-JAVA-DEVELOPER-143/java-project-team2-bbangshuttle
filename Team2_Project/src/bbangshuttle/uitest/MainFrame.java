@@ -28,7 +28,7 @@ public class MainFrame extends JFrame {
         this.loggedInMember = loggedInMember;
 
         setTitle(loggedInMember.getMemberName()+"님 로그인중");
-        setSize(350, 600);
+        setSize(640, 960);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -36,23 +36,23 @@ public class MainFrame extends JFrame {
         // 각 프레임으로 이동하는 버튼 생성
         JButton productButton = new JButton("상품 목록");
         productButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-        productButton.setBounds(57, 328, 105, 47);
+        productButton.setBounds(190, 422, 105, 47);
         productButton.addActionListener(e -> showProductFrame());
 
         JButton cartButton = new JButton("장바구니");
         cartButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-        cartButton.setBounds(174, 328, 105, 47);
+        cartButton.setBounds(307, 422, 105, 47);
         cartButton.addActionListener(e -> showCartFrame());
 
         JButton orderButton = new JButton("주문 목록");
         orderButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-        orderButton.setBounds(174, 385, 105, 47);
+        orderButton.setBounds(307, 479, 105, 47);
         orderButton.addActionListener(e -> showOrderFrame());
 
         // 로그인한 회원이 없을 경우 로그인 프레임으로 이동하는 버튼 생성
         JButton loginButton = new JButton("로그인");
         loginButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-        loginButton.setBounds(57, 385, 105, 47);
+        loginButton.setBounds(190, 479, 105, 47);
         loginButton.addActionListener(e -> showLoginFrame());
 
         // 로그인한 회원이 있을 경우 로그인 버튼은 비활성화
@@ -77,14 +77,14 @@ public class MainFrame extends JFrame {
         
         JButton logoutButton = new JButton("로그아웃");
         logoutButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-        logoutButton.setBounds(57, 442, 105, 47);
+        logoutButton.setBounds(190, 536, 105, 47);
         logoutButton.addActionListener(e -> logout());
 
         panel.add(logoutButton);
         
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(MemberFrame.class.getResource("/bbangshuttle/images/pngwing.png")));
-        lblNewLabel.setBounds(39, 58, 283, 248);
+        lblNewLabel.setBounds(172, 152, 283, 248);
         panel.add(lblNewLabel);
         
         
@@ -94,7 +94,7 @@ public class MainFrame extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         	}
         });
-        memberFrameButton.setBounds(174, 442, 105, 47);
+        memberFrameButton.setBounds(307, 536, 105, 47);
         memberFrameButton.addActionListener(e -> showMemberFrame());
 
         panel.add(memberFrameButton);
