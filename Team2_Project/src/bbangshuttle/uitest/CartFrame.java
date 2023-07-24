@@ -33,18 +33,18 @@ public class CartFrame extends JFrame {
         // 카트 내용을 보여줄 패널 생성
         cartContentPanel = new JPanel();
         cartContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
-        add(new JScrollPane(cartContentPanel), BorderLayout.CENTER);
+        getContentPane().add(new JScrollPane(cartContentPanel), BorderLayout.CENTER);
 
         // 총 가격 표시 라벨
         totalPriceLabel = new JLabel("총 가격: 0원");
         updateTotalPrice();
-        add(totalPriceLabel, BorderLayout.NORTH);
+        getContentPane().add(totalPriceLabel, BorderLayout.NORTH);
 
         // 장바구니 목록 초기화
         updateCartList();
 
         // 하단 버튼들 생성
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel cartBottonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton orderButton = new JButton("주문하기");
         orderButton.addActionListener(new ActionListener() {
             @Override
@@ -78,10 +78,10 @@ public class CartFrame extends JFrame {
             }
         });
 
-        bottomPanel.add(clearButton);
-        bottomPanel.add(orderButton);
-        bottomPanel.add(returnButton);
-        add(bottomPanel, BorderLayout.SOUTH);
+        cartBottonPanel.add(clearButton);
+        cartBottonPanel.add(orderButton);
+        cartBottonPanel.add(returnButton);
+        getContentPane().add(cartBottonPanel, BorderLayout.SOUTH);
     }
 
     private void updateTotalPrice() {

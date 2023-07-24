@@ -32,8 +32,8 @@ public class MemberFrame extends JFrame {
     private JLabel birthLabel;
     private JLabel joinDateLabel;
     private JLabel pointLabel;
-    private JButton updateButton;
-    private JButton deleteButton;
+    private JButton infoUpdateButton;
+    private JButton memberDeleteButton;
 
     // 회원 정보 수정 구성 요소
     private JPanel cardPanel;
@@ -68,8 +68,8 @@ public class MemberFrame extends JFrame {
         joinDateLabel = new JLabel("가입일자: " + formatDate(loggedInMember.getMemberRegdate()));
         pointLabel = new JLabel("포인트: " + loggedInMember.getMemberPoint());
 
-        updateButton = new JButton("정보 수정");
-        updateButton.addActionListener(new ActionListener() {
+        infoUpdateButton = new JButton("정보 수정");
+        infoUpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 정보 수정 페이지로 전환
@@ -77,8 +77,8 @@ public class MemberFrame extends JFrame {
             }
         });
 
-        deleteButton = new JButton("회원 탈퇴");
-        deleteButton.addActionListener(new ActionListener() {
+        memberDeleteButton = new JButton("회원 탈퇴");
+        memberDeleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int confirm = JOptionPane.showConfirmDialog(MemberFrame.this, "정말로 회원 탈퇴하시겠습니까?", "Confirm", JOptionPane.YES_NO_OPTION);
@@ -124,8 +124,8 @@ public class MemberFrame extends JFrame {
         infoPanel.add(birthLabel);
         infoPanel.add(joinDateLabel);
         infoPanel.add(pointLabel);
-        infoPanel.add(updateButton);
-        infoPanel.add(deleteButton);
+        infoPanel.add(infoUpdateButton);
+        infoPanel.add(memberDeleteButton);
         infoPanel.add(mainButton); // 메인 프레임으로 화면 전환하는 버튼 추가
 
         // 회원 정보 수정 패널 구성
@@ -151,6 +151,7 @@ public class MemberFrame extends JFrame {
                     loggedInMember.setMemberEmail(email);
                     loggedInMember.setMemberAddress(address);
                     loggedInMember.setMemberNumber(phone);
+                    loggedInMember.setMemberPassword(password);
 
                     try {
                         memberService.memberUpdate(loggedInMember);
@@ -177,29 +178,29 @@ public class MemberFrame extends JFrame {
             }
         });
 
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridLayout(6, 2));
-        formPanel.add(new JLabel("비밀번호:"));
-        formPanel.add(passwordField);
-        formPanel.add(new JLabel("비밀번호 확인:"));
-        formPanel.add(confirmPasswordField);
-        formPanel.add(new JLabel("이메일:"));
-        formPanel.add(emailField);
-        formPanel.add(new JLabel("주소:"));
-        formPanel.add(addressField);
-        formPanel.add(new JLabel("연락처:"));
-        formPanel.add(phoneField);
-        formPanel.add(saveButton);
-        formPanel.add(cancelButton);
+        JPanel infoUpdatePanel = new JPanel();
+        infoUpdatePanel.setLayout(new GridLayout(6, 2));
+        infoUpdatePanel.add(new JLabel("비밀번호:"));
+        infoUpdatePanel.add(passwordField);
+        infoUpdatePanel.add(new JLabel("비밀번호 확인:"));
+        infoUpdatePanel.add(confirmPasswordField);
+        infoUpdatePanel.add(new JLabel("이메일:"));
+        infoUpdatePanel.add(emailField);
+        infoUpdatePanel.add(new JLabel("주소:"));
+        infoUpdatePanel.add(addressField);
+        infoUpdatePanel.add(new JLabel("연락처:"));
+        infoUpdatePanel.add(phoneField);
+        infoUpdatePanel.add(saveButton);
+        infoUpdatePanel.add(cancelButton);
 
         // 카드 레이아웃 설정
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
         cardPanel.add(infoPanel, "Info");
-        cardPanel.add(formPanel, "Update");
+        cardPanel.add(infoUpdatePanel, "Update");
 
-        add(cardPanel, BorderLayout.CENTER);
+        getContentPane().add(cardPanel, BorderLayout.CENTER);
         cardLayout.show(cardPanel, "Info");
     }
 

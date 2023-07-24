@@ -19,7 +19,7 @@ import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
 
 public class LoginFrame extends JFrame {
-    private JTextField usernameField;
+    private JTextField userNameField;
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton signUpButton;
@@ -35,8 +35,8 @@ public class LoginFrame extends JFrame {
         setLocationRelativeTo(null);
 
         // 아이디 입력 필드
-        JLabel usernameLabel = new JLabel("아이디:");
-        usernameField = new JTextField(10);
+        JLabel userNameLabel = new JLabel("아이디:");
+        userNameField = new JTextField(10);
 
         // 비밀번호 입력 필드
         JLabel passwordLabel = new JLabel("비밀번호:");
@@ -48,7 +48,7 @@ public class LoginFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 사용자가 로그인 버튼을 클릭하면 입력된 아이디와 비밀번호를 가져옴.
-                String username = usernameField.getText();
+                String username = userNameField.getText();
                 char[] password = passwordField.getPassword();
 
                 // MemberService를 통해 로그인 기능을 수행함.
@@ -91,16 +91,16 @@ public class LoginFrame extends JFrame {
         });
 
         // 레이아웃 설정
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
-        panel.add(usernameLabel);
-        panel.add(usernameField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
-        panel.add(loginButton);
-        panel.add(signUpButton);
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(new GridLayout(3, 2));
+        loginPanel.add(userNameLabel);
+        loginPanel.add(userNameField);
+        loginPanel.add(passwordLabel);
+        loginPanel.add(passwordField);
+        loginPanel.add(loginButton);
+        loginPanel.add(signUpButton);
 
-        add(panel, BorderLayout.CENTER);
+        getContentPane().add(loginPanel, BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
