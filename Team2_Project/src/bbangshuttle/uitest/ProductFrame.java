@@ -80,10 +80,11 @@ public class ProductFrame extends JFrame {
         menuPanel.add(categoryComboBox);
         menuPanel.add(mainFrameButton);
         menuPanel.add(cartFrameButton);
+        menuPanel.add(searchField);
+        menuPanel.add(searchButton);
         getContentPane().add(menuPanel, BorderLayout.NORTH);
         
         searchField = new JTextField();
-        menuPanel.add(searchField);
         searchField.setColumns(10);
         
         searchButton = new JButton("");
@@ -94,7 +95,6 @@ public class ProductFrame extends JFrame {
         searchButton.setBackground(SystemColor.menu);
         searchButton.setIcon(new ImageIcon(ProductFrame.class.getResource("/images/search_image20.png")));
         searchButton.setPreferredSize(new Dimension(30, 20));
-        menuPanel.add(searchButton);
 
         // 인기 상품 패널 생성 및 추가
         productPopularContentPanel = new JPanel(new GridLayout(0, 4, 10, 10));
