@@ -58,10 +58,17 @@ public class OrderFrame extends JFrame {
 
         cartService = new CartService();
 
+
         setTitle("Order Frame"); // 프레임 제목 설정
         setSize(1024, 860); // 프레임 크기 설정
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 닫기 버튼 동작 설정
         setLocationRelativeTo(null); // 프레임을 화면 중앙에 배치
+
+        setTitle("Order Frame");
+        setSize(350, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
 
         // CardLayout 사용
         cardLayout = new CardLayout();

@@ -201,7 +201,12 @@ public class SignupFormFrame extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                goBackToLogin();
+                try {
+					goBackToLogin();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         });
         gbc.gridx = 2;
@@ -256,7 +261,7 @@ public class SignupFormFrame extends JFrame {
         return null;
     }
 
-    private void goBackToLogin() {
+    private void goBackToLogin() throws Exception {
         new LoginFrame(memberService).setVisible(true);
         dispose();
     }

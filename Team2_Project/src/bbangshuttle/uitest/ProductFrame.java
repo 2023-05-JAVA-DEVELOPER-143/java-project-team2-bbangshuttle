@@ -1,5 +1,5 @@
 package bbangshuttle.uitest;
-
+// 집 가고싶오요
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,7 @@ import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
 import bbangshuttle.product.Product;
 import bbangshuttle.product.ProductService;
+import javax.swing.border.EmptyBorder;
 
 public class ProductFrame extends JFrame {
     private JPanel productPopularContentPanel;
@@ -24,10 +25,12 @@ public class ProductFrame extends JFrame {
     private CartService cartService;
     private Member currentUser;
     private JLabel lblNewLabel;
+    private JTextField searchField;
+    private JButton searchButton;
 
     public ProductFrame(Member currentUser) throws Exception {
     	setIconImage(Toolkit.getDefaultToolkit().getImage(ProductFrame.class.getResource("/bbangshuttle/images/3035467_and_bread_drink_food_wine_icon.png")));
-    	getContentPane().setName("ProductContentPane");
+       getContentPane().setName("ProductContentPane");
         this.currentUser = currentUser;
         productService = new ProductService();
         cartService = new CartService();
@@ -71,6 +74,7 @@ public class ProductFrame extends JFrame {
 
         // 카테고리 선택 콤보박스와 버튼들을 담을 패널 생성
         JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
       
      
@@ -78,6 +82,35 @@ public class ProductFrame extends JFrame {
         menuPanel.add(mainFrameButton);
         menuPanel.add(cartFrameButton);
         getContentPane().add(menuPanel, BorderLayout.NORTH);
+        
+        searchField = new JTextField();
+        menuPanel.add(searchField);
+        searchField.setColumns(10);
+        
+        searchButton = new JButton("");
+        searchButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		// 사용자가 상품명 또는 상품설명을 입력하고 검색 버튼을 클릭하면 입력된 상품을 가져옴.
+        		String productName = searchField.getText();
+        		try {
+                    List<Product> products = productService.ProductFindByKetword(productName);
+                    displayProductList(products);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(ProductFrame.this, "상품 검색 과정에서 오류가 발생했습니다.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        	
+        searchButton.setBorder(new EmptyBorder(0, 0, 0, 0));
+        searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        searchButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        searchButton.setForeground(new Color(255, 255, 255));
+        searchButton.setBackground(SystemColor.menu);
+        searchButton.setIcon(new ImageIcon(ProductFrame.class.getResource("/images/search_image20.png")));
+        searchButton.setPreferredSize(new Dimension(30, 20));
+        menuPanel.add(searchButton);
 
         // 인기 상품 패널 생성 및 추가
         productPopularContentPanel = new JPanel(new GridLayout(0, 4, 10, 10));
@@ -156,9 +189,13 @@ public class ProductFrame extends JFrame {
                 private Product p = product;
 
                 public void actionPerformed(ActionEvent e) {
-                	if (currentUser == null) {
+                   if (currentUser == null) {
                         JOptionPane.showMessageDialog(null, "로그인을 해주세요!");
-                        showLoginFrame();
+                        try {
+							showLoginFrame();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
                     } else {
                         // 로그인한 경우 장바구니에 상품을 담을지 확인하는 메시지 다이얼로그 표시
                         int option = JOptionPane.showOptionDialog(ProductFrame.this,
@@ -179,7 +216,7 @@ public class ProductFrame extends JFrame {
                     }
                 }
 
-				
+            
             });
             cartAddButton.setBounds(131, 119, 110, 23);
             productPanel.add(cartAddButton);
@@ -204,7 +241,7 @@ public class ProductFrame extends JFrame {
 
     //검색 메소드
 //    public void search() {
-//    	productService.ProductFindByKetword()
+//       productService.ProductFindByKetword()
 //    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -218,7 +255,7 @@ public class ProductFrame extends JFrame {
         });
     }
    
-    private void showLoginFrame() {
+    private void showLoginFrame() throws Exception {
         LoginFrame loginFrame = new LoginFrame(null);
         loginFrame.setVisible(true);
     }
