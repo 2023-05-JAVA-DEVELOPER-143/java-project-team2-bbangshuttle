@@ -11,135 +11,106 @@ import bbangshuttle.cart.Cart;
 import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
 import bbangshuttle.product.Product;
-import bbangshuttle.product.ProductService;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.util.List;
-
-import bbangshuttle.cart.Cart;
-import bbangshuttle.cart.CartService;
-import bbangshuttle.member.Member;
-import bbangshuttle.product.Product;
 
 public class CartFrame extends JFrame {
-	private JPanel cartContentPanel;
-	private JLabel totalPriceLabel;
-	private int totalPrice = 0;
+    private JPanel cartContentPanel;
+    private JLabel totalPriceLabel;
+    private int totalPrice = 0;
 
-	private CartService cartService;
-	private Member currentUser;
-	private List<Cart> orderedItems; // 주문한 상품 목록을 저장하기 위한 변수
-	private Product product;
-	public CartFrame(Member currentUser ) throws Exception {
-		this.currentUser = currentUser;
-		cartService = new CartService();
+    private CartService cartService;
+    private Member currentUser;
+    private List<Cart> orderedItems; // 주문한 상품 목록을 저장하기 위한 변수
 
-		setTitle("Cart Frame");
-		setSize(1024, 860);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+    public CartFrame(Member currentUser) throws Exception {
+        this.currentUser = currentUser;
+        cartService = new CartService();
 
-		// 카트 내용을 보여줄 패널 생성
-		cartContentPanel = new JPanel();
-		cartContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
-		getContentPane().add(new JScrollPane(cartContentPanel), BorderLayout.CENTER);
+        setTitle("Cart Frame");
+        setSize(1024, 860);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-		// 총 가격 표시 라벨
-		totalPriceLabel = new JLabel("총 가격: 0원");
-		updateTotalPrice();
-		getContentPane().add(totalPriceLabel, BorderLayout.NORTH);
+        // 카트 내용을 보여줄 패널 생성
+        cartContentPanel = new JPanel();
+        cartContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        getContentPane().add(new JScrollPane(cartContentPanel), BorderLayout.CENTER);
 
-		// 장바구니 목록 초기화
-		updateCartList();
+        // 총 가격 표시 라벨
+        totalPriceLabel = new JLabel("총 가격: 0원");
+        updateTotalPrice();
+        getContentPane().add(totalPriceLabel, BorderLayout.NORTH);
 
-		JPanel imagePanel = new JPanel();
-		imagePanel.setLayout(new BorderLayout());
-		getContentPane().add(imagePanel, BorderLayout.NORTH);
+        // 장바구니 목록 초기화
+        updateCartList();
 
+        // 하단 버튼들 생성
+        JPanel cartBottonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton orderButton = new JButton("주문하기");
+        orderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    orderProducts();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
-		// 하단 버튼들 생성
-		JPanel cartBottonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton orderButton = new JButton("주문하기");
-		
-		// 이미지 표시 패널 생성
-        JPanel cartimagePanel = new JPanel();
-        imagePanel.setLayout(new BorderLayout());
-        getContentPane().add(imagePanel, BorderLayout.NORTH);
+        JButton clearButton = new JButton("장바구니 비우기");
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    clearCart();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
-        // 장바구니 이미지 표시 라벨
-        JLabel cartImageLabel = new JLabel();
-        //ImageIcon cartImageIcon = new ImageIcon(CartFrame.class.getResource(product.getP_image()));
-        //cartImageLabel.setIcon(cartImageIcon);
-        imagePanel.add(cartImageLabel, BorderLayout.CENTER);
-		orderButton.addActionListener(new ActionListener() {	
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					orderProducts();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
+        // 상품 페이지로 돌아가는 버튼 생성
+        JButton returnButton = new JButton("상품 페이지로 돌아가기");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showProductFrame();
+            }
+        });
 
-		JButton clearButton = new JButton("장바구니 비우기");
-		clearButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					clearCart();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
+        cartBottonPanel.add(clearButton);
+        cartBottonPanel.add(orderButton);
+        cartBottonPanel.add(returnButton);
+        getContentPane().add(cartBottonPanel, BorderLayout.SOUTH);
+    }
 
-		// 상품 페이지로 돌아가는 버튼 생성
-		JButton returnButton = new JButton("상품 페이지로 돌아가기");
-		returnButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showProductFrame();
-			}
-		});
+    private void updateTotalPrice() {
+        totalPrice = 0;
+        for (Component component : cartContentPanel.getComponents()) {
+            if (component instanceof JPanel) {
+                JPanel productPanel = (JPanel) component;
+                Cart cart = (Cart) productPanel.getClientProperty("cart");
+                totalPrice += cart.getProduct().getPrice() * cart.getCart_qty();
+            }
+        }
+        totalPriceLabel.setText("총 가격: " + new DecimalFormat("#,###").format(totalPrice) + "원");
+    }
 
-		cartBottonPanel.add(clearButton);
-		cartBottonPanel.add(orderButton);
-		cartBottonPanel.add(returnButton);
-		getContentPane().add(cartBottonPanel, BorderLayout.SOUTH);
-	}
-
-	private void updateTotalPrice() {
-		totalPrice = 0;
-		for (Component component : cartContentPanel.getComponents()) {
-			if (component instanceof JPanel) {
-				JPanel productPanel = (JPanel) component;
-				Cart cart = (Cart) productPanel.getClientProperty("cart");
-				totalPrice += cart.getProduct().getPrice() * cart.getCart_qty();
-			}
-		}
-		totalPriceLabel.setText("총 가격: " + new DecimalFormat("#,###").format(totalPrice) + "원");
-	}
-
-	private void updateCartList() {
-		cartContentPanel.removeAll();
-		try {
-			List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
-			for (Cart cart : carts) {
-				JPanel productPanel = createProductPanel(cart);
-				cartContentPanel.add(productPanel);
-			}
-			cartContentPanel.revalidate();
-			cartContentPanel.repaint();
-			updateTotalPrice(); // 장바구니 목록이 업데이트될 때 총 가격도 함께 업데이트
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private void updateCartList() {
+        cartContentPanel.removeAll();
+        try {
+            List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
+            for (Cart cart : carts) {
+                JPanel productPanel = createProductPanel(cart);
+                cartContentPanel.add(productPanel);
+            }
+            cartContentPanel.revalidate();
+            cartContentPanel.repaint();
+            updateTotalPrice(); // 장바구니 목록이 업데이트될 때 총 가격도 함께 업데이트
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private JPanel createProductPanel(Cart cart) {
         JPanel productPanel = new JPanel();
@@ -147,25 +118,25 @@ public class CartFrame extends JFrame {
         productPanel.setBackground(Color.WHITE);
         productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        // Create a panel to hold the product image
+        
         JPanel imagePanel = new JPanel();
-        imagePanel.setPreferredSize(new Dimension(100, 100)); // Set the size of the image panel
+        imagePanel.setPreferredSize(new Dimension(100, 100)); 
         productPanel.add(imagePanel, BorderLayout.WEST);
 
-        // Load and display the product image
-        String imagePath = cart.getProduct().getP_image(); // Assuming getP_image() returns the image path
+        
+        String imagePath = cart.getProduct().getP_image(); 
         ImageIcon imageIcon = new ImageIcon(CartFrame.class.getResource(imagePath));
-        Image image = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Scale the image to fit the panel
+        Image image = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
         JLabel imageLabel = new JLabel(new ImageIcon(image));
         imagePanel.add(imageLabel);
 
-        // Add the product information label (similar to your existing code)
+
         JLabel productInfoLabel = new JLabel("<html><font size='3'>" + ": " + cart.getProduct().getP_name() + "<br>"
                 + "가격: " + new DecimalFormat("#,###").format(cart.getProduct().getPrice()) + "원<br>"
                 + "설명: " + cart.getProduct().getP_desc() + "</font></html>");
         productPanel.add(productInfoLabel, BorderLayout.CENTER);
 
-        // Add the control panel (similar to your existing code)
+
         JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JComboBox<Integer> cartQtyComboBox = new JComboBox<>();
         for (int i = 1; i <= 10; i++) {
@@ -205,87 +176,84 @@ public class CartFrame extends JFrame {
         return productPanel;
     }
 
+    private void orderProducts() {
+        try {
+            List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
+            orderedItems = carts; // 주문한 상품 목록을 저장
+            OrderFrame orderFrame = new OrderFrame(currentUser, this, orderedItems);
+            orderFrame.setVisible(true);
+            JOptionPane.showMessageDialog(this, "주문이 완료되었습니다.");
+            clearCartAfterOrder();
+            dispose(); 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    // 주문이 완료된 후, 장바구니를 비우는 메소드 추가
+    public void clearCartAfterOrder() {
+        try {
+            cartService.deleteCartItemByUserId(currentUser.getMemberId());
+            orderedItems.clear();
+            updateCartList();
+            updateTotalPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void orderProducts() {
-		try {
-	        List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
-	        orderedItems = carts; // 주문한 상품 목록을 저장
-	        OrderFrame orderFrame = new OrderFrame(currentUser, this, orderedItems);
-	        orderFrame.setVisible(true);
-	        JOptionPane.showMessageDialog(this, "주문이 완료되었습니다.");
-	        clearCartAfterOrder();
-	        showOrderFrame();
-	        dispose();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
+    private void clearCart() {
+        try {
+            cartService.deleteCartItemByUserId(currentUser.getMemberId());
+            updateCartList();
+            updateTotalPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	// 주문이 완료된 후, 장바구니를 비우는 메소드 추가
-	public void clearCartAfterOrder() {
-	    try {
-	        cartService.deleteCartItemByUserId(currentUser.getMemberId());
-	        orderedItems.clear();
-	        updateCartList();
-	        updateTotalPrice();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
-	
-	private void clearCart() {
-		try {
-			cartService.deleteCartItemByUserId(currentUser.getMemberId());
-			updateCartList();
-			updateTotalPrice();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private void showOrderFrame() {
+        try {
+            OrderFrame orderFrame = new OrderFrame(currentUser, this, orderedItems);
+            orderFrame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void showOrderFrame() {
-		try {
-			 OrderFrame orderFrame = new OrderFrame(currentUser, this, orderedItems);
-	         orderFrame.setVisible(true);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-		}
-	}
-	private void showProductFrame() {
-		try {
-			new ProductFrame(currentUser).setVisible(true);
-			dispose();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private void showProductFrame() {
+        try {
+            new ProductFrame(currentUser).setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	
-	public void setOrderedItems(List<Cart> orderedItems) {
-		this.orderedItems = orderedItems;
-	}
+    public void setOrderedItems(List<Cart> orderedItems) {
+        this.orderedItems = orderedItems;
+    }
 
-	public void updateOrderList() {
-		cartContentPanel.removeAll();
-		for (Cart cart : orderedItems) {
-			JPanel productPanel = createProductPanel(cart);
-			cartContentPanel.add(productPanel);
-		}
-		cartContentPanel.revalidate();
-		cartContentPanel.repaint();
-		updateTotalPrice();
-	}
+    public void updateOrderList() {
+        cartContentPanel.removeAll();
+        for (Cart cart : orderedItems) {
+            JPanel productPanel = createProductPanel(cart);
+            cartContentPanel.add(productPanel);
+        }
+        cartContentPanel.revalidate();
+        cartContentPanel.repaint();
+        updateTotalPrice();
+    }
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					new CartFrame(new Member()).setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new CartFrame(new Member()).setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }

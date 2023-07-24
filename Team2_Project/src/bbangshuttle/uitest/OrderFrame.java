@@ -45,7 +45,7 @@ public class OrderFrame extends JFrame {
         returnButton.addActionListener(e -> {
             cartFrame.setVisible(true);
             dispose();
-            System.exit(0);
+            
         });
 
         // 메인 프레임으로 돌아가는 버튼 생성
@@ -53,7 +53,7 @@ public class OrderFrame extends JFrame {
         mainButton.addActionListener(e -> {
             new MainFrame(currentUser).setVisible(true);
             dispose();
-            System.exit(0);
+            
         });
 
         // 프로그램 종료 버튼 생성
@@ -73,19 +73,19 @@ public class OrderFrame extends JFrame {
         productPanel.setBackground(Color.WHITE);
         productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        // Create a panel to hold the product image
+
         JPanel imagePanel = new JPanel();
-        imagePanel.setPreferredSize(new Dimension(100, 100)); // Set the size of the image panel
+        imagePanel.setPreferredSize(new Dimension(100, 100)); 
         productPanel.add(imagePanel, BorderLayout.WEST);
 
-        // Load and display the product image
-        String imagePath = cart.getProduct().getP_image(); // Assuming getP_image() returns the image path
+
+        String imagePath = cart.getProduct().getP_image(); 
         ImageIcon imageIcon = new ImageIcon(CartFrame.class.getResource(imagePath));
-        Image image = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Scale the image to fit the panel
+        Image image = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
         JLabel imageLabel = new JLabel(new ImageIcon(image));
         imagePanel.add(imageLabel);
 
-        // Add the product information label (similar to your existing code)
+        
         JLabel productInfoLabel = new JLabel("<html><font size='3'>" + ": " + cart.getProduct().getP_name() + "<br>"
                 + "가격: " + new DecimalFormat("#,###").format(cart.getProduct().getPrice()) + "원<br>"
                 + "설명: " + cart.getProduct().getP_desc() + "</font></html>");
