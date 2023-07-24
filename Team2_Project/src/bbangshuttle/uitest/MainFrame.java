@@ -15,6 +15,8 @@ import bbangshuttle.member.MemberService;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class MainFrame extends JFrame {
     private Member loggedInMember;
@@ -31,16 +33,20 @@ public class MainFrame extends JFrame {
 
         // 각 프레임으로 이동하는 버튼 생성
         JButton productButton = new JButton("상품 목록");
+        productButton.setBounds(39, 331, 85, 23);
         productButton.addActionListener(e -> showProductFrame());
 
         JButton cartButton = new JButton("장바구니");
+        cartButton.setBounds(129, 331, 81, 23);
         cartButton.addActionListener(e -> showCartFrame());
 
         JButton orderButton = new JButton("주문 목록");
+        orderButton.setBounds(215, 331, 85, 23);
         orderButton.addActionListener(e -> showOrderFrame());
 
         // 로그인한 회원이 없을 경우 로그인 프레임으로 이동하는 버튼 생성
         JButton loginButton = new JButton("로그인");
+        loginButton.setBounds(92, 359, 69, 23);
         loginButton.addActionListener(e -> showLoginFrame());
 
         // 로그인한 회원이 있을 경우 로그인 버튼은 비활성화
@@ -55,6 +61,7 @@ public class MainFrame extends JFrame {
 
         // 메인 프레임에 버튼 추가
         JPanel panel = new JPanel();
+        panel.setLayout(null);
         panel.add(productButton);
         panel.add(cartButton);
         panel.add(orderButton);
@@ -63,9 +70,15 @@ public class MainFrame extends JFrame {
         getContentPane().add(panel);
         
         JButton logoutButton = new JButton("로그아웃");
+        logoutButton.setBounds(166, 359, 81, 23);
         logoutButton.addActionListener(e -> logout());
 
         panel.add(logoutButton);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon("C:\\Users\\user\\Downloads\\pngwing.com (4).png"));
+        lblNewLabel.setBounds(39, 73, 283, 248);
+        panel.add(lblNewLabel);
     }
 
     private void showProductFrame() {
@@ -112,7 +125,8 @@ public class MainFrame extends JFrame {
         loggedInMember = null;
         JOptionPane.showMessageDialog(this, "로그아웃 되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
         // 로그아웃 후 다시 로그인 프레임을 띄움
-        showLoginFrame();
+       System.exit(0);
+        
     }
 
     public static void main(String[] args) {

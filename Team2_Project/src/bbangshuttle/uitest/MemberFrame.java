@@ -49,6 +49,8 @@ public class MemberFrame extends JFrame {
     private JButton saveButton;
     private JButton cancelButton;
     private JButton mainButton; // 메인 프레임으로 화면 전환하는 버튼
+    private JButton logoutButton;
+    private JButton logoutNewButton;
 
     public MemberFrame(MemberService memberService, Member loggedInMember) {
     	setIconImage(Toolkit.getDefaultToolkit().getImage(MemberFrame.class.getResource("/bbangshuttle/images/2530816_align_employee_general_human_human list_icon.png")));
@@ -195,11 +197,23 @@ public class MemberFrame extends JFrame {
         infoUpdatePanel.add(saveButton);
         infoUpdatePanel.add(cancelButton);
 
+        JPanel panel = new JPanel();
         // 카드 레이아웃 설정
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
         cardPanel.add(infoPanel, "Info");
+        
+        logoutNewButton = new JButton("로그아웃");
+        infoPanel.add(logoutNewButton);
+        logoutNewButton.addActionListener(e -> logout());
+
+        // ... 이전 코드 생략 ...
+
+        // panel을 frame에 추가
+        getContentPane().add(panel, BorderLayout.SOUTH);
+      
+        
         cardPanel.add(infoUpdatePanel, "Update");
 
         getContentPane().add(cardPanel, BorderLayout.CENTER);
@@ -218,6 +232,15 @@ public class MemberFrame extends JFrame {
         pointLabel.setText("포인트: " + loggedInMember.getMemberPoint());
     }
 
+    // 로그아웃 기능 구현
+    private void logout() {
+        loggedInMember = null;
+        JOptionPane.showMessageDialog(this, "로그아웃 되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+        // 로그아웃 후 다시 로그인 프레임을 띄움
+       System.exit(0);
+        
+    }
+    
     private String formatDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         return sdf.format(date);
