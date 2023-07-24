@@ -24,7 +24,8 @@ public class MainFrame extends JFrame {
         this.loggedInMember = loggedInMember;
 
         setTitle(loggedInMember.getMemberName()+"님 로그인중");
-        setSize(600, 900);
+        setSize(640, 960);
+        setSize(350, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
