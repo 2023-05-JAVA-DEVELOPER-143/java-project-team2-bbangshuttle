@@ -23,8 +23,10 @@ public class ProductFrame extends JFrame {
     private ProductService productService;
     private CartService cartService;
     private Member currentUser;
+    private JLabel lblNewLabel;
 
     public ProductFrame(Member currentUser) throws Exception {
+    	getContentPane().setName("ProductContentPane");
         this.currentUser = currentUser;
         productService = new ProductService();
         cartService = new CartService();
@@ -68,15 +70,18 @@ public class ProductFrame extends JFrame {
 
         // 카테고리 선택 콤보박스와 버튼들을 담을 패널 생성
         JPanel menuPanel = new JPanel();
+        
+      
+     
         menuPanel.add(categoryComboBox);
         menuPanel.add(mainFrameButton);
         menuPanel.add(cartFrameButton);
-        add(menuPanel, BorderLayout.NORTH);
+        getContentPane().add(menuPanel, BorderLayout.NORTH);
 
         // 인기 상품 패널 생성 및 추가
         productPopularContentPanel = new JPanel(new GridLayout(0, 4, 10, 10));
         JScrollPane scrollPane = new JScrollPane(productPopularContentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        add(scrollPane, BorderLayout.CENTER);
+        getContentPane().add(scrollPane, BorderLayout.CENTER);
 
         // 처음에 전체상품을 보여줌
         displayProductListByCategory("전체상품");
@@ -119,7 +124,7 @@ public class ProductFrame extends JFrame {
             productPanel.setLayout(null);
 
             JLabel productImageLabel = new JLabel();
-            productImageLabel.setIcon(new ImageIcon(""+product.getP_image()));
+            productImageLabel.setIcon(new ImageIcon(ProductFrame.class.getResource(product.getP_image())));
             productImageLabel.setBounds(3, 1, 160, 120); 
             productPanel.add(productImageLabel);
 
