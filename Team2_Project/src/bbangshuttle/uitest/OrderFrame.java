@@ -59,17 +59,10 @@ public class OrderFrame extends JFrame {
 
         cartService = new CartService();
 
-
         setTitle("Order Frame"); // 프레임 제목 설정
         setSize(1024, 860); // 프레임 크기 설정
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 닫기 버튼 동작 설정
         setLocationRelativeTo(null); // 프레임을 화면 중앙에 배치
-
-        setTitle("Order Frame");
-        setSize(350, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-
 
         // CardLayout 사용
         cardLayout = new CardLayout();
@@ -113,7 +106,7 @@ public class OrderFrame extends JFrame {
                 showProductFrame();
             }
         });
-        
+
         JButton goCartButton = new JButton("장바구니");
         goCartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -121,7 +114,6 @@ public class OrderFrame extends JFrame {
             }
         });
         bottomPanel.add(goCartButton);
-
         bottomPanel.add(clearAllButton);
         bottomPanel.add(completeOrderButton);
         bottomPanel.add(returnButton);
@@ -136,7 +128,7 @@ public class OrderFrame extends JFrame {
         orderContentPanel = new JPanel();
         orderContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
         orderPagePanel.add(new JScrollPane(orderContentPanel), BorderLayout.CENTER);
-        
+
         JButton button = new JButton("New button");
         orderContentPanel.add(button);
 
@@ -161,7 +153,8 @@ public class OrderFrame extends JFrame {
         completeOrderLabel.setHorizontalAlignment(SwingConstants.CENTER);
         completeOrderPage.add(completeOrderLabel, BorderLayout.NORTH);
 
-        JTable orderTable = new JTable();
+        // 주문 완료 페이지에서 사용할 JTable 생성 및 멤버 변수에 할당
+        orderTable = new JTable();
         DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"상품명", "가격", "수량", "주문 시간"}, 0);
         orderTable.setModel(tableModel);
 
@@ -233,7 +226,8 @@ public class OrderFrame extends JFrame {
         cardLayout.show(cardPanel, "COMPLETE_ORDER_PAGE");
 
         // 주문 완료 후 카트 비우기
-        clearAllOrders();
+        clearAllOrders(); // 주문 완료 후에 카트를 비워줍니다.
+
         // 맴버 포인트 적립
         addMemberPoint((int) (totalPrice * 0.01));
     }
@@ -250,8 +244,33 @@ public class OrderFrame extends JFrame {
         }
     }
 
-    public void complateDisplayOrderList() {
-        
+    public JTable complateDisplayOrderList() {
+        JPanel completeOrderPage = new JPanel();
+        completeOrderPage.setLayout(new BorderLayout());
+
+        JLabel completeOrderLabel = new JLabel("주문이 완료되었습니다.");
+        completeOrderLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        completeOrderLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        completeOrderPage.add(completeOrderLabel, BorderLayout.NORTH);
+
+        // 주문 완료 페이지에서 사용할 JTable 생성 및 멤버 변수에 할당
+        orderTable = new JTable();
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"상품명", "가격", "수량", "주문 시간"}, 0);
+        orderTable.setModel(tableModel);
+
+        JScrollPane scrollPane = new JScrollPane(orderTable);
+        completeOrderPage.add(scrollPane, BorderLayout.CENTER);
+
+        JButton returnButton = new JButton("상품 페이지로 돌아가기");
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showProductFrame();
+            }
+        });
+        completeOrderPage.add(returnButton, BorderLayout.SOUTH);
+
+        return orderTable;
     }
 
     // 특정 상품 삭제 메소드
