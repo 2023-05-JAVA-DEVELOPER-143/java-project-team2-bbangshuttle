@@ -123,8 +123,11 @@ public class ProductFrame extends JFrame {
             productPanel.setPreferredSize(new Dimension(200, 220)); 
             productPanel.setLayout(null);
 
+            
             JLabel productImageLabel = new JLabel();
+            System.out.println("imagePath= "+product.getP_image());
             productImageLabel.setIcon(new ImageIcon(ProductFrame.class.getResource(product.getP_image())));
+            
             productImageLabel.setBounds(3, 1, 160, 120); 
             productPanel.add(productImageLabel);
 
