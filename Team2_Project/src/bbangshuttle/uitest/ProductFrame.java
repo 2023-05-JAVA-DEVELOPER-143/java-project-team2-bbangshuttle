@@ -13,6 +13,7 @@ import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
 import bbangshuttle.product.Product;
 import bbangshuttle.product.ProductService;
+import javax.swing.border.EmptyBorder;
 
 public class ProductFrame extends JFrame {
     private JPanel productPopularContentPanel;
@@ -24,6 +25,8 @@ public class ProductFrame extends JFrame {
     private CartService cartService;
     private Member currentUser;
     private JLabel lblNewLabel;
+    private JTextField searchField;
+    private JButton searchButton;
 
     public ProductFrame(Member currentUser) throws Exception {
        getContentPane().setName("ProductContentPane");
@@ -70,6 +73,7 @@ public class ProductFrame extends JFrame {
 
         // 카테고리 선택 콤보박스와 버튼들을 담을 패널 생성
         JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
       
      
@@ -77,6 +81,20 @@ public class ProductFrame extends JFrame {
         menuPanel.add(mainFrameButton);
         menuPanel.add(cartFrameButton);
         getContentPane().add(menuPanel, BorderLayout.NORTH);
+        
+        searchField = new JTextField();
+        menuPanel.add(searchField);
+        searchField.setColumns(10);
+        
+        searchButton = new JButton("");
+        searchButton.setBorder(new EmptyBorder(0, 0, 0, 0));
+        searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        searchButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        searchButton.setForeground(new Color(255, 255, 255));
+        searchButton.setBackground(SystemColor.menu);
+        searchButton.setIcon(new ImageIcon(ProductFrame.class.getResource("/images/search_image20.png")));
+        searchButton.setPreferredSize(new Dimension(30, 20));
+        menuPanel.add(searchButton);
 
         // 인기 상품 패널 생성 및 추가
         productPopularContentPanel = new JPanel(new GridLayout(0, 4, 10, 10));
