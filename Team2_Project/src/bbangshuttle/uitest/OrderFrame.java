@@ -34,7 +34,7 @@ public class OrderFrame extends JFrame {
         cartService = new CartService();
 
         setTitle("Order Frame");
-        setSize(1024, 860);
+        setSize(350, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
