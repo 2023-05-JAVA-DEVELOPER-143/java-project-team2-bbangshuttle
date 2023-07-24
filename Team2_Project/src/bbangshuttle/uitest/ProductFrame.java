@@ -125,7 +125,7 @@ public class ProductFrame extends JFrame {
 
             
             JLabel productImageLabel = new JLabel();
-            System.out.println("imagePath= "+product.getP_image());
+            //System.out.println("imagePath= "+product.getP_image());
             productImageLabel.setIcon(new ImageIcon(ProductFrame.class.getResource(product.getP_image())));
             
             productImageLabel.setBounds(3, 1, 160, 120); 
