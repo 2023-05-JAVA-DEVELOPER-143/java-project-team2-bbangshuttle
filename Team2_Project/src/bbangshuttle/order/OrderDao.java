@@ -179,6 +179,7 @@ public class OrderDao {
 						rs1.getString("member_id"), null));
 			}
 			
+			
 			pstmt2 = con.prepareStatement(OrderSQL.ORDER_SELECT_WITH_ORDERITEM_BY_O_NO);
 			
 			for (int i = 0; i < orderList.size(); i++) {
