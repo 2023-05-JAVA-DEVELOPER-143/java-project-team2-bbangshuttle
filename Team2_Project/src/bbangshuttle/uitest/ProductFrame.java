@@ -26,8 +26,7 @@ public class ProductFrame extends JFrame {
     private JLabel lblNewLabel;
 
     public ProductFrame(Member currentUser) throws Exception {
-    	setIconImage(Toolkit.getDefaultToolkit().getImage(ProductFrame.class.getResource("/bbangshuttle/images/3035467_and_bread_drink_food_wine_icon.png")));
-    	getContentPane().setName("ProductContentPane");
+       getContentPane().setName("ProductContentPane");
         this.currentUser = currentUser;
         productService = new ProductService();
         cartService = new CartService();
@@ -156,7 +155,7 @@ public class ProductFrame extends JFrame {
                 private Product p = product;
 
                 public void actionPerformed(ActionEvent e) {
-                	if (currentUser == null) {
+                   if (currentUser == null) {
                         JOptionPane.showMessageDialog(null, "로그인을 해주세요!");
                         showLoginFrame();
                     } else {
@@ -179,7 +178,7 @@ public class ProductFrame extends JFrame {
                     }
                 }
 
-				
+            
             });
             cartAddButton.setBounds(131, 119, 110, 23);
             productPanel.add(cartAddButton);
@@ -204,7 +203,7 @@ public class ProductFrame extends JFrame {
 
     //검색 메소드
 //    public void search() {
-//    	productService.ProductFindByKetword()
+//       productService.ProductFindByKetword()
 //    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
