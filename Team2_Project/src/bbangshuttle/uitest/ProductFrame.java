@@ -190,7 +190,11 @@ public class ProductFrame extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                    if (currentUser == null) {
                         JOptionPane.showMessageDialog(null, "로그인을 해주세요!");
-                        showLoginFrame();
+                        try {
+							showLoginFrame();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
                     } else {
                         // 로그인한 경우 장바구니에 상품을 담을지 확인하는 메시지 다이얼로그 표시
                         int option = JOptionPane.showOptionDialog(ProductFrame.this,
@@ -250,7 +254,7 @@ public class ProductFrame extends JFrame {
         });
     }
    
-    private void showLoginFrame() {
+    private void showLoginFrame() throws Exception {
         LoginFrame loginFrame = new LoginFrame(null);
         loginFrame.setVisible(true);
     }
