@@ -209,15 +209,28 @@ public class CartFrame extends JFrame {
 
 	private void orderProducts() {
 		try {
-			List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
-			orderedItems = carts; // 주문한 상품 목록을 저장
-			new OrderFrame(currentUser, this, orderedItems).setVisible(true);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	        List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
+	        orderedItems = carts; // 주문한 상품 목록을 저장
+	        OrderFrame orderFrame = new OrderFrame(currentUser, this, orderedItems);
+	        orderFrame.setVisible(true);
+	        JOptionPane.showMessageDialog(this, "주문이 완료되었습니다.");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
+	// 주문이 완료된 후, 장바구니를 비우는 메소드 추가
+	public void clearCartAfterOrder() {
+	    try {
+	        cartService.deleteCartItemByUserId(currentUser.getMemberId());
+	        orderedItems.clear();
+	        updateCartList();
+	        updateTotalPrice();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
 	private void clearCart() {
 		try {
 			cartService.deleteCartItemByUserId(currentUser.getMemberId());
@@ -237,6 +250,7 @@ public class CartFrame extends JFrame {
 		}
 	}
 
+	
 	public void setOrderedItems(List<Cart> orderedItems) {
 		this.orderedItems = orderedItems;
 	}
