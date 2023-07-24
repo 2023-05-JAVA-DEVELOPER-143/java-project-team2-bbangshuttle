@@ -87,7 +87,7 @@ public class MainFrame extends JFrame {
         lblNewLabel.setBounds(39, 58, 283, 248);
         panel.add(lblNewLabel);
         
-        JButton memberFrameButton = new JButton("이전으로");
+        JButton memberFrameButton = new JButton("이전 페이지");
         memberFrameButton.setFont(new Font("맑은 고딕", Font.BOLD, 12));
         memberFrameButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
