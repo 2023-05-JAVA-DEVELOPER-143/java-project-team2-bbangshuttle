@@ -80,14 +80,28 @@ public class ProductFrame extends JFrame {
         menuPanel.add(categoryComboBox);
         menuPanel.add(mainFrameButton);
         menuPanel.add(cartFrameButton);
-        menuPanel.add(searchField);
-        menuPanel.add(searchButton);
         getContentPane().add(menuPanel, BorderLayout.NORTH);
         
         searchField = new JTextField();
+        menuPanel.add(searchField);
         searchField.setColumns(10);
         
         searchButton = new JButton("");
+        searchButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		// 사용자가 상품명 또는 상품설명을 입력하고 검색 버튼을 클릭하면 입력된 상품을 가져옴.
+        		String productName = searchField.getText();
+        		try {
+                    List<Product> products = productService.ProductFindByKetword(productName);
+                    displayProductList(products);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(ProductFrame.this, "상품 검색 과정에서 오류가 발생했습니다.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        	
         searchButton.setBorder(new EmptyBorder(0, 0, 0, 0));
         searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         searchButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -95,6 +109,7 @@ public class ProductFrame extends JFrame {
         searchButton.setBackground(SystemColor.menu);
         searchButton.setIcon(new ImageIcon(ProductFrame.class.getResource("/images/search_image20.png")));
         searchButton.setPreferredSize(new Dimension(30, 20));
+        menuPanel.add(searchButton);
 
         // 인기 상품 패널 생성 및 추가
         productPopularContentPanel = new JPanel(new GridLayout(0, 4, 10, 10));
