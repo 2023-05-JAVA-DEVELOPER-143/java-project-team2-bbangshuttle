@@ -12,11 +12,13 @@ import bbangshuttle.cart.Cart;
 import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
+import java.awt.Toolkit;
 
 public class MainFrame extends JFrame {
     private Member loggedInMember;
 
     public MainFrame(Member loggedInMember) {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/o_user.png")));
         this.loggedInMember = loggedInMember;
 
         setTitle(loggedInMember.getMemberName()+"님 로그인중");
@@ -55,7 +57,7 @@ public class MainFrame extends JFrame {
         panel.add(orderButton);
         panel.add(loginButton);
 
-        add(panel);
+        getContentPane().add(panel);
     }
 
     private void showProductFrame() {

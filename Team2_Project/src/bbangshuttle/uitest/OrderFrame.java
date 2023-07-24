@@ -25,6 +25,7 @@ public class OrderFrame extends JFrame {
     private List<Cart> orderedItems; // 주문 완료 후 주문한 상품 목록
 
     public OrderFrame(Member currentUser, CartFrame cartFrame, List<Cart> cartItems) throws Exception {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(OrderFrame.class.getResource("/bbangshuttle/images/6071826_delivery_food_meal_order_food delivery_icon.png")));
         this.currentUser = currentUser;
         this.cartFrame = cartFrame;
         this.cartItems = cartItems;
@@ -40,12 +41,12 @@ public class OrderFrame extends JFrame {
         // 주문한 상품 내용을 보여줄 패널 생성
         orderContentPanel = new JPanel();
         orderContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
-        add(new JScrollPane(orderContentPanel), BorderLayout.CENTER);
+        getContentPane().add(new JScrollPane(orderContentPanel), BorderLayout.CENTER);
 
         // 총 가격 표시 라벨
         totalPriceLabel = new JLabel("총 가격: 0원");
         updateTotalPrice();
-        add(totalPriceLabel, BorderLayout.SOUTH);
+        getContentPane().add(totalPriceLabel, BorderLayout.SOUTH);
 
         // 주문한 상품 목록 초기화
         updateOrderList();
@@ -79,7 +80,7 @@ public class OrderFrame extends JFrame {
         bottomPanel.add(clearAllButton);
         bottomPanel.add(completeOrderButton);
         bottomPanel.add(returnButton);
-        add(bottomPanel, BorderLayout.NORTH);
+        getContentPane().add(bottomPanel, BorderLayout.NORTH);
     }
 
     private void updateTotalPrice() {

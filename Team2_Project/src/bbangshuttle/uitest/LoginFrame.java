@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
+import java.awt.Toolkit;
 
 public class LoginFrame extends JFrame {
     private JTextField userNameField;
@@ -27,6 +28,7 @@ public class LoginFrame extends JFrame {
     private MemberService memberService;
 
     public LoginFrame(MemberService memberService) {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(LoginFrame.class.getResource("/images/o_user.png")));
         this.memberService = memberService;
 
         setTitle("Login Frame");

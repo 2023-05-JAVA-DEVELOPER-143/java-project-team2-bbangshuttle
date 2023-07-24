@@ -26,6 +26,7 @@ public class ProductFrame extends JFrame {
     private JLabel lblNewLabel;
 
     public ProductFrame(Member currentUser) throws Exception {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(ProductFrame.class.getResource("/bbangshuttle/images/3035467_and_bread_drink_food_wine_icon.png")));
     	getContentPane().setName("ProductContentPane");
         this.currentUser = currentUser;
         productService = new ProductService();
