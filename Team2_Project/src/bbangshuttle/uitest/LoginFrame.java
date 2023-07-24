@@ -30,6 +30,7 @@ public class LoginFrame extends JFrame {
 	private JButton IdSearchButton;
 	private JButton PwSearchButton;
 	private String memberEmail;
+	private String memberId;
 
 	public LoginFrame(MemberService memberService) throws Exception {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginFrame.class.getResource("/images/o_user.png")));
@@ -131,32 +132,33 @@ public class LoginFrame extends JFrame {
 
 		loginPanel.add(IdSearchButton);
 
+		this.memberService = memberService;
+		memberDao = new MemberDao();
+		
 		PwSearchButton = new JButton("비밀번호 찾기");
 		PwSearchButton.setBounds(13, 128, 128, 45);
 		PwSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// When IdSearchButton is clicked, prompt user for input
-				String memberId = JOptionPane.showInputDialog(LoginFrame.this, "아이디를 입력하세요:");
+				memberId = JOptionPane.showInputDialog(LoginFrame.this, "아이디를 입력하세요:");
 				if (memberId != null && !memberId.isEmpty()) {
 					try {
 						// Use MemberService to search for the ID
-						String id = memberDao.findByEmail(memberId);
-						if (id != null) {
-							// Display the ID using a dialog box
-							JOptionPane.showMessageDialog(LoginFrame.this, "검색된 아이디: " + memberId, "아이디 찾기 결과",
-									JOptionPane.INFORMATION_MESSAGE);
+						String pw = memberDao.findById(memberId);
+						if (pw != null) {
+						    JOptionPane.showMessageDialog(LoginFrame.this, "검색된 비밀번호: " + pw, "아이디 찾기 결과", JOptionPane.INFORMATION_MESSAGE);
 						} else {
-							JOptionPane.showMessageDialog(LoginFrame.this, "검색된 아이디가 없습니다.", "아이디 찾기 결과",
-									JOptionPane.INFORMATION_MESSAGE);
+						    JOptionPane.showMessageDialog(LoginFrame.this, "검색된 비밀번호가 없습니다.", "아이디 찾기 결과", JOptionPane.INFORMATION_MESSAGE);
 						}
+
 					} catch (Exception ex) {
 						ex.printStackTrace();
-						JOptionPane.showMessageDialog(LoginFrame.this, "아이디 검색 과정에서 오류가 발생했습니다.", "Error",
+						JOptionPane.showMessageDialog(LoginFrame.this, "비밀번호 검색 과정에서 오류가 발생했습니다.", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(LoginFrame.this, "아이디를 입력하세요.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(LoginFrame.this, "비밀번호를 입력하세요.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

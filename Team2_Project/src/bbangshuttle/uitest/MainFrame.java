@@ -24,8 +24,8 @@ public class MainFrame extends JFrame {
         this.loggedInMember = loggedInMember;
 
         setTitle(loggedInMember.getMemberName()+"님 로그인중");
-        setSize(640, 960);
-        setSize(350, 600);      // 고정사이즈
+        setSize(350, 600);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -64,6 +64,7 @@ public class MainFrame extends JFrame {
         
         JButton logoutButton = new JButton("로그아웃");
         logoutButton.addActionListener(e -> logout());
+
         panel.add(logoutButton);
     }
 
