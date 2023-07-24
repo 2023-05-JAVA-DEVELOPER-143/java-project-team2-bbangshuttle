@@ -11,6 +11,7 @@ import bbangshuttle.cart.Cart;
 import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
 import bbangshuttle.product.Product;
+import bbangshuttle.product.ProductService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,8 +33,8 @@ public class CartFrame extends JFrame {
 	private CartService cartService;
 	private Member currentUser;
 	private List<Cart> orderedItems; // 주문한 상품 목록을 저장하기 위한 변수
-
-	public CartFrame(Member currentUser) throws Exception {
+	private Product product;
+	public CartFrame(Member currentUser ) throws Exception {
 		this.currentUser = currentUser;
 		cartService = new CartService();
 
@@ -44,13 +45,8 @@ public class CartFrame extends JFrame {
 
 		// 카트 내용을 보여줄 패널 생성
 		cartContentPanel = new JPanel();
+		cartContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
 		getContentPane().add(new JScrollPane(cartContentPanel), BorderLayout.CENTER);
-		cartContentPanel.setLayout(null);
-		
-		JLabel testLabel = new JLabel("New label");
-		testLabel.setIcon(new ImageIcon(CartFrame.class.getResource(cartService.getCartItemByCartNo(6).getProduct().getP_image())));
-		testLabel.setBounds(63, 36, 387, 339);
-		cartContentPanel.add(testLabel);
 
 		// 총 가격 표시 라벨
 		totalPriceLabel = new JLabel("총 가격: 0원");
@@ -59,21 +55,27 @@ public class CartFrame extends JFrame {
 
 		// 장바구니 목록 초기화
 		updateCartList();
-		
-		// 이미지 표시
-		JPanel imagePanel = new JPanel();
-	    imagePanel.setLayout(new BorderLayout());
-	    getContentPane().add(imagePanel, BorderLayout.NORTH);
-	    JLabel cartImageLabel = new JLabel();
-	    ImageIcon cartImageIcon = new ImageIcon(CartFrame.class.getResource(""));
-	    cartImageLabel.setIcon(cartImageIcon);
-	    imagePanel.add(cartImageLabel, BorderLayout.CENTER);
 
-	    
+		JPanel imagePanel = new JPanel();
+		imagePanel.setLayout(new BorderLayout());
+		getContentPane().add(imagePanel, BorderLayout.NORTH);
+
+
 		// 하단 버튼들 생성
 		JPanel cartBottonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JButton orderButton = new JButton("주문하기");
-		orderButton.addActionListener(new ActionListener() {
+		
+		// 이미지 표시 패널 생성
+        JPanel cartimagePanel = new JPanel();
+        imagePanel.setLayout(new BorderLayout());
+        getContentPane().add(imagePanel, BorderLayout.NORTH);
+
+        // 장바구니 이미지 표시 라벨
+        JLabel cartImageLabel = new JLabel();
+        //ImageIcon cartImageIcon = new ImageIcon(CartFrame.class.getResource(product.getP_image()));
+        //cartImageLabel.setIcon(cartImageIcon);
+        imagePanel.add(cartImageLabel, BorderLayout.CENTER);
+		orderButton.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -139,55 +141,71 @@ public class CartFrame extends JFrame {
 		}
 	}
 
-	private JPanel createProductPanel(Cart cart) {
-		JPanel productPanel = new JPanel();
-		productPanel.setLayout(new BorderLayout());
-		productPanel.setBackground(Color.WHITE);
-		productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+    private JPanel createProductPanel(Cart cart) {
+        JPanel productPanel = new JPanel();
+        productPanel.setLayout(new BorderLayout());
+        productPanel.setBackground(Color.WHITE);
+        productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-		JLabel productInfoLabel = new JLabel("<html><font size='3'>" + ": " + cart.getProduct().getP_name() + "<br>"
-				+ "가격: " + new DecimalFormat("#,###").format(cart.getProduct().getPrice()) + "원<br>" + "설명: "
-				+ cart.getProduct().getP_desc() + "</font></html>");
-		productPanel.add(productInfoLabel, BorderLayout.CENTER);
+        // Create a panel to hold the product image
+        JPanel imagePanel = new JPanel();
+        imagePanel.setPreferredSize(new Dimension(100, 100)); // Set the size of the image panel
+        productPanel.add(imagePanel, BorderLayout.WEST);
 
-		JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JComboBox<Integer> cartQtyComboBox = new JComboBox<>();
-		for (int i = 1; i <= 10; i++) {
-			cartQtyComboBox.addItem(i);
-		}
-		cartQtyComboBox.setSelectedItem(cart.getCart_qty());
-		cartQtyComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int quantity = (int) cartQtyComboBox.getSelectedItem();
-				cart.setCart_qty(quantity);
-				updateTotalPrice();
-			}
-		});
-		controlPanel.add(cartQtyComboBox);
+        // Load and display the product image
+        String imagePath = cart.getProduct().getP_image(); // Assuming getP_image() returns the image path
+        ImageIcon imageIcon = new ImageIcon(CartFrame.class.getResource(imagePath));
+        Image image = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Scale the image to fit the panel
+        JLabel imageLabel = new JLabel(new ImageIcon(image));
+        imagePanel.add(imageLabel);
 
-		JButton removeButton = new JButton("삭제");
-		removeButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					cartService.deleteCartItemByCartNo(cart.getCart_no());
-					updateCartList();
-					updateTotalPrice();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-		controlPanel.add(removeButton);
+        // Add the product information label (similar to your existing code)
+        JLabel productInfoLabel = new JLabel("<html><font size='3'>" + ": " + cart.getProduct().getP_name() + "<br>"
+                + "가격: " + new DecimalFormat("#,###").format(cart.getProduct().getPrice()) + "원<br>"
+                + "설명: " + cart.getProduct().getP_desc() + "</font></html>");
+        productPanel.add(productInfoLabel, BorderLayout.CENTER);
 
-		productPanel.add(controlPanel, BorderLayout.SOUTH);
+        // Add the control panel (similar to your existing code)
+        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JComboBox<Integer> cartQtyComboBox = new JComboBox<>();
+        for (int i = 1; i <= 10; i++) {
+            cartQtyComboBox.addItem(i);
+        }
+        cartQtyComboBox.setSelectedItem(cart.getCart_qty());
+        cartQtyComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int quantity = (int) cartQtyComboBox.getSelectedItem();
+                cart.setCart_qty(quantity);
+                updateTotalPrice();
+            }
+        });
+        controlPanel.add(cartQtyComboBox);
 
-		// 카트 정보를 컴포넌트에 저장하여 사용
-		productPanel.putClientProperty("cart", cart);
+        JButton removeButton = new JButton("삭제");
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cartService.deleteCartItemByCartNo(cart.getCart_no());
+                    updateCartList();
+                    updateTotalPrice();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        controlPanel.add(removeButton);
 
-		return productPanel;
-	}
+        productPanel.add(controlPanel, BorderLayout.SOUTH);
+
+        // Cart 정보를 컴포넌트에 저장하여 사용
+        productPanel.putClientProperty("cart", cart);
+
+        return productPanel;
+    }
+
+
 
 	private void orderProducts() {
 		try {
@@ -245,5 +263,4 @@ public class CartFrame extends JFrame {
 			}
 		});
 	}
-	
 }

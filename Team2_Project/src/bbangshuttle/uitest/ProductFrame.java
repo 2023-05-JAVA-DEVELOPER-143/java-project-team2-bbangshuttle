@@ -171,7 +171,7 @@ public class ProductFrame extends JFrame {
             productDescLabel.setVerticalAlignment(SwingConstants.TOP);
             productDescLabel.setHorizontalTextPosition(SwingConstants.CENTER);
             productDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            productDescLabel.setBounds(3, 143, 174, 47); 
+            productDescLabel.setBounds(3, 143, 245, 47); 
             productPanel.add(productDescLabel);
 
             JComboBox<String> cartQtyComboBox = new JComboBox<>();
@@ -180,7 +180,7 @@ public class ProductFrame extends JFrame {
             cartQtyComboBox.setOpaque(false);
             cartQtyComboBox.setBorder(null);
             cartQtyComboBox.setBackground(Color.WHITE);
-            cartQtyComboBox.setBounds(70, 120, 70, 23);
+            cartQtyComboBox.setBounds(5, 120, 50, 23);
             cartQtyComboBox.setMaximumRowCount(cartQtyComboBox.getModel().getSize());
             productPanel.add(cartQtyComboBox);
 
@@ -218,7 +218,7 @@ public class ProductFrame extends JFrame {
 
             
             });
-            cartAddButton.setBounds(131, 119, 110, 23);
+            cartAddButton.setBounds(107, 119, 130, 23);
             productPanel.add(cartAddButton);
 
             productPopularContentPanel.add(productPanel);
