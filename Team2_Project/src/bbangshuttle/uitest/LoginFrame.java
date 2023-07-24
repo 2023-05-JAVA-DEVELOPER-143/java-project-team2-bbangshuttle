@@ -44,9 +44,9 @@ public class LoginFrame extends JFrame {
 
 		// 아이디 입력 필드
 		JLabel userNameLabel = new JLabel("아이디:");
-		userNameLabel.setBounds(46, 18, 94, 45);
+		userNameLabel.setBounds(32, 18, 94, 45);
 		userNameField = new JTextField(10);
-		userNameField.setBounds(140, 18, 132, 45);
+		userNameField.setBounds(91, 18, 152, 45);
 
 		// 레이아웃 설정
 		JPanel loginPanel = new JPanel();
@@ -58,7 +58,7 @@ public class LoginFrame extends JFrame {
 
 		// 로그인 버튼
 		loginButton = new JButton("로그인");
-		loginButton.setBounds(139, 128, 132, 45);
+		loginButton.setBounds(140, 128, 128, 45);
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -90,12 +90,12 @@ public class LoginFrame extends JFrame {
 			}
 		});
 		passwordField = new JPasswordField(10);
-		passwordField.setBounds(140, 73, 132, 45);
+		passwordField.setBounds(91, 73, 152, 45);
 		loginPanel.add(passwordField);
 
 		// 비밀번호 입력 필드
 		JLabel passwordLabel = new JLabel("비밀번호:");
-		passwordLabel.setBounds(46, 73, 94, 45);
+		passwordLabel.setBounds(31, 73, 94, 45);
 		loginPanel.add(passwordLabel);
 		loginPanel.add(loginButton);
 
@@ -103,7 +103,7 @@ public class LoginFrame extends JFrame {
 		memberDao = new MemberDao();
 		
 		IdSearchButton = new JButton("아이디 찾기");
-		IdSearchButton.setBounds(13, 169, 128, 45);
+		IdSearchButton.setBounds(14, 171, 128, 45);
 		IdSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class LoginFrame extends JFrame {
 		memberDao = new MemberDao();
 		
 		PwSearchButton = new JButton("비밀번호 찾기");
-		PwSearchButton.setBounds(13, 128, 128, 45);
+		PwSearchButton.setBounds(14, 128, 128, 45);
 		PwSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +167,7 @@ public class LoginFrame extends JFrame {
 
 		// 회원가입 버튼
 		signUpButton = new JButton("회원가입");
-		signUpButton.setBounds(139, 169, 132, 45);
+		signUpButton.setBounds(140, 171, 128, 45);
 		signUpButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
