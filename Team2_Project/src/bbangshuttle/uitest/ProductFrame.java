@@ -32,7 +32,7 @@ public class ProductFrame extends JFrame {
         productService = new ProductService();
         cartService = new CartService();
 
-        setTitle("Product Frame");
+        setTitle(currentUser.getMemberName()+"님 의 빵셔틀");
         setSize(1024, 860);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -202,6 +202,10 @@ public class ProductFrame extends JFrame {
         dispose();
     }
 
+    //검색 메소드
+//    public void search() {
+//    	productService.ProductFindByKetword()
+//    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
