@@ -1,19 +1,37 @@
 package bbangshuttle.uitest;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import bbangshuttle.cart.Cart;
 import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
-import bbangshuttle.product.Product;
+import bbangshuttle.member.MemberService;
 
 public class OrderFrame extends JFrame {
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
+
     private JPanel orderContentPanel;
     private JLabel totalPriceLabel;
     private int totalPrice = 0;
@@ -25,7 +43,7 @@ public class OrderFrame extends JFrame {
     private List<Cart> orderedItems; // 주문 완료 후 주문한 상품 목록
 
     public OrderFrame(Member currentUser, CartFrame cartFrame, List<Cart> cartItems) throws Exception {
-    	setIconImage(Toolkit.getDefaultToolkit().getImage(OrderFrame.class.getResource("/bbangshuttle/images/6071826_delivery_food_meal_order_food delivery_icon.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(OrderFrame.class.getResource("/bbangshuttle/images/6071826_delivery_food_meal_order_food delivery_icon.png")));
         this.currentUser = currentUser;
         this.cartFrame = cartFrame;
         this.cartItems = cartItems;
@@ -38,18 +56,22 @@ public class OrderFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // 주문한 상품 내용을 보여줄 패널 생성
-        orderContentPanel = new JPanel();
-        orderContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
-        getContentPane().add(new JScrollPane(orderContentPanel), BorderLayout.CENTER);
+        // CardLayout 사용
+        cardLayout = new CardLayout();
+        cardPanel = new JPanel(cardLayout);
 
-        // 총 가격 표시 라벨
-        totalPriceLabel = new JLabel("총 가격: 0원");
-        updateTotalPrice();
-        getContentPane().add(totalPriceLabel, BorderLayout.SOUTH);
+        // 주문 전 페이지
+        JPanel orderPagePanel = createOrderPage();
+        cardPanel.add(orderPagePanel, "ORDER_PAGE");
 
-        // 주문한 상품 목록 초기화
-        updateOrderList();
+        // 주문 완료 페이지
+        JPanel completeOrderPage = createCompleteOrderPage();
+        cardPanel.add(completeOrderPage, "COMPLETE_ORDER_PAGE");
+
+        // 기본적으로 주문 전 페이지 보여줌
+        cardLayout.show(cardPanel, "ORDER_PAGE");
+
+        getContentPane().add(cardPanel, BorderLayout.CENTER);
 
         // 하단 버튼들 생성
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -81,6 +103,37 @@ public class OrderFrame extends JFrame {
         bottomPanel.add(completeOrderButton);
         bottomPanel.add(returnButton);
         getContentPane().add(bottomPanel, BorderLayout.NORTH);
+    }
+
+    private JPanel createOrderPage() {
+        JPanel orderPagePanel = new JPanel(new BorderLayout());
+
+        // 주문한 상품 내용을 보여줄 패널 생성
+        orderContentPanel = new JPanel();
+        orderContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        orderPagePanel.add(new JScrollPane(orderContentPanel), BorderLayout.CENTER);
+
+        // 총 가격 표시 라벨
+        totalPriceLabel = new JLabel("총 가격: 0원");
+        updateTotalPrice();
+        orderPagePanel.add(totalPriceLabel, BorderLayout.SOUTH);
+
+        // 주문한 상품 목록 초기화
+        updateOrderList();
+
+        return orderPagePanel;
+    }
+
+    private JPanel createCompleteOrderPage() {
+        JPanel completeOrderPage = new JPanel();
+        completeOrderPage.setLayout(new BorderLayout());
+
+        JLabel completeOrderLabel = new JLabel("주문이 완료되었습니다.");
+        completeOrderLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        completeOrderLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        completeOrderPage.add(completeOrderLabel, BorderLayout.CENTER);
+
+        return completeOrderPage;
     }
 
     private void updateTotalPrice() {
@@ -148,9 +201,13 @@ public class OrderFrame extends JFrame {
             cartFrame.updateOrderList();
         }
 
-        // 주문 완료 후 카트 비우고 CartFrame으로 돌아가기
+        // 주문 완료 페이지로 전환
+        cardLayout.show(cardPanel, "COMPLETE_ORDER_PAGE");
+
+        // 주문 완료 후 카트 비우기
         clearAllOrders();
-        showCartFrame();
+        // 맴버 포인트 적립
+        addMemberPoint((int) (totalPrice * 0.01));
     }
 
     private void clearAllOrders() {
@@ -170,6 +227,19 @@ public class OrderFrame extends JFrame {
             cartItems.remove(cart);
             updateOrderList();
             updateTotalPrice();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addMemberPoint(int point) {
+        try {
+            // 현재 맴버 포인트에 추가 포인트를 더함
+            currentUser.setMemberPoint(currentUser.getMemberPoint() + point);
+
+            // 맴버 포인트를 업데이트
+            MemberService memberService = new MemberService();
+            memberService.updateMemberPoint(currentUser, point);
         } catch (Exception e) {
             e.printStackTrace();
         }
