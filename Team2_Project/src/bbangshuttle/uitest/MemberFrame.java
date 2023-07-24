@@ -151,6 +151,7 @@ public class MemberFrame extends JFrame {
                     loggedInMember.setMemberEmail(email);
                     loggedInMember.setMemberAddress(address);
                     loggedInMember.setMemberNumber(phone);
+                    loggedInMember.setMemberPassword(password);
 
                     try {
                         memberService.memberUpdate(loggedInMember);
