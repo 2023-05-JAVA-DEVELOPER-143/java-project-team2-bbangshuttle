@@ -53,7 +53,7 @@ public class MemberFrame extends JFrame {
     private JButton logoutNewButton;
 
     public MemberFrame(MemberService memberService, Member loggedInMember) {
-    	setIconImage(Toolkit.getDefaultToolkit().getImage(MemberFrame.class.getResource("/bbangshuttle/images/2530816_align_employee_general_human_human list_icon.png")));
+       setIconImage(Toolkit.getDefaultToolkit().getImage(MemberFrame.class.getResource("/bbangshuttle/images/2530816_align_employee_general_human_human list_icon.png")));
         this.memberService = memberService;
         this.loggedInMember = loggedInMember;
 
@@ -107,12 +107,12 @@ public class MemberFrame extends JFrame {
                 // 메인 프레임으로 돌아가기
               
                 MainFrame mainFrame = null;
-				try {
-					mainFrame = new MainFrame(loggedInMember);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+            try {
+               mainFrame = new MainFrame(loggedInMember);
+            } catch (Exception e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
+            }
                 mainFrame.setVisible(true);
                 dispose(); // 현재 프레임 닫기
             }
