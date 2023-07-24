@@ -22,6 +22,7 @@ public class CartFrame extends JFrame {
     private List<Cart> orderedItems; // 주문한 상품 목록을 저장하기 위한 변수
 
     public CartFrame(Member currentUser) throws Exception {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(CartFrame.class.getResource("/bbangshuttle/images/1814095_cart_checkout_commerce_shopping cart_icon.png")));
         this.currentUser = currentUser;
         cartService = new CartService();
 
