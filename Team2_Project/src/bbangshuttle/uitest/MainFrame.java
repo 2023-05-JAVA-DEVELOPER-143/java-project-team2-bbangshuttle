@@ -12,15 +12,19 @@ import bbangshuttle.cart.Cart;
 import bbangshuttle.cart.CartService;
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainFrame extends JFrame {
     private Member loggedInMember;
 
     public MainFrame(Member loggedInMember) {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/o_user.png")));
         this.loggedInMember = loggedInMember;
 
         setTitle(loggedInMember.getMemberName()+"님 로그인중");
-        setSize(300, 150);
+        setSize(600, 900);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -55,7 +59,17 @@ public class MainFrame extends JFrame {
         panel.add(orderButton);
         panel.add(loginButton);
 
-        add(panel);
+        getContentPane().add(panel);
+        
+        JButton logoutButton = new JButton("로그아웃");
+        logoutButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(loggedInMember != null) {
+        			logoutButton.setEnabled(true);
+        		}	
+        	}
+        });
+        panel.add(logoutButton);
     }
 
     private void showProductFrame() {

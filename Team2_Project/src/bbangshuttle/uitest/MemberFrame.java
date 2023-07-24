@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberService;
+import java.awt.Toolkit;
 
 public class MemberFrame extends JFrame {
     private MemberService memberService;
@@ -50,6 +51,7 @@ public class MemberFrame extends JFrame {
     private JButton mainButton; // 메인 프레임으로 화면 전환하는 버튼
 
     public MemberFrame(MemberService memberService, Member loggedInMember) {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(MemberFrame.class.getResource("/bbangshuttle/images/2530816_align_employee_general_human_human list_icon.png")));
         this.memberService = memberService;
         this.loggedInMember = loggedInMember;
 
