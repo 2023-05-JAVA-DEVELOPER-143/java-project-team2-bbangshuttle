@@ -214,6 +214,9 @@ public class CartFrame extends JFrame {
 	        OrderFrame orderFrame = new OrderFrame(currentUser, this, orderedItems);
 	        orderFrame.setVisible(true);
 	        JOptionPane.showMessageDialog(this, "주문이 완료되었습니다.");
+	        clearCartAfterOrder();
+	        showOrderFrame();
+	        dispose();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -241,6 +244,14 @@ public class CartFrame extends JFrame {
 		}
 	}
 
+	private void showOrderFrame() {
+		try {
+			 OrderFrame orderFrame = new OrderFrame(currentUser, this, orderedItems);
+	         orderFrame.setVisible(true);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+		}
+	}
 	private void showProductFrame() {
 		try {
 			new ProductFrame(currentUser).setVisible(true);
