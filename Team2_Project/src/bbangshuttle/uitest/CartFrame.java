@@ -22,6 +22,7 @@ public class CartFrame extends JFrame {
     private List<Cart> orderedItems; // 주문한 상품 목록을 저장하기 위한 변수
 
     public CartFrame(Member currentUser) throws Exception {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(CartFrame.class.getResource("/bbangshuttle/images/1814095_cart_checkout_commerce_shopping cart_icon.png")));
         this.currentUser = currentUser;
         cartService = new CartService();
 
@@ -33,8 +34,9 @@ public class CartFrame extends JFrame {
         // 카트 내용을 보여줄 패널 생성
         cartContentPanel = new JPanel();
         cartContentPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        // 스크롤
         getContentPane().add(new JScrollPane(cartContentPanel), BorderLayout.CENTER);
-
+        
         // 총 가격 표시 라벨
         totalPriceLabel = new JLabel("총 가격: 0원");
         updateTotalPrice();
@@ -165,6 +167,10 @@ public class CartFrame extends JFrame {
     private void orderProducts() {
         try {
             List<Cart> carts = cartService.getCartItemByUserId(currentUser.getMemberId());
+            if(carts.isEmpty()) {
+            	JOptionPane.showMessageDialog(this, "장바구니가 비어있습니다");
+            	return;
+            }
             orderedItems = carts; // 주문한 상품 목록을 저장
             new OrderFrame(currentUser, this, orderedItems).setVisible(true);
             
