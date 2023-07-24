@@ -18,6 +18,9 @@ import bbangshuttle.member.Member;
 import bbangshuttle.member.MemberDao;
 import bbangshuttle.member.MemberService;
 import java.awt.Toolkit;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class LoginFrame extends JFrame {
 	private MemberDao memberDao;
@@ -37,16 +40,17 @@ public class LoginFrame extends JFrame {
 		this.memberService = memberService;
 
 		setTitle("Login Frame");
-		setSize(300, 270);
+		setSize(640, 960);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		// 아이디 입력 필드
-		JLabel userNameLabel = new JLabel("아이디:");
-		userNameLabel.setBounds(34, 17, 94, 45);
+		JLabel userNameLabel = new JLabel("아이디 ");
+		userNameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+		userNameLabel.setBounds(281, 329, 62, 54);
 		userNameField = new JTextField(10);
-		userNameField.setBounds(91, 25, 152, 30);
+		userNameField.setBounds(215, 409, 189, 45);
 
 		// 레이아웃 설정
 		JPanel loginPanel = new JPanel();
@@ -58,7 +62,10 @@ public class LoginFrame extends JFrame {
 
 		// 로그인 버튼
 		loginButton = new JButton("로그인");
-		loginButton.setBounds(14, 128, 128, 45);
+		loginButton.setForeground(new Color(0, 0, 0));
+		loginButton.setBackground(new Color(192, 192, 192));
+		loginButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		loginButton.setBounds(168, 627, 120, 50);
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -90,12 +97,13 @@ public class LoginFrame extends JFrame {
 			}
 		});
 		passwordField = new JPasswordField(10);
-		passwordField.setBounds(91, 81, 152, 30);
+		passwordField.setBounds(215, 519, 189, 45);
 		loginPanel.add(passwordField);
 
 		// 비밀번호 입력 필드
-		JLabel passwordLabel = new JLabel("비밀번호:");
-		passwordLabel.setBounds(31, 73, 94, 45);
+		JLabel passwordLabel = new JLabel("비밀번호 ");
+		passwordLabel.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+		passwordLabel.setBounds(274, 464, 80, 45);
 		loginPanel.add(passwordLabel);
 		loginPanel.add(loginButton);
 
@@ -103,7 +111,8 @@ public class LoginFrame extends JFrame {
 		memberDao = new MemberDao();
 		
 		IdSearchButton = new JButton("아이디 찾기");
-		IdSearchButton.setBounds(14, 171, 128, 45);
+		IdSearchButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		IdSearchButton.setBounds(168, 706, 120, 45);
 		IdSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +145,8 @@ public class LoginFrame extends JFrame {
 		memberDao = new MemberDao();
 		
 		PwSearchButton = new JButton("비밀번호 찾기");
-		PwSearchButton.setBounds(144, 171, 128, 45);
+		PwSearchButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		PwSearchButton.setBounds(314, 706, 120, 45);
 		PwSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +177,8 @@ public class LoginFrame extends JFrame {
 
 		// 회원가입 버튼
 		signUpButton = new JButton("회원가입");
-		signUpButton.setBounds(144, 128, 128, 45);
+		signUpButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		signUpButton.setBounds(314, 627, 120, 50);
 		signUpButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -183,6 +194,11 @@ public class LoginFrame extends JFrame {
 			}
 		});
 		loginPanel.add(signUpButton);
+		
+		JLabel loginbread = new JLabel("");
+		loginbread.setIcon(new ImageIcon("/bbangshuttle/images/pngwing.png"));
+		loginbread.setBounds(185, 71, 283, 223);
+		loginPanel.add(loginbread);
 	}
 
 	public static void main(String[] args) {
