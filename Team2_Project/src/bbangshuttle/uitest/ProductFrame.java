@@ -201,6 +201,10 @@ public class ProductFrame extends JFrame {
         dispose();
     }
 
+    //검색 메소드
+//    public void search() {
+//    	productService.ProductFindByKetword()
+//    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
