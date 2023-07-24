@@ -54,7 +54,7 @@ public class MemberFrame extends JFrame {
         this.loggedInMember = loggedInMember;
 
         setTitle("Member Frame");
-        setSize(1024, 860); 
+        setSize(640, 960); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
