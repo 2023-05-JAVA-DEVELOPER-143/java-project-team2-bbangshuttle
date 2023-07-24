@@ -19,7 +19,7 @@ public class MainFrame extends JFrame {
     public MainFrame(Member loggedInMember) {
         this.loggedInMember = loggedInMember;
 
-        setTitle("Main Frame");
+        setTitle(loggedInMember.getMemberName()+"님 로그인중");
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
